@@ -34,7 +34,7 @@ public class QuestionFactory : MonoBehaviour
             case QuestionType.EstimateCalories:
                 GameObject go3 = Instantiate(estimateCaloriesGo, questionParent);
                 go3.GetComponent<EstimateCaloriesUI>()
-                  .Init(data.SousType, data.Aliments[0], onAnswered);
+                  .Init(data.SousType, data.Aliments[0],  data.PortionSelections[0], onAnswered);
                 break;
 
             default:

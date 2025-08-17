@@ -27,6 +27,18 @@ public static class EstimateAnswerEvaluator
         isPerfect = errorAbs <= perfectDelta;
         bool isCorrect = errorAbs <= allowed;
 
+#if UNITY_EDITOR
+        Debug.Log(
+            $"[EstimateAnswerEvaluator] " +
+            $"Valeur vraie={trueVal} | " +
+            $"Réponse joueur={userAnswer} | " +
+            $"Erreur={errorAbs} | " +
+            $"Tolérance={allowed} | " +
+            $"Correct={isCorrect} | " +
+            $"Perfect={isPerfect}"
+        );
+#endif
+
         return isCorrect;
     }
 
@@ -47,13 +59,13 @@ public static class EstimateAnswerEvaluator
     {
         switch (st)
         {
-            case QuestionSubType.Calorie:  return deltaCalories;
+            case QuestionSubType.Calorie: return deltaCalories;
             case QuestionSubType.Proteine:
             case QuestionSubType.Glucide:
             case QuestionSubType.Lipide:
-            case QuestionSubType.Fibres:   return deltaOthers;
+            case QuestionSubType.Fibres: return deltaOthers;
             case QuestionSubType.Libre:
-            default:                       return deltaOthers; // à spécialiser plus tard
+            default: return deltaOthers; // à spécialiser plus tard
         }
     }
 }

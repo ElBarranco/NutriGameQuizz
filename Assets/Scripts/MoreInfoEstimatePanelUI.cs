@@ -22,18 +22,18 @@ public class MoreInfoEstimatePanelUI : MoreInfoPanelBase
     {
         KillAllTweens(); // évite les overlaps si Show est rappelé rapidement
 
-        string unit = "";
+        string unit = TextFormatter.UnitForQuestion(sousType);
         float realValue = 0f;
         float guessValue = playerGuess;
 
         switch (sousType)
         {
-            case QuestionSubType.Calorie:  unit = "kcal"; realValue = food.Calories;      break;
-            case QuestionSubType.Proteine: unit = "g";    realValue = food.Proteins;      break;
-            case QuestionSubType.Glucide:  unit = "g";    realValue = food.Carbohydrates; break;
-            case QuestionSubType.Lipide:   unit = "g";    realValue = food.Lipids;        break;
-            case QuestionSubType.Fibres:   unit = "g";    realValue = food.Fibers;        break;
-            default: Debug.LogWarning("Sous-type non géré"); break;
+            case QuestionSubType.Calorie: realValue = food.Calories; break;
+            case QuestionSubType.Proteine: realValue = food.Proteins; break;
+            case QuestionSubType.Glucide: realValue = food.Carbohydrates; break;
+            case QuestionSubType.Lipide: realValue = food.Lipids; break;
+            case QuestionSubType.Fibres: realValue = food.Fibers; break;
+            default: Debug.LogWarning("[Show] Sous-type non géré"); break;
         }
 
         foodName.text = food.Name;
@@ -83,7 +83,7 @@ public class MoreInfoEstimatePanelUI : MoreInfoPanelBase
         playerGuessText.text = base.FormatValue(guessValue, unit);
 
         // Révélation de la vraie valeur après un délai
-        showSeq.AppendInterval(0.5f);
+        showSeq.AppendInterval(0.25f);
         showSeq.AppendCallback(() =>
         {
             // Kill l’éventuel reveal précédent
@@ -96,17 +96,7 @@ public class MoreInfoEstimatePanelUI : MoreInfoPanelBase
         });
     }
 
-    private string GetLabelFromSubType(QuestionSubType subType)
-    {
-        return subType switch
-        {
-            QuestionSubType.Proteine => "Protéines",
-            QuestionSubType.Glucide  => "Glucides",
-            QuestionSubType.Lipide   => "Lipides",
-            QuestionSubType.Fibres   => "Fibres",
-            _ => "Calories"
-        };
-    }
+
 
     private void KillAllTweens()
     {

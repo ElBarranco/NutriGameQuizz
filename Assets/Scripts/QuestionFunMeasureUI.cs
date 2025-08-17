@@ -35,7 +35,7 @@ public class QuestionFunMeasureUI : QuestionCaloriesDualUI
         measureImageA.sprite = LoadMeasureSprite(measureNameA);
         measureImageB.sprite = LoadMeasureSprite(measureNameB);
 
-        screenWidth = Screen.width;
+        
         foodA = a;
         foodB = b;
         onAnswered = callback;

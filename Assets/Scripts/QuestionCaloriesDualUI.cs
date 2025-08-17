@@ -67,19 +67,10 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     protected Quaternion originalRotation;
     protected float screenWidth = 0;
 
-    // Tweens en cours à tuer proprement
-    private Tweener tweenWidthA, tweenWidthB;
-    private Tweener tweenColorA, tweenColorB;
-    private Tweener tweenBgA, tweenBgB;
-    private Tweener tweenScaleA, tweenScaleB;
-    private Tweener tweenDial;
-
     // Séquence liée au cardTransform (reset position/rotation)
     private Sequence cardSequence;
 
     protected Action<int, bool> onAnswered;
-
-
 
     public void Init(FoodData a, FoodData b, PortionSelection portionA, PortionSelection portionB, Action<int, bool> callback)
     {
@@ -113,13 +104,13 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     {
         if (hasAnswered) return;
 
-        KillAllTweens();
+        KillFeedbackTweens();
 
         // Stoppe toute anim sur la carte (pos/rot/scale) pour éviter l'aspiration au centre
         cardSequence?.Kill();
         cardTransform.DOKill();
 
-        // Reset visuel neutre mais sans snap brutal (petit tween)
+        // Reset visuel neutre (feedback uniquement)
         ApplyContinuousVisual(0f, instant: false);
     }
 
@@ -129,17 +120,16 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
 
         InteractionManager.Instance.TriggerLightVibration();
 
-        // Déplacement de la carte
         if (cardTransform == null) return;
-            cardTransform.anchoredPosition += eventData.delta;
+        cardTransform.anchoredPosition += eventData.delta;
 
-        // Rotation carte
+        // Rotation carte (comportement existant conservé)
         float normalizedX = Mathf.Clamp(cardTransform.anchoredPosition.x / (screenWidth * 0.5f), -1f, 1f);
         float rotationAngle = -normalizedX * 25f;
         cardTransform.rotation = Quaternion.Euler(0f, 0f, rotationAngle);
 
-        // Réponse continue : met à jour en fonction de X
-        UpdateContinuousByPos(cardTransform.anchoredPosition.x);
+        // ✅ Présélection : feedback basé UNIQUEMENT sur X
+        UpdatePreselectByX();
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -170,8 +160,6 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
         cardSequence?.Kill();
         cardTransform.DOKill();
 
-        
-
         float offsetX = index == 0 ? -800f : 800f;
         float rotateZ = index == 0 ? 45f : -45f;
 
@@ -197,21 +185,22 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
         cardSequence.Append(cardTransform.DOAnchorPos(originalPosition, 0.3f).SetEase(Ease.OutBack));
         cardSequence.Join(cardTransform.DORotateQuaternion(originalRotation, 0.2f));
 
-        KillAllTweens();
+        // Feedback → retour neutre
+        KillFeedbackTweens();
 
         cardSequence.Join(foodAContainer.DOScale(1f, 0.2f).SetEase(Ease.OutBack));
         cardSequence.Join(foodBContainer.DOScale(1f, 0.2f).SetEase(Ease.OutBack));
-        cardSequence.Join(TweenWidth(foodAContainer, widthNeutral, 0.2f));
-        cardSequence.Join(TweenWidth(foodBContainer, widthNeutral, 0.2f));
+        TweenWidth(foodAContainer, widthNeutral, 0.2f);
+        TweenWidth(foodBContainer, widthNeutral, 0.2f);
 
-        cardSequence.Join(bgA.DOColor(colorDeselected, 0.2f));
-        cardSequence.Join(bgB.DOColor(colorDeselected, 0.2f));
+        if (bgA) bgA.DOColor(colorDeselected, 0.2f);
+        if (bgB) bgB.DOColor(colorDeselected, 0.2f);
 
         // Dial revient au centre
         if (dial)
         {
-            tweenDial?.Kill();
-            tweenDial = dial.DOAnchorPosX(0f, dialTween).SetEase(Ease.OutQuad);
+            dial.DOKill();
+            dial.DOAnchorPosY(0f, dialTween).SetEase(Ease.OutQuad);
         }
     }
 
@@ -219,51 +208,56 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     {
         if (hasAnswered) return;
 
-        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+        if (Keyboard.current?.leftArrowKey.wasPressedThisFrame == true)
         {
             AnimateAndSelect(0);
         }
-        else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        else if (Keyboard.current?.rightArrowKey.wasPressedThisFrame == true)
         {
             AnimateAndSelect(1);
         }
     }
 
-    // ---------- Réponse Continue ----------
+    // ---------- Présélection : calcul uniquement basé sur X ----------
 
-    private void UpdateContinuousByPos(float posX)
+    private void UpdatePreselectByX()
     {
-        // Normalise la position carte → [-1..1]
-        float nx = Mathf.Clamp(posX / (screenWidth * 0.5f), -1f, 1f);
+        // X normalisé → [-1..1]
+        float nx = Mathf.Clamp(cardTransform.anchoredPosition.x / (screenWidth * 0.5f), -1f, 1f);
 
-        // Offset contrôlé
+        // Offset éventuel
         nx = Mathf.Clamp(nx + responseOffset, -1f, 1f);
 
-        // Dead-zone
+        // Dead-zone + courbe
         float sign = Mathf.Sign(nx);
         float ax = Mathf.Abs(nx);
         float t = 0f;
         if (ax > deadZone)
         {
-            // Max atteint à ~75% de l'écran
             t = Mathf.InverseLerp(deadZone, 0.75f, ax);
-            // Courbe + gain
             t = Mathf.Pow(t, responseExponent);
             t = Mathf.Clamp01(t * responseGain);
         }
-        // Valeur finale f dans [-1..1]
-        float f = sign * t;
 
+        float f = sign * t; // [-1..1] : -1 = A (gauche), +1 = B (droite)
         ApplyContinuousVisual(f, instant: false);
     }
 
     /// <summary>
-    /// f ∈ [-1..1] : -1 = A à fond, +1 = B à fond, 0 = neutre.
+    /// f ∈ [-1..1] : -1 = A, +1 = B, 0 = neutre.
+    /// N’affecte QUE le feedback (échelle / largeur / couleurs / dial-X).
     /// </summary>
     private void ApplyContinuousVisual(float f, bool instant)
     {
         float t = Mathf.Abs(f); // intensité
         bool towardsB = f > 0f;
+
+        // Kill des tweens feedback en cours (pas de refs stockées)
+        foodAContainer.DOKill();
+        foodBContainer.DOKill();
+        bgA?.DOKill();
+        bgB?.DOKill();
+        dial?.DOKill();
 
         // Échelles (symétriques)
         float scaleBig   = Mathf.Lerp(1f, maxScale, t);
@@ -271,81 +265,69 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
         float targetScaleA = towardsB ? scaleSmall : scaleBig;
         float targetScaleB = towardsB ? scaleBig   : scaleSmall;
 
-        tweenScaleA?.Kill(); tweenScaleB?.Kill();
-        tweenScaleA = foodAContainer.DOScale(targetScaleA, instant ? 0f : scaleTween).SetEase(Ease.OutQuad);
-        tweenScaleB = foodBContainer.DOScale(targetScaleB, instant ? 0f : scaleTween).SetEase(Ease.OutQuad);
+        foodAContainer.DOScale(targetScaleA, instant ? 0f : scaleTween).SetEase(Ease.OutQuad);
+        foodBContainer.DOScale(targetScaleB, instant ? 0f : scaleTween).SetEase(Ease.OutQuad);
 
         // Largeurs
         float widthBig   = Mathf.Lerp(widthNeutral, widthSelected, t);
         float widthSmall = Mathf.Lerp(widthNeutral, widthDeselected, t);
 
-        tweenWidthA?.Kill(); tweenWidthB?.Kill();
-        tweenWidthA = TweenWidth(foodAContainer, towardsB ? widthSmall : widthBig, instant ? 0f : widthTween);
-        tweenWidthB = TweenWidth(foodBContainer, towardsB ? widthBig   : widthSmall, instant ? 0f : widthTween);
+        TweenWidth(foodAContainer, towardsB ? widthSmall : widthBig, instant ? 0f : widthTween);
+        TweenWidth(foodBContainer, towardsB ? widthBig   : widthSmall, instant ? 0f : widthTween);
 
-        // Couleurs ON/OFF (pas de dégradé)
-        if (bgA || bgB || imageA || imageB)
+        // Couleurs ON/OFF
+        Color targetA, targetB;
+        if (Mathf.Abs(f) <= colorDeadZone)
         {
-            Color targetA, targetB;
-
-            if (Mathf.Abs(f) <= colorDeadZone)
-            {
-                // Neutre : les deux en "selected" (tu peux mettre Deselected si tu préfères)
-                targetA = colorDeselected;
-                targetB = colorDeselected;
-            }
-            else if (f > 0f)
-            {
-                // Vers B : B = selected, A = deselected
-                targetA = colorDeselected;
-                targetB = colorSelected;
-            }
-            else
-            {
-                // Vers A : A = selected, B = deselected
-                targetA = colorSelected;
-                targetB = colorDeselected;
-            }
-
-            tweenBgA?.Kill(); tweenBgB?.Kill();
-            tweenColorA?.Kill(); tweenColorB?.Kill();
-
-            if (bgA)    tweenBgA    = bgA.DOColor(targetA, instant ? 0f : colorTween);
-            if (bgB)    tweenBgB    = bgB.DOColor(targetB, instant ? 0f : colorTween);
+            targetA = colorDeselected;
+            targetB = colorDeselected;
         }
+        else if (towardsB)
+        {
+            targetA = colorDeselected;
+            targetB = colorSelected;
+        }
+        else
+        {
+            targetA = colorSelected;
+            targetB = colorDeselected;
+        }
+
+        if (bgA) bgA.DOColor(targetA, instant ? 0f : colorTween);
+        if (bgB) bgB.DOColor(targetB, instant ? 0f : colorTween);
 
         // Dial (glisse en X)
         if (dial)
         {
-            float targetX = f * dialTravel;
-            tweenDial?.Kill();
-            tweenDial = dial.DOAnchorPosX(targetX, instant ? 0f : dialTween).SetEase(Ease.OutQuad);
+            float targetY = f * dialTravel;
+            dial.DOAnchorPosY(targetY, instant ? 0f : dialTween).SetEase(Ease.OutQuad);
         }
     }
 
     // ---------- Utilitaires ----------
 
-    private Tweener TweenWidth(RectTransform rt, float targetWidth, float duration)
+    private void TweenWidth(RectTransform rt, float targetWidth, float duration)
     {
         var le = rt.GetComponent<LayoutElement>();
         if (le != null)
         {
-            return DOVirtual.Float(le.preferredWidth, targetWidth, duration, v => le.preferredWidth = v)
+            DOVirtual.Float(le.preferredWidth, targetWidth, duration, v => le.preferredWidth = v)
                 .SetEase(Ease.OutQuad);
         }
         else
         {
-            float h = rt.sizeDelta.y;
-            return rt.DOSizeDelta(new Vector2(targetWidth, h), duration).SetEase(Ease.OutQuad);
+            var sd = rt.sizeDelta;
+            rt.DOSizeDelta(new Vector2(targetWidth, sd.y), duration).SetEase(Ease.OutQuad);
         }
     }
 
-    private void KillAllTweens()
+    private void KillFeedbackTweens()
     {
-        tweenWidthA?.Kill(); tweenWidthB?.Kill();
-        tweenColorA?.Kill(); tweenColorB?.Kill();
-        tweenBgA?.Kill(); tweenBgB?.Kill();
-        tweenScaleA?.Kill(); tweenScaleB?.Kill();
-        tweenDial?.Kill();
+        // On tue UNIQUEMENT ce qui concerne le feedback visuel
+        foodAContainer?.DOKill();
+        foodBContainer?.DOKill();
+        bgA?.DOKill();
+        bgB?.DOKill();
+        dial?.DOKill();
     }
 }
