@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField, Header("Références")]
     private FoodDataParser foodParser;
+    [SerializeField] private StreakCelebrationUI streakCelebrationUI;
+    [SerializeField] private int[] streakMilestones = new[] { 3, 5, 10, 15, 20 };
+    private bool _lastAnswerWasCorrect = false;
+
     [SerializeField] private RewardFXController rewardFX;
     [SerializeField] private QuestionFactory questionFactory;
     [SerializeField] private LevelGenerator generator;
@@ -80,6 +84,7 @@ public class GameManager : MonoBehaviour
         // ✅ Passe la méthode comme callback tri-paramètres
         questionFactory.CreateQuestion(currentQuestion, OnQuestionAnswered);
         hud.UpdateHUDForNewQuestion(currentQuestionIndex, currentQuestion);
+        Debug.Log($"[GameManager] Valeurs : {CurrentQuestionDataAnswer[0]} vs {CurrentQuestionDataAnswer[1]}");
     }
 
     // ✅ Signature unique utilisée partout
@@ -108,6 +113,7 @@ public class GameManager : MonoBehaviour
 
 
         EnableMoreInfo = true;
+        _lastAnswerWasCorrect = isCorrect;
 
         if (isCorrect)
             scoreManager.EnregistrerBonneReponse();
@@ -139,18 +145,39 @@ public class GameManager : MonoBehaviour
     {
         if (!EnableMoreInfo || !IsGameRunning) return;
 
+        // Si la dernière réponse était correcte ET qu'on atteint un palier, on affiche la bannière
+        if (_lastAnswerWasCorrect && ShouldCelebrateStreak(scoreManager.StreakActuel))
+        {
+            if (streakCelebrationUI != null)
+            {
+                // on évite les clics pendant la bannière (optionnel)
+                hud.SetNextButtonVisible(false, true);
+
+                streakCelebrationUI.Show(scoreManager.StreakActuel, () =>
+                {
+                    ProceedToNextQuestion();
+                });
+                return;
+            }
+        }
+
+        ProceedToNextQuestion();
+    }
+    private void ProceedToNextQuestion()
+    {
         currentQuestionIndex++;
 
         if (currentQuestionIndex >= questionList.Count)
         {
             IsGameRunning = false;
             Debug.Log("Fin du niveau.");
-            hud.ShowEndGameUI(); // à implémenter dans HUDController
+            hud.ShowEndGameUI();
             return;
         }
 
         hud.UpdateQuestionNumber(currentQuestionIndex);
         LaunchNextQuestion();
+        
     }
 
     public void ValidateAnswer(int index, float difference)
@@ -177,5 +204,14 @@ public class GameManager : MonoBehaviour
     public int GetCurrentAnswer()
     {
         return currentAnswer;
+    }
+
+    private bool ShouldCelebrateStreak(int streak)
+    {
+        if (streak < 2) return false;
+        if (streakMilestones == null || streakMilestones.Length == 0) return true;
+        for (int i = 0; i < streakMilestones.Length; i++)
+            if (streak == streakMilestones[i]) return true;
+        return false;
     }
 }
