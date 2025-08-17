@@ -1,0 +1,22 @@
+public enum AlimentType
+{
+    Boisson,
+    Condiment,
+    Crustace,
+    Feculent,
+    Fruit,
+    Laitage,
+    Legume,
+    Fromage,
+    Legumineuse,
+    Lipide,
+    Oleagineux,
+    Poisson,
+    Sauce,
+    Tartinade,
+    Viande,
+    Patisserie,
+    Alcool,
+    Snack,
+    PlatPrepare
+}
