@@ -2,5 +2,6 @@ public enum QuestionType
 {
     CaloriesDual,
     FunMeasure,
-    EstimateCalories
+    EstimateCalories,
+    MealComposition
 }

@@ -8,12 +8,13 @@ public class QuestionFactory : MonoBehaviour
     [SerializeField] private GameObject tinderLikeGo;
     [SerializeField] private GameObject estimateCaloriesGo;
     [SerializeField] private GameObject SpecialMeasureGo;
+    [SerializeField] private GameObject mealCompositionGo;
     [SerializeField] private Transform questionParent;
 
     public delegate void AnswerCallback(int userAnswer, bool isPerfect);
 
 
-    public void CreateQuestion(QuestionData data, Action<int,bool> onAnswered)
+    public void CreateQuestion(QuestionData data, Action<int, bool> onAnswered)
     {
         switch (data.Type)
         {
@@ -34,14 +35,23 @@ public class QuestionFactory : MonoBehaviour
             case QuestionType.EstimateCalories:
                 GameObject go3 = Instantiate(estimateCaloriesGo, questionParent);
                 go3.GetComponent<EstimateCaloriesUI>()
-                  .Init(data.SousType, data.Aliments[0],  data.PortionSelections[0], onAnswered);
+                  .Init(data.SousType, data.Aliments[0], data.PortionSelections[0], onAnswered);
                 break;
+
+            case QuestionType.MealComposition:
+
+                GameObject go4 = Instantiate(mealCompositionGo, questionParent);
+                go4.GetComponent<QuestionMealCompositionUI>().Init(data, onAnswered);;
+
+
+                break;
+
 
             default:
                 Debug.LogWarning($"Type de question non géré : {data.Type}");
                 break;
         }
-        
+
     }
 
 

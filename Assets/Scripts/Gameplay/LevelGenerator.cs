@@ -15,21 +15,28 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float dropRateCaloriesDual = 0.7f;
     [SerializeField] private float dropRateEstimate = 0.2f;
     [SerializeField] private float dropRateFunMeasure = 0.1f;
+    [SerializeField] private float dropRateMealComposition = 0.2f;
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
     [SerializeField] private float dropRateProteine = 0.3f;
     [SerializeField] private float dropRateSucre = 0.2f;
 
-    [Header("Activation des types")]
+    [Header("Types de questions")]
     [SerializeField] private bool useCaloriesDual = true;
     [SerializeField] private bool useEstimateCalories = true;
     [SerializeField] private bool useFunMeasure = true;
+    [SerializeField] private bool useMealComposition = true;
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
 
+    [Header("Meal Composition")]
+
+    [SerializeField] private int mealFoodsCount = 6;
+
     [SerializeField] private SpecialMeasureManager specialMeasureManager;
+    [SerializeField] private MealCompositionQuestionGenerator mealCompositionQuestionGenerator;
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -49,6 +56,12 @@ public class LevelGenerator : MonoBehaviour
             if (type == QuestionType.FunMeasure)
             {
                 level.Questions.Add(GenerateFunMeasureQuestion());
+                continue;
+            }
+
+            if (type == QuestionType.MealComposition)
+            {
+                level.Questions.Add(mealCompositionQuestionGenerator.Generate(foodList, ResolvePortionSafe));
                 continue;
             }
 
@@ -136,20 +149,22 @@ public class LevelGenerator : MonoBehaviour
 
     private QuestionType GetRandomQuestionTypeWithDropRates()
     {
-        float rand = Random.Range(0f, 1f);
+        float total = 0f;
+        if (useCaloriesDual) total += dropRateCaloriesDual;
+        if (useEstimateCalories) total += dropRateEstimate;
+        if (useFunMeasure) total += dropRateFunMeasure;
+        if (useMealComposition) total += dropRateMealComposition;
 
-        if (rand < dropRateCaloriesDual && useCaloriesDual)
-            return QuestionType.CaloriesDual;
+        float rand = Random.Range(0f, total);
+        float acc = 0f;
 
-        if (rand < dropRateCaloriesDual + dropRateEstimate && useEstimateCalories)
-            return QuestionType.EstimateCalories;
+        if (useCaloriesDual && rand < (acc += dropRateCaloriesDual)) return QuestionType.CaloriesDual;
+        if (useEstimateCalories && rand < (acc += dropRateEstimate)) return QuestionType.EstimateCalories;
+        if (useFunMeasure && rand < (acc += dropRateFunMeasure)) return QuestionType.FunMeasure;
+        if (useMealComposition && rand < (acc += dropRateMealComposition)) return QuestionType.MealComposition;
 
-        if (useFunMeasure)
-            return QuestionType.FunMeasure;
-
-        return QuestionType.CaloriesDual; // fallback
+        return QuestionType.CaloriesDual;
     }
-
     private QuestionSubType GetRandomQuestionSubTypeWithDropRates()
     {
         float total = dropRateCalories + dropRateProteine + dropRateSucre;
@@ -190,10 +205,10 @@ public class LevelGenerator : MonoBehaviour
         return subType switch
         {
             QuestionSubType.Proteine => food.Proteins,
-            QuestionSubType.Glucide  => food.Carbohydrates,
-            QuestionSubType.Lipide   => food.Lipids,
-            QuestionSubType.Fibres   => food.Fibers,
-            _                        => food.Calories
+            QuestionSubType.Glucide => food.Carbohydrates,
+            QuestionSubType.Lipide => food.Lipids,
+            QuestionSubType.Fibres => food.Fibers,
+            _ => food.Calories
         };
     }
 
@@ -202,10 +217,10 @@ public class LevelGenerator : MonoBehaviour
         return subType switch
         {
             QuestionSubType.Proteine => 3f,
-            QuestionSubType.Glucide  => 5f,
-            QuestionSubType.Lipide   => 2f,
-            QuestionSubType.Fibres   => 2f,
-            _                        => minCaloriesDelta
+            QuestionSubType.Glucide => 5f,
+            QuestionSubType.Lipide => 2f,
+            QuestionSubType.Fibres => 2f,
+            _ => minCaloriesDelta
         };
     }
 }

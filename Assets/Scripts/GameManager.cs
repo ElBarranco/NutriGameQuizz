@@ -84,7 +84,15 @@ public class GameManager : MonoBehaviour
         // ✅ Passe la méthode comme callback tri-paramètres
         questionFactory.CreateQuestion(currentQuestion, OnQuestionAnswered);
         hud.UpdateHUDForNewQuestion(currentQuestionIndex, currentQuestion);
-        Debug.Log($"[GameManager] Valeurs : {CurrentQuestionDataAnswer[0]} vs {CurrentQuestionDataAnswer[1]}");
+        
+        if (currentQuestion.ValeursComparees.Count == 1)
+        {
+            Debug.Log($"[GameManager] Valeur : {CurrentQuestionDataAnswer[0]}");
+        }
+        else if (currentQuestion.ValeursComparees.Count >= 2)
+        {
+            Debug.Log($"[GameManager] Valeurs : {CurrentQuestionDataAnswer[0]} vs {CurrentQuestionDataAnswer[1]}");
+        }
     }
 
     // ✅ Signature unique utilisée partout
@@ -177,7 +185,7 @@ public class GameManager : MonoBehaviour
 
         hud.UpdateQuestionNumber(currentQuestionIndex);
         LaunchNextQuestion();
-        
+
     }
 
     public void ValidateAnswer(int index, float difference)

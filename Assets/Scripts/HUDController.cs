@@ -88,7 +88,7 @@ public class HUDController : MonoBehaviour
         UpdateQuestionNumber(questionIndex);
 
         // 2. Titre de la question
-        SetQuestionTitle(data.Type, data.SousType);
+        SetQuestionTitle(data.Type, data.SousType, data.ValeursComparees[0]);
 
         // 3. Icône selon le sous-type
         SetNutrientIcon(data.SousType);
@@ -202,36 +202,50 @@ public class HUDController : MonoBehaviour
         if (nutrientIcon != null)
             nutrientIcon.sprite = icon;
     }
-
-    public void SetQuestionTitle(QuestionType type, QuestionSubType subType)
+    public void SetQuestionTitle(QuestionType type, QuestionSubType subType, float targetCalories = -1f)
     {
-        string title = type switch
+        string title;
+
+        switch (type)
         {
-            QuestionType.EstimateCalories => subType switch
-            {
-                QuestionSubType.Proteine => "Estime la quantité de protéines !",
-                QuestionSubType.Glucide => "Estime la quantité de glucides !",
-                QuestionSubType.Lipide => "Estime la quantité de lipides !",
-                QuestionSubType.Fibres => "Estime la quantité de fibres !",
-                _ => "Devine les calories !"
-            },
+            case QuestionType.EstimateCalories:
+                switch (subType)
+                {
+                    case QuestionSubType.Proteine: title = "Estime la quantité de protéines !"; break;
+                    case QuestionSubType.Glucide: title = "Estime la quantité de glucides !"; break;
+                    case QuestionSubType.Lipide: title = "Estime la quantité de lipides !"; break;
+                    case QuestionSubType.Fibres: title = "Estime la quantité de fibres !"; break;
+                    default: title = "Devine les calories !"; break;
+                }
+                break;
 
-            QuestionType.CaloriesDual => subType switch
-            {
-                QuestionSubType.Proteine => "Quel aliment contient le plus de protéines ?",
-                QuestionSubType.Glucide => "Quel aliment contient le plus de glucides ?",
-                QuestionSubType.Lipide => "Quel aliment est le plus gras ?",
-                QuestionSubType.Fibres => "Quel aliment contient le plus de fibres ?",
-                _ => "Quel aliment est le plus calorique ?"
-            },
+            case QuestionType.CaloriesDual:
+                switch (subType)
+                {
+                    case QuestionSubType.Proteine: title = "Quel aliment contient le plus de protéines ?"; break;
+                    case QuestionSubType.Glucide: title = "Quel aliment contient le plus de glucides ?"; break;
+                    case QuestionSubType.Lipide: title = "Quel aliment est le plus gras ?"; break;
+                    case QuestionSubType.Fibres: title = "Quel aliment contient le plus de fibres ?"; break;
+                    default: title = "Quel aliment est le plus calorique ?"; break;
+                }
+                break;
 
-            QuestionType.FunMeasure => "Tu vas être surpris...",
-            _ => "Question nutritionnelle"
-        };
+            case QuestionType.FunMeasure:
+                title = "Tu vas être surpris...";
+                break;
+
+            case QuestionType.MealComposition:
+                title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !";
+
+                break;
+
+            default:
+                title = "Question nutritionnelle";
+                break;
+        }
 
         questionTitleText.text = title;
     }
-
     public void ShowEndGameUI()
     {
         hudInGameUI.SetActive(false);

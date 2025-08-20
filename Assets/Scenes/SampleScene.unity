@@ -119,11 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!224 &21052696 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1339421493702119919, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-  m_PrefabInstance: {fileID: 1561843634}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &84242503
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,7 +835,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1866,6 +1861,7 @@ MonoBehaviour:
   tinderLikeGo: {fileID: 3472369455136401110, guid: 7d0dbb0e5bc49488d87dfb228559258c, type: 3}
   estimateCaloriesGo: {fileID: 3472369455136401110, guid: 4d86ad3b72563450398c11a202889f73, type: 3}
   SpecialMeasureGo: {fileID: 3472369455136401110, guid: b374978f33a734927a547dc14cde7d98, type: 3}
+  mealCompositionGo: {fileID: 3472369455136401110, guid: d26e699219aab45e8abf20e4b9b02ce8, type: 3}
   questionParent: {fileID: 1826148115}
 --- !u!1 &804851719
 GameObject:
@@ -2250,81 +2246,6 @@ MonoBehaviour:
   utiliserMultiplicateur: 1
   palierStreakPourMultiplicateur: 3
   multiplicateurMax: 5
---- !u!1 &1151700248
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1151700249}
-  - component: {fileID: 1151700251}
-  - component: {fileID: 1151700250}
-  m_Layer: 5
-  m_Name: Icon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1151700249
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151700248}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 21052696}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -101.65}
-  m_SizeDelta: {x: 180.1446, y: 203.30109}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1151700250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151700248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 3973608312705298119, guid: 6fe5f9a967b8948ec83c2045a7bd897c, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1151700251
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151700248}
-  m_CullTransparentMesh: 1
 --- !u!1 &1185126134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2675,7 +2596,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 121.87, y: -470.8184}
+  m_AnchoredPosition: {x: 121.87, y: -470.81836}
   m_SizeDelta: {x: 778.27, y: 228.3539}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225595969
@@ -3038,7 +2959,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3141,6 +3062,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1516825077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1516825078}
+  - component: {fileID: 1516825079}
+  m_Layer: 0
+  m_Name: Meal Prep
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1516825078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516825077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1516825079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516825077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a79f4b3fa7a4ac2bd2ccb176293153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mealFoodsCount: 6
+  pickedRange: {x: 2, y: 4}
+  snapStepG: 10
+  solutionMultiplierRange: {x: 0.8, y: 1.6}
+  maxMultiplier: 3
+  startNonPickedAtZero: 1
 --- !u!1 &1520375956
 GameObject:
   m_ObjectHideFlags: 0
@@ -3224,45 +3195,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1435699207}
     m_Modifications:
-    - target: {fileID: 749810735715669311, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 727.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 749810735715669311, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 295.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 749810735715669311, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.000030517
-      objectReference: {fileID: 0}
-    - target: {fileID: 749810735715669311, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -111.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339421493702119919, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 519.2253
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339421493702119919, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339421493702119919, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1484456777904994752, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_Name
       value: Celebration
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794441932732663197, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: panel
-      value: 
-      objectReference: {fileID: 21052696}
-    - target: {fileID: 1794441932732663197, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: showDuration
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_Pivot.x
@@ -3344,36 +3279,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6149176604293158578, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_text
-      value: "3 d'affil\xE9es ! \nTrop bien ! "
-      objectReference: {fileID: 0}
-    - target: {fileID: 6149176604293158578, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_fontSize
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6149176604293158578, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6149176604293158578, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6149176604293158578, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_characterSpacing
-      value: -4.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 7581808063292004169, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1339421493702119919, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1151700249}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
 --- !u!224 &1561843635 stripped
@@ -4049,6 +3957,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2134919855}
+  - {fileID: 1516825078}
   m_Father: {fileID: 549119271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
@@ -4063,19 +3972,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 582445689ae7a4d148a51ec2b6e00ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficultyManager: {fileID: 0}
+  difficultyManager: {fileID: 987643478}
   defaultPieceWeightG: 120
   dropRateCaloriesDual: 0.7
   dropRateEstimate: 0.2
-  dropRateFunMeasure: 10
+  dropRateFunMeasure: 0.2
+  dropRateMealComposition: 0.2
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
-  useCaloriesDual: 1
-  useEstimateCalories: 1
-  useFunMeasure: 1
+  useCaloriesDual: 0
+  useEstimateCalories: 0
+  useFunMeasure: 0
+  useMealComposition: 1
   minCaloriesDelta: 20
+  mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
+  mealCompositionQuestionGenerator: {fileID: 1516825079}
 --- !u!1 &1798261680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4298,7 +4211,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -104.9573, y: -75.577}
+  m_AnchoredPosition: {x: -104.957306, y: -75.577}
   m_SizeDelta: {x: 188.8393, y: 80.827}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1836749096

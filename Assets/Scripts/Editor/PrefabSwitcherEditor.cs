@@ -20,6 +20,8 @@ public class PrefabSwitcherEditor : EditorWindow
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/DualQuestionGO.prefab"),
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/SpecialQuestionGO.prefab"),
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/EstimateQuestionGO.prefab"),
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Meal Composition GO.prefab"),
+            
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/MoreInfo_DualQuestionGO.prefab"),
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/MoreInfo_EstimateQuestionGO.prefab"),
 
