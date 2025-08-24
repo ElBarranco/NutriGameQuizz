@@ -34,6 +34,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private DropZoneUI currentDropZone;
 
     private FoodData food;
+    private PortionSelection portion;
     private float grams;
 
     private void Awake()
@@ -57,13 +58,15 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             .SetEase(Ease.OutBack)
             .SetDelay(delay);
     }
-    public void Init(FoodData f, float startGrams)
+    public void Init(FoodData f, PortionSelection sel)
     {
         food = f;
-        grams = startGrams;
-        if (nameText) nameText.text = f.Name;
+        grams = 100f;
+
+        nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel);
+
         if (gramsText) gramsText.text = $"{Mathf.RoundToInt(grams)} g";
-        if (icon) icon.sprite = FoodSpriteLoader.LoadFoodSprite(f.Name);
+        icon.sprite = FoodSpriteLoader.LoadFoodSprite(f.Name);
     }
 
     // Fallback seulement si pas de dock d’origine

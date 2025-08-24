@@ -411,6 +411,7 @@ MonoBehaviour:
   moreInfoDualPrefab: {fileID: 3472369455136401110, guid: 5b50c0f6cc8c547caa9c9086e89ec0d0, type: 3}
   moreInfoEstimatePrefab: {fileID: 3472369455136401110, guid: 8bf83f205bc204bb08e5259f36a0aac4, type: 3}
   moreInfoFunMeasurePrefab: {fileID: 3472369455136401110, guid: a843b11caaae64e649474189760a3267, type: 3}
+  moreInfoMealPrefab: {fileID: 3472369455136401110, guid: 844408e47421a4343bc411a5a94a46d8, type: 3}
   moreInfoPanelParent: {fileID: 1826148115}
   nutrientIcon: {fileID: 1052516937}
   caloriesIcon: {fileID: 8334651344603559088, guid: 677d3d42c6e2c433384f5091a20825de, type: 3}
@@ -1484,7 +1485,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000dd8c6b39
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3108,9 +3109,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mealFoodsCount: 6
   pickedRange: {x: 2, y: 4}
-  snapStepG: 10
-  solutionMultiplierRange: {x: 0.8, y: 1.6}
-  maxMultiplier: 3
   startNonPickedAtZero: 1
 --- !u!1 &1520375956
 GameObject:
@@ -3981,7 +3979,7 @@ MonoBehaviour:
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
-  useCaloriesDual: 0
+  useCaloriesDual: 1
   useEstimateCalories: 0
   useFunMeasure: 0
   useMealComposition: 1

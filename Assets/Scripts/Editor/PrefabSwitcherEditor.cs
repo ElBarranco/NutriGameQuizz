@@ -17,10 +17,10 @@ public class PrefabSwitcherEditor : EditorWindow
         // Charger manuellement les prefabs que tu veux afficher
         selectedPrefabs = new GameObject[]
         {
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/DualQuestionGO.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/SpecialQuestionGO.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/EstimateQuestionGO.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Meal Composition GO.prefab"),
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Q_DualQuestionGO v.prefab"),
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Q_SpecialQuestionGO.prefab"),
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Q_EstimateQuestionGO.prefab"),
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Q_Meal Composition GO.prefab"),
             
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/MoreInfo_DualQuestionGO.prefab"),
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/MoreInfo_EstimateQuestionGO.prefab"),

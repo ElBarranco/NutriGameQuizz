@@ -26,6 +26,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject moreInfoDualPrefab;
     [SerializeField] private GameObject moreInfoEstimatePrefab;
     [SerializeField] private GameObject moreInfoFunMeasurePrefab;
+    [SerializeField] private GameObject moreInfoMealPrefab;
     [SerializeField] private Transform moreInfoPanelParent;
 
     private GameObject currentMoreInfoPanel;
@@ -108,7 +109,6 @@ public class HUDController : MonoBehaviour
             HideMoreInfo();
         }
 
-        // On crée le panneau d'information selon le type de question
         switch (data.Type)
         {
             case QuestionType.EstimateCalories:
@@ -121,6 +121,13 @@ public class HUDController : MonoBehaviour
                 currentMoreInfoPanel = Instantiate(moreInfoFunMeasurePrefab, moreInfoPanelParent);
                 MoreInfoFunMeasurePanelUI funPanel = currentMoreInfoPanel.GetComponent<MoreInfoFunMeasurePanelUI>();
                 funPanel.Show(data.Aliments, data.SpecialMeasures, data.IndexBonneRéponse);
+                break;
+
+            case QuestionType.MealComposition:
+                currentMoreInfoPanel = Instantiate(moreInfoMealPrefab, moreInfoPanelParent);
+                MoreInfoMealPanelUI mealPanel = currentMoreInfoPanel.GetComponent<MoreInfoMealPanelUI>();
+
+                mealPanel.Show(data.Aliments, data.PortionSelections, data.ValeursComparees[0], userAnswer);
                 break;
 
             case QuestionType.CaloriesDual:
@@ -138,7 +145,6 @@ public class HUDController : MonoBehaviour
                 );
                 break;
         }
-
     }
 
 

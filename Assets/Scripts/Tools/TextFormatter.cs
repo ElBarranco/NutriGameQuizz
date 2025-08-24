@@ -31,4 +31,17 @@ public static class TextFormatter
             _ => "Calories"
         };
     }
+
+    public static string GetUnitForSubType(QuestionSubType subType)
+    {
+        switch (subType)
+        {
+            case QuestionSubType.Calorie: return "kcal";
+            case QuestionSubType.Proteine: return "g";
+            case QuestionSubType.Glucide: return "g";
+            case QuestionSubType.Lipide: return "g";
+            case QuestionSubType.Fibres: return "g";
+            default: return "";
+        }
+    }
 }

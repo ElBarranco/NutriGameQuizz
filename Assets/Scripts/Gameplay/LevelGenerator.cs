@@ -84,6 +84,7 @@ public class LevelGenerator : MonoBehaviour
             List<float> valeurs = new List<float> { valueA, valueB };
             int bonneReponse = valeurs[0] > valeurs[1] ? 0 : 1;
 
+
             QuestionData q = new QuestionData
             {
                 Type = type,

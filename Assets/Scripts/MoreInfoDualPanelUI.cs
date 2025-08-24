@@ -50,7 +50,7 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
         float valB = per100B * (portionB.Grams / 100f);
 
         // Unité d'affichage
-        string unit = GetUnitForSubType(sousType);
+        string unit = TextFormatter.GetUnitForSubType(sousType);
 
         // Noms
         foodAName.text = a.Name;
@@ -158,18 +158,6 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
     }
 
     // ----- Helpers locaux -----
-    private static string GetUnitForSubType(QuestionSubType subType)
-    {
-        switch (subType)
-        {
-            case QuestionSubType.Calorie: return "kcal";
-            case QuestionSubType.Proteine: return "g";
-            case QuestionSubType.Glucide: return "g";
-            case QuestionSubType.Lipide: return "g";
-            case QuestionSubType.Fibres: return "g";
-            default: return "";
-        }
-    }
 
     private static float GetValueBySubType(FoodData food, QuestionSubType subType)
     {

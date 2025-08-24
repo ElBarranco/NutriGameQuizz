@@ -172,6 +172,8 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
         currentCalories = Mathf.RoundToInt(total);   // 👈 juste un int (pas d’arrondi par 25)
     }
 
+    public int GetCurrentCalories() => currentCalories;
+
     public void RemoveItem(FoodDraggableUI item)
     {
         if (item == null) return;

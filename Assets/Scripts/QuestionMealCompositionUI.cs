@@ -25,10 +25,10 @@ public class QuestionMealCompositionUI : MonoBehaviour
         {
             FoodData f = q.Aliments[i];
             PortionSelection sel = q.PortionSelections[i];
-
+            
             FoodDraggableUI item = Instantiate(foodPrefab, bottomPanel, false);
             item.gameObject.name = $"DD_{f.Name}_{i}";
-            item.Init(f, sel.Grams);
+            item.Init(f, sel); 
 
             // 1) Pose l’item dans le dock, slot i (sans tween)
             if (bottomDock != null && i < bottomDock.SlotCount)
@@ -46,35 +46,14 @@ public class QuestionMealCompositionUI : MonoBehaviour
     private void Btn_Validate()
     {
         InteractionManager.Instance.TriggerMediumVibration();
-        // Récupère les aliments actuellement dans la zone
-        List<FoodDraggableUI> contents = ReadDropZoneContents();
 
         // Calcul du total des calories
-        int totalCalories = 0;
-        for (int i = 0; i < contents.Count; i++)
-        {
-            FoodDraggableUI item = contents[i];
-            FoodData food = item.GetFood();
-            float grams = item.GetGrams();
-            if (food != null)
-            {
-                totalCalories += Mathf.RoundToInt(food.Calories * (grams / 100f));
-            }
-        }
+        int totalCalories = dropZone.GetCurrentCalories();
 
         // Envoie au GameManager : index = totalCalories, bool = false (pour l’instant)
         onAnswered?.Invoke(totalCalories, false);
+        Destroy(gameObject);
     }
 
-    private List<FoodDraggableUI> ReadDropZoneContents()
-    {
-        List<FoodDraggableUI> list = new List<FoodDraggableUI>();
-        Transform t = dropZone.transform;
-        for (int i = 0; i < t.childCount; i++)
-        {
-            FoodDraggableUI item = t.GetChild(i).GetComponent<FoodDraggableUI>();
-            if (item != null) list.Add(item);
-        }
-        return list;
-    }
+
 }

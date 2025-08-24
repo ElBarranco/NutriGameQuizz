@@ -3,6 +3,10 @@ public static class PortionTextFormatter
 {
     public static string ToText(PortionSelection sel)
     {
+
+        Debug.Log($"[PortionTextFormatter] Type={sel.Type}, Grams={sel.Grams}, Unitaire={sel.Unitaire}, PetiteUnite={sel.PetiteUnite}, Liquide={sel.Liquide}");
+
+
         switch (sel.Type)
         {
             case FoodPortionType.ParPoids:

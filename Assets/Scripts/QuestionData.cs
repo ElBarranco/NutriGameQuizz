@@ -13,5 +13,6 @@ public class QuestionData
     public int IndexBonneRéponse;
 
     public List<SpecialMeasureData> SpecialMeasures; // pour les questions de type FunMeasure
+
     
 }
