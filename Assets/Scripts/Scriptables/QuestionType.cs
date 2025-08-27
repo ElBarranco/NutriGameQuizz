@@ -3,5 +3,7 @@ public enum QuestionType
     CaloriesDual,
     FunMeasure,
     EstimateCalories,
-    MealComposition
+    MealComposition,
+    Sport,
+    Tri
 }

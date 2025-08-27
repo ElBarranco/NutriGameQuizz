@@ -68,8 +68,8 @@ public class MoreInfoFunMeasurePanelUI : MoreInfoPanelBase
         titleB.text = $"{m2.name} de {b.Name}";
 
         // Sprites
-        if (imageA) imageA.sprite = FoodSpriteLoader.LoadFoodSprite(a.Name);
-        if (imageB) imageB.sprite = FoodSpriteLoader.LoadFoodSprite(b.Name);
+        if (imageA) imageA.sprite = SpriteLoader.LoadFoodSprite(a.Name);
+        if (imageB) imageB.sprite = SpriteLoader.LoadFoodSprite(b.Name);
 
         // Highlights
         if (foodAHighlight) foodAHighlight.color = defaultColor;

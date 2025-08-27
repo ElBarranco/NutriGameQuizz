@@ -41,8 +41,8 @@ public class QuestionFunMeasureUI : QuestionCaloriesDualUI
         onAnswered = callback;
 
 
-        imageA.sprite = FoodSpriteLoader.LoadFoodSprite(foodA.Name);
-        imageB.sprite = FoodSpriteLoader.LoadFoodSprite(foodB.Name);
+        imageA.sprite = SpriteLoader.LoadFoodSprite(foodA.Name);
+        imageB.sprite = SpriteLoader.LoadFoodSprite(foodB.Name);
 
         base.InitVisual();
     }

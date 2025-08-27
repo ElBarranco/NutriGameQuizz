@@ -82,8 +82,8 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
         nameA.text = PortionTextFormatter.ToDisplayWithFood(foodA, portionA);
         nameB.text = PortionTextFormatter.ToDisplayWithFood(foodB, portionB);
 
-        imageA.sprite = FoodSpriteLoader.LoadFoodSprite(foodA.Name);
-        imageB.sprite = FoodSpriteLoader.LoadFoodSprite(foodB.Name);
+        imageA.sprite = SpriteLoader.LoadFoodSprite(foodA.Name);
+        imageB.sprite = SpriteLoader.LoadFoodSprite(foodB.Name);
 
         InitVisual();
     }

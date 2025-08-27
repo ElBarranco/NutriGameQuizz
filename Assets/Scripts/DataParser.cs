@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using System;
-using System.Globalization;
 
-public class FoodDataParser : MonoBehaviour
+public class FoodDataParser : CsvParserBase
 {
     [Header("Source")]
     [SerializeField] private TextAsset csvFileFood;
@@ -29,46 +28,46 @@ public class FoodDataParser : MonoBehaviour
     {
         if (csvFileFood == null || string.IsNullOrWhiteSpace(csvFileFood.text))
         {
-            Debug.LogWarning("[Parser] CSV vide ou manquant.");
+            Warn("[Parser] CSV vide ou manquant.");
             MissingSpriteFoodList = new List<FoodData>();
             return new List<FoodData>();
         }
 
-        string[] lines = csvFileFood.text.Split('\n');
         var dataList = new List<FoodData>();
         MissingSpriteFoodList = new List<FoodData>();
 
-        for (int i = 1; i < lines.Length; i++) // skip header
+        int lineIndex = 1; // pour logs (car on skip header)
+        foreach (var rawLine in EnumerateCsvLines(csvFileFood.text, skipHeader: true))
         {
-            var rawLine = lines[i].Trim();
-            if (string.IsNullOrWhiteSpace(rawLine))
-                continue;
+            lineIndex++;
 
-            var values = rawLine.Split(',');
+            // NOTE: split robuste
+            var values = SafeSplitCsvLine(rawLine);
 
             // 12 colonnes : name, type, rarity, portion, weight, volume, calories, proteins, carbs, lipids, fibers, indexGlycemique
-            if (values.Length < 12)
+            if (values.Count < 12)
             {
-                Debug.LogWarning($"Invalid line format (attendu ≥12 colonnes) : {rawLine}");
+                Warn($"Invalid line format (attendu ≥12 colonnes) : {rawLine}");
                 continue;
             }
 
             string name = values[0].Trim();
 
-            if (!TryParseAlimentType(values[1], out AlimentType type))
+            if (!TryParseEnumLoose(values[1], out AlimentType type))
             {
-                Debug.LogWarning($"Inconnu – AlimentType ligne {i} : '{values[1]}'");
+                Warn($"Inconnu – AlimentType ligne {lineIndex} : '{values[1]}'");
                 continue;
             }
 
-            if (!TryParseAlimentRarity(values[2], out AlimentRarity rarity))
+            if (!TryParseEnumLoose(values[2], out AlimentRarity rarity))
             {
-                Debug.LogWarning($"Inconnu – Rareté ligne {i} : '{values[2]}'");
+                Warn($"Inconnu – Rareté ligne {lineIndex} : '{values[2]}'");
                 continue;
             }
 
             if (!TryParseFoodPortionType(values[3], out FoodPortionType portionType))
             {
+                // Warn déjà émis dans la méthode
                 continue;
             }
 
@@ -93,12 +92,12 @@ public class FoodDataParser : MonoBehaviour
                 Sprite sprite = null;
                 if (filterMissingSprites || EnableDebugIcon)
                 {
-                    sprite = FoodSpriteLoader.LoadFoodSprite(name);
+                    sprite = SpriteLoader.LoadFoodSprite(name);
                     if (sprite == null)
                     {
                         MissingSpriteFoodList.Add(foodData);
                         if (EnableDebugIcon)
-                            Debug.LogWarning($"Sprite introuvable pour : {name}");
+                            Warn($"Sprite introuvable pour : {name}");
 
                         if (filterMissingSprites)
                             continue; // on exclut de la liste finale
@@ -109,7 +108,7 @@ public class FoodDataParser : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"Erreur de parsing numérique à la ligne {i} : {rawLine}");
+                Warn($"Erreur de parsing numérique à la ligne {lineIndex} : {rawLine}");
             }
         }
 
@@ -122,9 +121,8 @@ public class FoodDataParser : MonoBehaviour
             foreach (var food in MissingSpriteFoodList)
                 sb.AppendLine($" - {food.Name}");
 
-            Debug.LogWarning(sb.ToString());
+            Warn(sb.ToString());
         }
-
 
         dataList.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
         return dataList;
@@ -132,7 +130,7 @@ public class FoodDataParser : MonoBehaviour
 
     private bool TryParseFoodPortionType(string input, out FoodPortionType portionType)
     {
-        string key = input.Trim().ToLowerInvariant();
+        string key = NormalizeKey(input);
         switch (key)
         {
             case "liquide":
@@ -146,55 +144,9 @@ public class FoodDataParser : MonoBehaviour
                 portionType = FoodPortionType.PetiteUnite;
                 return true;
             default:
-                Debug.LogWarning($"[Parser] PortionType non reconnu : brute='{input}', normalisé='{key}'");
+                Warn($"[Parser] PortionType non reconnu : brute='{input}', normalisé='{key}'");
                 portionType = FoodPortionType.Default;
                 return false;
         }
-    }
-
-    private bool TryParseAlimentType(string input, out AlimentType type)
-    {
-        bool success = Enum.TryParse(input.Trim(), true, out type);
-        if (!success)
-            Debug.LogWarning($"[Parser] Type d'aliment non reconnu : \"{input}\"");
-        return success;
-    }
-
-    private bool TryParseAlimentRarity(string input, out AlimentRarity rarity)
-    {
-        bool success = Enum.TryParse(input.Replace(" ", "").Trim(), true, out rarity);
-        if (!success)
-            Debug.LogWarning($"[Parser] Rareté d'aliment non reconnue : \"{input}\"");
-        return success;
-    }
-
-    private bool TryParseAndRoundToInt(string input, out int result)
-    {
-        input = input.Trim().TrimEnd('\r');
-        if (int.TryParse(input, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
-            return true;
-
-        if (float.TryParse(input, NumberStyles.Float, CultureInfo.InvariantCulture, out float f))
-        {
-            result = Mathf.RoundToInt(f);
-            return true;
-        }
-
-        result = 0;
-        return false;
-    }
-
-    private bool TryParseFloatFlexible(string input, out float result)
-    {
-        input = input.Trim().TrimEnd('\r');
-        if (float.TryParse(input, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
-            return true;
-
-        var swapped = input.Replace(',', '.');
-        if (float.TryParse(swapped, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
-            return true;
-
-        result = 0f;
-        return false;
     }
 }

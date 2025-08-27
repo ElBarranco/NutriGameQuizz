@@ -82,7 +82,7 @@ public class EstimateCaloriesUI : MonoBehaviour
         calorieSlider.value = (calorieSlider.minValue + calorieSlider.maxValue) / 2f;
 
         // UI
-        foodImage.sprite = FoodSpriteLoader.LoadFoodSprite(food.Name);
+        foodImage.sprite = SpriteLoader.LoadFoodSprite(food.Name);
 
         // Portion facultative (juste affichage, comme dans DualUI)
         if (portion.HasValue)
