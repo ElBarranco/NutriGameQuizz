@@ -273,6 +273,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &243210511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 243210512}
+  - component: {fileID: 243210513}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &243210512
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243210511}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1052516936}
+  - {fileID: 1225595968}
+  m_Father: {fileID: 1435699207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 20.003, y: 699.18164}
+  m_SizeDelta: {x: 982.01, y: 228.3539}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &243210513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243210511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b718b1edeb76046818e8f39473b9edf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &278028951
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +756,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 440119511}
   m_CullTransparentMesh: 1
+--- !u!1 &481389359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 481389360}
+  - component: {fileID: 481389361}
+  m_Layer: 0
+  m_Name: Sport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &481389360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481389359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &481389361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481389359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb9df88ba4bb4ae6a75bbfc3562357e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
+  defaultPieceWeightG: 120
+  sportDataParser: {fileID: 502056889}
+  pickRandomFood: 1
+  foodIndexIfNotRandom: 0
+  minMinutes: 5
+  maxMinutes: 180
+  roundToMinutes: 5
+  weightByRarity: 1
+  maxPickAttempts: 30
+  perfectTolerancePercent: 0.05
 --- !u!1 &502056886
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 502056887}
   - component: {fileID: 502056888}
+  - component: {fileID: 502056889}
   m_Layer: 0
   m_Name: --- Food Parser
   m_TagString: Untagged
@@ -755,6 +861,20 @@ MonoBehaviour:
   EnableDebugIcon: 1
   foodDataList: []
   MissingSpriteFoodList: []
+--- !u!114 &502056889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502056886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05baf690e4503478e955fc227f6717a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  csvFileSports: {fileID: 4900000, guid: 03eb1303e89da4495a2cd9eb508394f6, type: 3}
+  sportDataList: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1863,6 +1983,7 @@ MonoBehaviour:
   estimateCaloriesGo: {fileID: 3472369455136401110, guid: 4d86ad3b72563450398c11a202889f73, type: 3}
   SpecialMeasureGo: {fileID: 3472369455136401110, guid: b374978f33a734927a547dc14cde7d98, type: 3}
   mealCompositionGo: {fileID: 3472369455136401110, guid: d26e699219aab45e8abf20e4b9b02ce8, type: 3}
+  SportDualGo: {fileID: 3472369455136401110, guid: e6839d13c789340db9cf6532edfb239a, type: 3}
   questionParent: {fileID: 1826148115}
 --- !u!1 &804851719
 GameObject:
@@ -2013,11 +2134,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1435699207}
+  m_Father: {fileID: 243210512}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -396, y: -444}
+  m_AnchoredPosition: {x: -416.003, y: -87.35864}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1052516937
@@ -2593,11 +2714,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1435699207}
+  m_Father: {fileID: 243210512}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 121.87, y: -470.81836}
+  m_AnchoredPosition: {x: 101.869995, y: -114.177}
   m_SizeDelta: {x: 778.27, y: 228.3539}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225595969
@@ -3054,8 +3175,7 @@ RectTransform:
   - {fileID: 1826148115}
   - {fileID: 1561843635}
   - {fileID: 629852180}
-  - {fileID: 1225595968}
-  - {fileID: 1052516936}
+  - {fileID: 243210512}
   m_Father: {fileID: 301530437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3074,7 +3194,7 @@ GameObject:
   - component: {fileID: 1516825078}
   - component: {fileID: 1516825079}
   m_Layer: 0
-  m_Name: Meal Prep
+  m_Name: Meal Composition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3107,9 +3227,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a79f4b3fa7a4ac2bd2ccb176293153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
+  defaultPieceWeightG: 120
   mealFoodsCount: 6
-  pickedRange: {x: 2, y: 4}
+  pickedRange: {x: 2, y: 3}
   startNonPickedAtZero: 1
+  randomSubType: 1
+  forcedSubType: 0
+  maxUniqueAttempts: 30
+  targetSnap: 25
+  uniquenessTolerance: 5
 --- !u!1 &1520375956
 GameObject:
   m_ObjectHideFlags: 0
@@ -3753,6 +3880,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629820063}
   m_CullTransparentMesh: 1
+--- !u!1 &1655888571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1655888572}
+  - component: {fileID: 1655888573}
+  m_Layer: 0
+  m_Name: PowerUpManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1655888572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655888571}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 272.25797, y: 789.50977, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1655888573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655888571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3f73affc9914edd8cd7cc3f6779432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1731596807
 GameObject:
   m_ObjectHideFlags: 0
@@ -3956,6 +4127,7 @@ Transform:
   m_Children:
   - {fileID: 2134919855}
   - {fileID: 1516825078}
+  - {fileID: 481389360}
   m_Father: {fileID: 549119271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
@@ -3976,17 +4148,20 @@ MonoBehaviour:
   dropRateEstimate: 0.2
   dropRateFunMeasure: 0.2
   dropRateMealComposition: 0.2
+  dropRateSportDual: 1
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
-  useCaloriesDual: 1
+  useCaloriesDual: 0
   useEstimateCalories: 0
   useFunMeasure: 0
-  useMealComposition: 1
+  useMealComposition: 0
+  useSportDual: 1
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
   mealCompositionQuestionGenerator: {fileID: 1516825079}
+  sportCaloriesDualQuestionGenerator: {fileID: 481389361}
 --- !u!1 &1798261680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4647,3 +4822,4 @@ SceneRoots:
   - {fileID: 549119271}
   - {fileID: 771620113}
   - {fileID: 1198444763}
+  - {fileID: 1655888572}

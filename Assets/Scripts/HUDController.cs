@@ -89,7 +89,7 @@ public class HUDController : MonoBehaviour
         UpdateQuestionNumber(questionIndex);
 
         // 2. Titre de la question
-        SetQuestionTitle(data.Type, data.SousType, data.ValeursComparees[0]);
+        SetQuestionTitle(data.Type, data.SousType, data.ValeursComparees[0], data.Aliments[0]);
 
         // 3. Icône selon le sous-type
         SetNutrientIcon(data.SousType);
@@ -127,7 +127,7 @@ public class HUDController : MonoBehaviour
                 currentMoreInfoPanel = Instantiate(moreInfoMealPrefab, moreInfoPanelParent);
                 MoreInfoMealPanelUI mealPanel = currentMoreInfoPanel.GetComponent<MoreInfoMealPanelUI>();
 
-                mealPanel.Show(data.Aliments, data.PortionSelections, data.ValeursComparees[0], userAnswer);
+                mealPanel.Show(data.Aliments, data.PortionSelections, data.ValeursComparees[0], userAnswer, data.Solutions);
                 break;
 
             case QuestionType.CaloriesDual:
@@ -208,7 +208,7 @@ public class HUDController : MonoBehaviour
         if (nutrientIcon != null)
             nutrientIcon.sprite = icon;
     }
-    public void SetQuestionTitle(QuestionType type, QuestionSubType subType, float targetCalories = -1f)
+    public void SetQuestionTitle(QuestionType type, QuestionSubType subType, float targetCalories = -1f, FoodData food = null)
     {
         string title;
 
@@ -242,6 +242,11 @@ public class HUDController : MonoBehaviour
 
             case QuestionType.MealComposition:
                 title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !";
+
+                break;
+
+            case QuestionType.Sport:
+                title = $"Trouve l'équivalent";
 
                 break;
 

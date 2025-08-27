@@ -23,7 +23,7 @@ public class MoreInfoMealPanelUI : MoreInfoPanelBase
     private readonly List<GameObject> _spawned = new List<GameObject>();
 
 
-    public void Show(List<FoodData> foods, List<PortionSelection> portions, float targetCalories, float userTotalCalories)
+    public void Show(List<FoodData> foods, List<PortionSelection> portions, float targetCalories, float userTotalCalories, List<int> Solutions)
     {
         // Sécu
         if (foods == null || portions == null || foods.Count != portions.Count)
@@ -55,10 +55,11 @@ public class MoreInfoMealPanelUI : MoreInfoPanelBase
         {
             FoodData f = foods[i];
             PortionSelection sel = portions[i];
+            bool isSolution = Solutions.Contains(i); // true si cet index est une solution
 
             GameObject go = Instantiate(itemPrefab, itemsContainer);
             FoodItemUI foodItem = go.GetComponent<FoodItemUI>();
-            foodItem.Init(f, sel); // calcule et affiche "kcal pour la portion"
+            foodItem.Init(f, sel, isSolution);
 
 
             _spawned.Add(go);

@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         // ✅ Passe la méthode comme callback tri-paramètres
         questionFactory.CreateQuestion(currentQuestion, OnQuestionAnswered);
         hud.UpdateHUDForNewQuestion(currentQuestionIndex, currentQuestion);
-        
+
         if (currentQuestion.ValeursComparees.Count == 1)
         {
             Debug.Log($"[GameManager] Valeur : {CurrentQuestionDataAnswer[0]}");
@@ -112,6 +112,13 @@ public class GameManager : MonoBehaviour
 
             case QuestionType.EstimateCalories:
                 isCorrect = EstimateAnswerEvaluator.Evaluate(currentQuestion, userAnswer, out isPerfect);
+                break;
+
+            case QuestionType.MealComposition:
+                float target = currentQuestion.ValeursComparees[0];
+                float tolerance = currentQuestion.MealTargetTolerance;
+
+                isCorrect = Mathf.Abs(currentAnswer - target) <= tolerance;
                 break;
         }
 

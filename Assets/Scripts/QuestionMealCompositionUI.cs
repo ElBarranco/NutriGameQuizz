@@ -19,16 +19,17 @@ public class QuestionMealCompositionUI : MonoBehaviour
     {
         question = q;
         onAnswered = callback;
+        dropZone.Init(q.PortionSelections);
 
         // Instancie tous les aliments en bas
         for (int i = 0; i < q.Aliments.Count; i++)
         {
             FoodData f = q.Aliments[i];
             PortionSelection sel = q.PortionSelections[i];
-            
+
             FoodDraggableUI item = Instantiate(foodPrefab, bottomPanel, false);
             item.gameObject.name = $"DD_{f.Name}_{i}";
-            item.Init(f, sel); 
+            item.Init(f, sel, i);
 
             // 1) Pose l’item dans le dock, slot i (sans tween)
             if (bottomDock != null && i < bottomDock.SlotCount)

@@ -45,10 +45,6 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
         float per100A = GetValueBySubType(a, sousType);
         float per100B = GetValueBySubType(b, sousType);
 
-        // Application des portions
-        float valA = per100A * (portionA.Grams / 100f);
-        float valB = per100B * (portionB.Grams / 100f);
-
         // Unité d'affichage
         string unit = TextFormatter.GetUnitForSubType(sousType);
 
@@ -61,16 +57,16 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
         if (foodBPortion) foodBPortion.text = PortionTextFormatter.ToText(portionB);
 
         // Valeurs finales (PAR PORTION)
-        foodAValue.text = base.FormatValue(valA, unit);
-        foodBValue.text = base.FormatValue(valB, unit);
+        foodAValue.text = base.FormatValue(portionA.Value, unit);
+        foodBValue.text = base.FormatValue(portionB.Value, unit);
 
         // Valeurs POUR 100 g
         foodAValuePer100.text = $"{Mathf.RoundToInt(per100A)} {unit}";
         foodBValuePer100.text = $"{Mathf.RoundToInt(per100B)} {unit}";
 
         // Images
-        imageA.sprite = FoodSpriteLoader.LoadFoodSprite(a.Name);
-        imageB.sprite = FoodSpriteLoader.LoadFoodSprite(b.Name);
+        imageA.sprite = SpriteLoader.LoadFoodSprite(a.Name);
+        imageB.sprite = SpriteLoader.LoadFoodSprite(b.Name);
 
         // Visuels (highlights, icônes, fonds)
         UpdateAnswerVisuals(indexBonneReponse, userAnswerIndex);

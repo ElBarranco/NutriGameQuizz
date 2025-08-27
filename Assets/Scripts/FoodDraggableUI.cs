@@ -12,6 +12,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI gramsText;
     [SerializeField] private Button removeButton;
+    [SerializeField] private int currentIndex = 0;
 
     private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -58,15 +59,16 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             .SetEase(Ease.OutBack)
             .SetDelay(delay);
     }
-    public void Init(FoodData f, PortionSelection sel)
+    public void Init(FoodData f, PortionSelection sel, int index)
     {
         food = f;
         grams = 100f;
+        currentIndex = index;
 
         nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel);
 
         if (gramsText) gramsText.text = $"{Mathf.RoundToInt(grams)} g";
-        icon.sprite = FoodSpriteLoader.LoadFoodSprite(f.Name);
+        icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
     }
 
     // Fallback seulement si pas de dock d’origine
@@ -179,4 +181,6 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     // ---------- Getters ----------
     public FoodData GetFood() => food;
     public float GetGrams() => grams;
+
+    public int GetIndex() => currentIndex;
 }

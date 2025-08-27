@@ -2,5 +2,5 @@ public enum AlimentRarity
 {
     Commun,
     Rare,
-    TrèsRare
+    TresRare,
 }

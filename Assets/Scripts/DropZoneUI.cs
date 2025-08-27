@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using DG.Tweening;
+using TMPro;
 
 public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -21,11 +22,15 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     [SerializeField] private Color highlightColor = new Color(1, 1, 1, 0.15f);
     [SerializeField] private Color normalColor = new Color(1, 1, 1, 0f);
 
+    [SerializeField] private List<PortionSelection> PortionSelections;
+
+
 
     // mapping item -> index slot
     private readonly Dictionary<FoodDraggableUI, int> itemToSlot = new Dictionary<FoodDraggableUI, int>();
 
     [Header("Debug (readonly)")]
+    [SerializeField] private TextMeshProUGUI debugCaloriesText;      // affichage debug des calories
     [ReadOnly, SerializeField] private int lastAssignedSlot = -1;
     [ReadOnly, SerializeField] private int currentCalories;
 
@@ -51,8 +56,9 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
         if (highlightImage != null) highlightImage.color = normalColor;
     }
 
-    private void OnEnable()
+    public void Init(List<PortionSelection> currentPortionSelections)
     {
+        this.PortionSelections = currentPortionSelections;
         FoodDraggableUI.OnAnyBeginDrag += HandleBeginDrag;
         FoodDraggableUI.OnAnyEndDrag += HandleEndDrag;
     }
@@ -149,6 +155,7 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
             dragged.NotifyDropped();
 
             UpdateCalories();
+
         }
         // sinon : refus -> reset par FoodDraggableUI
     }
@@ -157,19 +164,20 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     {
         float total = 0f;
 
-        foreach (var item in itemToSlot.Keys)
+        foreach (var kvp in itemToSlot)
         {
+            var item = kvp.Key;
             if (item == null) continue;
 
             FoodData food = item.GetFood();
-            if (food == null) continue;
+            int index = item.GetIndex();
+            PortionSelection sel = PortionSelections[index];
 
-            float grams = item.GetGrams();           // quantité affichée sur la tuile
-                                                     // Calories est déjà un int (pour 100 g). On calcule en float puis on convertit en int.
-            total += food.Calories * (grams / 100f);
+            total += sel.Value;
         }
 
-        currentCalories = Mathf.RoundToInt(total);   // 👈 juste un int (pas d’arrondi par 25)
+        currentCalories = Mathf.RoundToInt(total);
+        debugCaloriesText.text = $"{currentCalories}";
     }
 
     public int GetCurrentCalories() => currentCalories;

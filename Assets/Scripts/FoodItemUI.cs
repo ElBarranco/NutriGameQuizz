@@ -4,49 +4,46 @@ using TMPro;
 
 public class FoodItemUI : MonoBehaviour
 {
+
+    [Header("UI Refs")]
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameText;      // ex. "3 Snickers", "Un bol de soupe", "200 g de fraises"
     [SerializeField] private TextMeshProUGUI kcal100gText;  // ex. "488 kcal / 100 g"
     [SerializeField] private TextMeshProUGUI portionText;   // ex. "244 kcal" (calories de la portion)
 
 
-
-    public void Init(FoodData f, PortionSelection sel)
+    [Header("Feedback visuel")]
+    [SerializeField] private GameObject solutionMarker;     // GO qui s’active si bonne réponse
+    [SerializeField] private Image solutionImage;           // Image dont on change la couleur
+    [SerializeField] private Color solutionColor = Color.green;
+    [SerializeField] private Color defaultColor = Color.white;
+    public void Init(FoodData f, PortionSelection sel, bool trueAnswer = false, QuestionSubType subType = QuestionSubType.Calorie)
     {
         // Nom + portion lisible (PAS les calories ici)
         nameText.text = PortionTextFormatter.ToDisplayWithFood(f, sel);
 
         // Image
-        icon.sprite = FoodSpriteLoader.LoadFoodSprite(f.Name);
+        icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
 
         // Rappel /100 g
-        float kcalPer100 = f.Calories;
-       //kcal100gText.text = $"{Mathf.RoundToInt(kcalPer100)} kcal / 100 g";
+        float per100 = PortionCalculator.GetPer100(f, subType);
+        //kcal100gText.text = $"{Mathf.RoundToInt(per100)} {unit} / 100 g";
 
-        // Calories de la portion (pas /100 g)
-        float gramsPortion = ResolveGramsFromPortion(f, sel);
-        float kcalPortion = kcalPer100 * (gramsPortion / 100f);
-        portionText.text = $"{Mathf.RoundToInt(kcalPortion)} kcal";
+        // Unité selon le sous-type (kcal / g)
+        string unit = TextFormatter.GetUnitForSubType(subType);
+
+        // Valeur PAR PORTION (pré-calculée dans sel.Value)
+        portionText.text = $"{Mathf.RoundToInt(sel.Value)} {unit}";
+        
+        // Feedback visuel
+        ApplySolutionVisuals(trueAnswer);
     }
-
-    private static float ResolveGramsFromPortion(FoodData f, PortionSelection sel)
+    private void ApplySolutionVisuals(bool isSolution)
     {
-        switch (sel.Type)
-        {
-            case FoodPortionType.Unitaire:
-                // Poids d'une pièce * nb d'unités (Demi/Un/Deux/…)
-                float pieceW = (f.Weight > 0f) ? f.Weight : 100f; // fallback 100 g si pas de poids
-                return PortionCalculator.ToGrams(sel.Unitaire.Value, pieceW);
 
-            case FoodPortionType.PetiteUnite:
-                return PortionCalculator.ToGrams(sel.PetiteUnite.Value);
+        //solutionMarker.SetActive(isSolution);
 
-            case FoodPortionType.Liquide:
-                return PortionCalculator.ToGrams(sel.Liquide.Value);
-
-            case FoodPortionType.ParPoids:
-            default:
-                return sel.Grams;
-        }
+        solutionImage.color = isSolution ? solutionColor : defaultColor;
     }
+
 }
