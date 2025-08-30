@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
         switch (currentQuestion.Type)
         {
             case QuestionType.CaloriesDual:
+            case QuestionType.Sport:
             case QuestionType.FunMeasure:
                 isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
                 break;

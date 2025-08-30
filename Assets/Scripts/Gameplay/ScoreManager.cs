@@ -13,19 +13,22 @@ public class ScoreManager : MonoBehaviour
     [ReadOnly, SerializeField] private int streakActuel;
     [ReadOnly, SerializeField] private int meilleurStreak;
 
-    [Header("Config scoring")]
-    [SerializeField] private int pointsParBonneReponse = 1;
+    [Header("Config Scoring")]
+    [SerializeField, Min(1)] private int pointsParBonneReponse = 10;
     [SerializeField] private bool utiliserMultiplicateur = true;
+    
     [ShowIf(nameof(utiliserMultiplicateur))]
-    [SerializeField, Min(1)] private int palierStreakPourMultiplicateur = 3; // +1x tous les 3 coups
+    [SerializeField, Min(1)] private int palierStreakPourMultiplicateur = 3;
+
     [ShowIf(nameof(utiliserMultiplicateur))]
-    [SerializeField, Min(1)] private int multiplicateurMax = 5;
+    [SerializeField, Min(1)] private int multiplicateurMax = 3;
 
-    // Events
-    public event Action<int> OnScoreChange;                               // score
-    public event Action<int,int> OnStreakChange;                          // streakActuel, meilleurStreak
-    public event Action<int> OnMultiplicateurChange;                      // multiplicateur effectif
+    // Événements
+    public event Action<int> OnScoreChange;
+    public event Action<int, int> OnStreakChange;
+    public event Action<int> OnMultiplicateurChange;
 
+    // Accesseurs publics
     public int BonnesReponses => bonnesReponses;
     public int MauvaisesReponses => mauvaisesReponses;
     public int Score => score;
@@ -36,9 +39,11 @@ public class ScoreManager : MonoBehaviour
     {
         get
         {
-            if (!utiliserMultiplicateur || palierStreakPourMultiplicateur <= 0) return 1;
-            int multi = 1 + (streakActuel / palierStreakPourMultiplicateur);
-            return Mathf.Clamp(multi, 1, multiplicateurMax);
+            if (!utiliserMultiplicateur || palierStreakPourMultiplicateur <= 0)
+                return 1;
+
+            int multiplicateur = 1 + (streakActuel / palierStreakPourMultiplicateur);
+            return Mathf.Clamp(multiplicateur, 1, multiplicateurMax);
         }
     }
 
@@ -48,8 +53,8 @@ public class ScoreManager : MonoBehaviour
         streakActuel++;
         if (streakActuel > meilleurStreak) meilleurStreak = streakActuel;
 
-        int gained = pointsParBonneReponse * MultiplicateurEffectif;
-        score += gained;
+        int gain = pointsParBonneReponse * MultiplicateurEffectif;
+        score += gain;
 
         OnStreakChange?.Invoke(streakActuel, meilleurStreak);
         OnMultiplicateurChange?.Invoke(MultiplicateurEffectif);
@@ -59,15 +64,16 @@ public class ScoreManager : MonoBehaviour
     public void EnregistrerMauvaiseReponse()
     {
         mauvaisesReponses++;
-        bool hadStreak = streakActuel > 0;
+        bool avaitStreak = streakActuel > 0;
         streakActuel = 0;
 
-        if (hadStreak)
+        if (avaitStreak)
         {
             OnStreakChange?.Invoke(streakActuel, meilleurStreak);
             OnMultiplicateurChange?.Invoke(MultiplicateurEffectif);
         }
-        OnScoreChange?.Invoke(score); // score inchangé, mais utile pour rafraîchir le HUD
+
+        OnScoreChange?.Invoke(score); // Permet de forcer le refresh du HUD
     }
 
     public void Reinitialiser()

@@ -6,7 +6,9 @@ using DG.Tweening;
 
 public class HUDController : MonoBehaviour
 {
+
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private QuestionTitleManager questionTitleManager;
     [SerializeField] private TextMeshProUGUI questionCounterText;
     [SerializeField] private RectTransform nextButtonContainer;
     [SerializeField] private TextMeshProUGUI questionTitleText;
@@ -27,6 +29,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject moreInfoEstimatePrefab;
     [SerializeField] private GameObject moreInfoFunMeasurePrefab;
     [SerializeField] private GameObject moreInfoMealPrefab;
+    [SerializeField] private GameObject moreInfoSportPrefab;
     [SerializeField] private Transform moreInfoPanelParent;
 
     private GameObject currentMoreInfoPanel;
@@ -89,7 +92,7 @@ public class HUDController : MonoBehaviour
         UpdateQuestionNumber(questionIndex);
 
         // 2. Titre de la question
-        SetQuestionTitle(data.Type, data.SousType, data.ValeursComparees[0], data.Aliments[0]);
+        questionTitleManager.SetQuestionTitle(data.Type, data.SousType, data.Aliments, data.PortionSelections, data.ValeursComparees[0]);
 
         // 3. Icône selon le sous-type
         SetNutrientIcon(data.SousType);
@@ -116,7 +119,20 @@ public class HUDController : MonoBehaviour
                 MoreInfoEstimatePanelUI estimatePanel = currentMoreInfoPanel.GetComponent<MoreInfoEstimatePanelUI>();
                 estimatePanel.Show(data.Aliments[0], userAnswer, data.SousType);
                 break;
-
+            case QuestionType.Sport:
+                {
+                    currentMoreInfoPanel = Instantiate(moreInfoSportPrefab, moreInfoPanelParent);
+                    MoreInfoSportPanelUI sportPanel = currentMoreInfoPanel.GetComponent<MoreInfoSportPanelUI>();
+                    sportPanel.Show(
+                        Mathf.RoundToInt(data.ValeursComparees[0]),
+                        data.Aliments[0],
+                        data.SportChoices[0],
+                        data.SportChoices[1],
+                        data.IndexBonneRéponse,
+                        userAnswer
+                    );
+                    break;
+                }
             case QuestionType.FunMeasure:
                 currentMoreInfoPanel = Instantiate(moreInfoFunMeasurePrefab, moreInfoPanelParent);
                 MoreInfoFunMeasurePanelUI funPanel = currentMoreInfoPanel.GetComponent<MoreInfoFunMeasurePanelUI>();
@@ -208,55 +224,7 @@ public class HUDController : MonoBehaviour
         if (nutrientIcon != null)
             nutrientIcon.sprite = icon;
     }
-    public void SetQuestionTitle(QuestionType type, QuestionSubType subType, float targetCalories = -1f, FoodData food = null)
-    {
-        string title;
 
-        switch (type)
-        {
-            case QuestionType.EstimateCalories:
-                switch (subType)
-                {
-                    case QuestionSubType.Proteine: title = "Estime la quantité de protéines !"; break;
-                    case QuestionSubType.Glucide: title = "Estime la quantité de glucides !"; break;
-                    case QuestionSubType.Lipide: title = "Estime la quantité de lipides !"; break;
-                    case QuestionSubType.Fibres: title = "Estime la quantité de fibres !"; break;
-                    default: title = "Devine les calories !"; break;
-                }
-                break;
-
-            case QuestionType.CaloriesDual:
-                switch (subType)
-                {
-                    case QuestionSubType.Proteine: title = "Quel aliment contient le plus de protéines ?"; break;
-                    case QuestionSubType.Glucide: title = "Quel aliment contient le plus de glucides ?"; break;
-                    case QuestionSubType.Lipide: title = "Quel aliment est le plus gras ?"; break;
-                    case QuestionSubType.Fibres: title = "Quel aliment contient le plus de fibres ?"; break;
-                    default: title = "Quel aliment est le plus calorique ?"; break;
-                }
-                break;
-
-            case QuestionType.FunMeasure:
-                title = "Tu vas être surpris...";
-                break;
-
-            case QuestionType.MealComposition:
-                title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !";
-
-                break;
-
-            case QuestionType.Sport:
-                title = $"Trouve l'équivalent";
-
-                break;
-
-            default:
-                title = "Question nutritionnelle";
-                break;
-        }
-
-        questionTitleText.text = title;
-    }
     public void ShowEndGameUI()
     {
         hudInGameUI.SetActive(false);

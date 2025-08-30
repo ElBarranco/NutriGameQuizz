@@ -26,7 +26,7 @@ public class SportCaloriesDualQuestionGenerator : QuestionGenerator
     public QuestionData Generate(List<FoodData> foodList, System.Func<FoodData, PortionSelection> resolvePortionSafe)
     {
         List<SportData> sports = sportDataParser.GetSports();
-        
+
         // --- 0) Choisir 1 aliment ---
         List<FoodData> picked = base.PickDistinctFoods(foodList, 1);
         FoodData food = picked[0];
@@ -37,7 +37,7 @@ public class SportCaloriesDualQuestionGenerator : QuestionGenerator
 
         // Valeur calorique de cette portion 
         float targetCaloriesF = portion.Value;
-        Debug.Log("[SportDual] -- -- - - - - - "+targetCaloriesF);
+        Debug.Log("[SportDual] -- -- - - - - - " + targetCaloriesF);
 
         int targetCalories = Mathf.Max(0, Mathf.RoundToInt(targetCaloriesF));
 
@@ -72,6 +72,13 @@ public class SportCaloriesDualQuestionGenerator : QuestionGenerator
         int diffB = Mathf.Abs(targetCalories - calB);
 
         int indexCorrect = diffA <= diffB ? 0 : 1;
+
+        // Mise à jour dans les données
+        sA.Duration = minutesA;
+        sA.Calories = calA;
+
+        sB.Duration = minutesB;
+        sB.Calories = calB;
 
         // --- 5) Construit le QuestionData dans le même esprit que MealComposition ---
         QuestionData qd = new QuestionData

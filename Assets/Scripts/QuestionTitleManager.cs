@@ -1,21 +1,30 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class QuestionTitleManager : MonoBehaviour
 {
     [Header("Références UI")]
     [SerializeField] private TextMeshProUGUI questionTitleText;
 
-    /// <summary>
-    /// Définit le titre de la question en fonction de son type/sous-type.
-    /// </summary>
+    [Header("Prefab pour Sport")]
+    [SerializeField] private FoodItemUI foodItemPrefab;
+    [SerializeField] private Transform foodItemParent;
+    private GameObject _currentFoodItem;
+
     public void SetQuestionTitle(
         QuestionType type,
         QuestionSubType subType,
-        float targetCalories = -1f,
-        FoodData food = null)
+        List<FoodData> foods,
+        List<PortionSelection> portions,
+        float targetCalories = -1f)
     {
         string title;
+        if (_currentFoodItem != null)
+        {
+            Destroy(_currentFoodItem);
+            _currentFoodItem = null;
+        }
 
         switch (type)
         {
@@ -23,10 +32,10 @@ public class QuestionTitleManager : MonoBehaviour
                 switch (subType)
                 {
                     case QuestionSubType.Proteine: title = "Estime la quantité de protéines !"; break;
-                    case QuestionSubType.Glucide:  title = "Estime la quantité de glucides !"; break;
-                    case QuestionSubType.Lipide:   title = "Estime la quantité de lipides !"; break;
-                    case QuestionSubType.Fibres:   title = "Estime la quantité de fibres !"; break;
-                    default:                       title = "Devine les calories !"; break;
+                    case QuestionSubType.Glucide: title = "Estime la quantité de glucides !"; break;
+                    case QuestionSubType.Lipide: title = "Estime la quantité de lipides !"; break;
+                    case QuestionSubType.Fibres: title = "Estime la quantité de fibres !"; break;
+                    default: title = "Devine les calories !"; break;
                 }
                 break;
 
@@ -34,10 +43,10 @@ public class QuestionTitleManager : MonoBehaviour
                 switch (subType)
                 {
                     case QuestionSubType.Proteine: title = "Quel aliment contient le plus de protéines ?"; break;
-                    case QuestionSubType.Glucide:  title = "Quel aliment contient le plus de glucides ?"; break;
-                    case QuestionSubType.Lipide:   title = "Quel aliment est le plus gras ?"; break;
-                    case QuestionSubType.Fibres:   title = "Quel aliment contient le plus de fibres ?"; break;
-                    default:                       title = "Quel aliment est le plus calorique ?"; break;
+                    case QuestionSubType.Glucide: title = "Quel aliment contient le plus de glucides ?"; break;
+                    case QuestionSubType.Lipide: title = "Quel aliment est le plus gras ?"; break;
+                    case QuestionSubType.Fibres: title = "Quel aliment contient le plus de fibres ?"; break;
+                    default: title = "Quel aliment est le plus calorique ?"; break;
                 }
                 break;
 
@@ -46,17 +55,27 @@ public class QuestionTitleManager : MonoBehaviour
                 break;
 
             case QuestionType.MealComposition:
-                if (targetCalories > 0)
-                    title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !";
-                else
-                    title = "Compose ton repas !";
+                title = targetCalories > 0
+                    ? $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !"
+                    : "Compose ton repas !";
                 break;
 
             case QuestionType.Sport:
-                if (food != null)
+                if (foods != null && foods.Count > 0)
+                {
+                    FoodData food = foods[0];
                     title = $"Combien de sport faut-il pour brûler {Mathf.RoundToInt(targetCalories)} kcal (≈ {food.Name}) ?";
+
+                    if (foodItemPrefab != null && foodItemParent != null && portions != null && portions.Count > 0)
+                    {
+                        FoodItemUI item = Instantiate(foodItemPrefab, foodItemParent);
+                        item.Init(food, portions[0], false, QuestionSubType.Calorie);
+                    }
+                }
                 else
+                {
                     title = "Trouve l'équivalent en sport !";
+                }
                 break;
 
             default:

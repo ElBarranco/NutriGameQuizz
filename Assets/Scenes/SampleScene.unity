@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 243210512}
   - component: {fileID: 243210513}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: QuestionTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,6 +303,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1052516936}
+  - {fileID: 1341600163}
   - {fileID: 1225595968}
   m_Father: {fileID: 1435699207}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -323,6 +324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b718b1edeb76046818e8f39473b9edf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questionTitleText: {fileID: 1225595969}
+  foodItemPrefab: {fileID: 1989313868064565267, guid: 75037970276e043b298102e04731caea, type: 3}
+  foodItemParent: {fileID: 1341600163}
 --- !u!1 &278028951
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1272413623}
+  questionTitleManager: {fileID: 243210513}
   questionCounterText: {fileID: 440119513}
   nextButtonContainer: {fileID: 629852180}
   questionTitleText: {fileID: 1225595969}
@@ -462,6 +467,7 @@ MonoBehaviour:
   moreInfoEstimatePrefab: {fileID: 3472369455136401110, guid: 8bf83f205bc204bb08e5259f36a0aac4, type: 3}
   moreInfoFunMeasurePrefab: {fileID: 3472369455136401110, guid: a843b11caaae64e649474189760a3267, type: 3}
   moreInfoMealPrefab: {fileID: 3472369455136401110, guid: 844408e47421a4343bc411a5a94a46d8, type: 3}
+  moreInfoSportPrefab: {fileID: 0}
   moreInfoPanelParent: {fileID: 1826148115}
   nutrientIcon: {fileID: 1052516937}
   caloriesIcon: {fileID: 8334651344603559088, guid: 677d3d42c6e2c433384f5091a20825de, type: 3}
@@ -2364,7 +2370,7 @@ MonoBehaviour:
   score: 0
   streakActuel: 0
   meilleurStreak: 0
-  pointsParBonneReponse: 1
+  pointsParBonneReponse: 10
   utiliserMultiplicateur: 1
   palierStreakPourMultiplicateur: 3
   multiplicateurMax: 5
@@ -3142,6 +3148,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e6f77be50d74197b67eca0eb7d2293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1341600162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1341600163}
+  - component: {fileID: 1341600164}
+  m_Layer: 5
+  m_Name: icon Question (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1341600163
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341600162}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 243210512}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -391, y: -114.18}
+  m_SizeDelta: {x: 232.0005, y: 264.8007}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1341600164
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341600162}
+  m_CullTransparentMesh: 1
 --- !u!1 &1435699206
 GameObject:
   m_ObjectHideFlags: 0
@@ -3350,11 +3400,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 727.0671
+      value: 734.1895
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 353.463
+      value: 563.5746
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3386,11 +3436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -5.6838
+      value: 20.003
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 140
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
