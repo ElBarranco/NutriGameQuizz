@@ -467,7 +467,8 @@ MonoBehaviour:
   moreInfoEstimatePrefab: {fileID: 3472369455136401110, guid: 8bf83f205bc204bb08e5259f36a0aac4, type: 3}
   moreInfoFunMeasurePrefab: {fileID: 3472369455136401110, guid: a843b11caaae64e649474189760a3267, type: 3}
   moreInfoMealPrefab: {fileID: 3472369455136401110, guid: 844408e47421a4343bc411a5a94a46d8, type: 3}
-  moreInfoSportPrefab: {fileID: 0}
+  moreInfoSportPrefab: {fileID: 3472369455136401110, guid: 6f52a7a6be6cc4a939e8df5569bbb28c, type: 3}
+  moreInfoTriPrefab: {fileID: 3472369455136401110, guid: 45cf340c2183c48199961f0bbdb4927d, type: 3}
   moreInfoPanelParent: {fileID: 1826148115}
   nutrientIcon: {fileID: 1052516937}
   caloriesIcon: {fileID: 8334651344603559088, guid: 677d3d42c6e2c433384f5091a20825de, type: 3}
@@ -1990,6 +1991,7 @@ MonoBehaviour:
   SpecialMeasureGo: {fileID: 3472369455136401110, guid: b374978f33a734927a547dc14cde7d98, type: 3}
   mealCompositionGo: {fileID: 3472369455136401110, guid: d26e699219aab45e8abf20e4b9b02ce8, type: 3}
   SportDualGo: {fileID: 3472369455136401110, guid: e6839d13c789340db9cf6532edfb239a, type: 3}
+  sortGo: {fileID: 3472369455136401110, guid: e373663afd68e4d57b4047448ca0277d, type: 3}
   questionParent: {fileID: 1826148115}
 --- !u!1 &804851719
 GameObject:
@@ -4178,6 +4180,7 @@ Transform:
   - {fileID: 2134919855}
   - {fileID: 1516825078}
   - {fileID: 481389360}
+  - {fileID: 1991710772}
   m_Father: {fileID: 549119271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
@@ -4199,6 +4202,7 @@ MonoBehaviour:
   dropRateFunMeasure: 0.2
   dropRateMealComposition: 0.2
   dropRateSportDual: 1
+  dropRateSort: 0.5
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
@@ -4206,12 +4210,14 @@ MonoBehaviour:
   useEstimateCalories: 0
   useFunMeasure: 0
   useMealComposition: 0
-  useSportDual: 1
+  useSportDual: 0
+  useSort: 1
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
   mealCompositionQuestionGenerator: {fileID: 1516825079}
   sportCaloriesDualQuestionGenerator: {fileID: 481389361}
+  sortFoodQuestionGenerator: {fileID: 1991710773}
 --- !u!1 &1798261680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4566,6 +4572,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957613538}
   m_CullTransparentMesh: 1
+--- !u!1 &1991710771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1991710772}
+  - component: {fileID: 1991710773}
+  m_Layer: 0
+  m_Name: Tri
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1991710772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991710771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1991710773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991710771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8bb6c6d41e74b61b966490a285fc34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minCount: 3
+  maxCount: 4
+  minDeltaBetweenAdjacent: 20
+  maxAttempts: 80
 --- !u!1 &2024957583
 GameObject:
   m_ObjectHideFlags: 0

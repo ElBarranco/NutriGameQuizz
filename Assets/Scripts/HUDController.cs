@@ -30,6 +30,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject moreInfoFunMeasurePrefab;
     [SerializeField] private GameObject moreInfoMealPrefab;
     [SerializeField] private GameObject moreInfoSportPrefab;
+    [SerializeField] private GameObject moreInfoTriPrefab;
     [SerializeField] private Transform moreInfoPanelParent;
 
     private GameObject currentMoreInfoPanel;
@@ -119,20 +120,20 @@ public class HUDController : MonoBehaviour
                 MoreInfoEstimatePanelUI estimatePanel = currentMoreInfoPanel.GetComponent<MoreInfoEstimatePanelUI>();
                 estimatePanel.Show(data.Aliments[0], userAnswer, data.SousType);
                 break;
+
             case QuestionType.Sport:
-                {
-                    currentMoreInfoPanel = Instantiate(moreInfoSportPrefab, moreInfoPanelParent);
-                    MoreInfoSportPanelUI sportPanel = currentMoreInfoPanel.GetComponent<MoreInfoSportPanelUI>();
-                    sportPanel.Show(
-                        Mathf.RoundToInt(data.ValeursComparees[0]),
-                        data.Aliments[0],
-                        data.SportChoices[0],
-                        data.SportChoices[1],
-                        data.IndexBonneRéponse,
-                        userAnswer
-                    );
-                    break;
-                }
+                currentMoreInfoPanel = Instantiate(moreInfoSportPrefab, moreInfoPanelParent);
+                MoreInfoSportPanelUI sportPanel = currentMoreInfoPanel.GetComponent<MoreInfoSportPanelUI>();
+                sportPanel.Show(
+                    Mathf.RoundToInt(data.ValeursComparees[0]),
+                    data.Aliments[0],
+                    data.SportChoices[0],
+                    data.SportChoices[1],
+                    data.IndexBonneRéponse,
+                    userAnswer
+                );
+                break;
+
             case QuestionType.FunMeasure:
                 currentMoreInfoPanel = Instantiate(moreInfoFunMeasurePrefab, moreInfoPanelParent);
                 MoreInfoFunMeasurePanelUI funPanel = currentMoreInfoPanel.GetComponent<MoreInfoFunMeasurePanelUI>();
@@ -142,8 +143,13 @@ public class HUDController : MonoBehaviour
             case QuestionType.MealComposition:
                 currentMoreInfoPanel = Instantiate(moreInfoMealPrefab, moreInfoPanelParent);
                 MoreInfoMealPanelUI mealPanel = currentMoreInfoPanel.GetComponent<MoreInfoMealPanelUI>();
-
                 mealPanel.Show(data.Aliments, data.PortionSelections, data.ValeursComparees[0], userAnswer, data.Solutions);
+                break;
+
+            case QuestionType.Tri:
+                currentMoreInfoPanel = Instantiate(moreInfoTriPrefab, moreInfoPanelParent);
+                MoreInfoSortPanelUI triPanel = currentMoreInfoPanel.GetComponent<MoreInfoSortPanelUI>();
+                triPanel.Show(data, userAnswer); 
                 break;
 
             case QuestionType.CaloriesDual:

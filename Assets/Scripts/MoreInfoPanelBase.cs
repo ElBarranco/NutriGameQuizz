@@ -18,6 +18,18 @@ public abstract class MoreInfoPanelBase : MonoBehaviour
 });
     }
 
+    public void IntroAnim()
+    {
+        panel.SetActive(true);
+        canvasGroup.alpha = 0f;
+        panel.transform.localScale = Vector3.zero;
+
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(canvasGroup.DOFade(1f, 0.3f));
+        sequence.Join(panel.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack));
+    }
+
+
     protected string FormatValue(float value, string unit)
     {
         return $"{Mathf.RoundToInt(value)} {unit}";

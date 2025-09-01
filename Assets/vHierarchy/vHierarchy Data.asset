@@ -16,6 +16,7 @@ MonoBehaviour:
     keys:
     - 8c9cfa26abfee488c85f1582747f6a02
     - 5b50c0f6cc8c547caa9c9086e89ec0d0
+    - e373663afd68e4d57b4047448ca0277d
     values:
     - goDatas_byGlobalId:
         keys:
@@ -101,6 +102,14 @@ MonoBehaviour:
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-1-e373663afd68e4d57b4047448ca0277d-5216704968766496364-0
+        values:
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

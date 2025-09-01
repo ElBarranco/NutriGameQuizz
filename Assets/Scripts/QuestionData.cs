@@ -11,6 +11,7 @@ public class QuestionData
     public List<PortionSelection> PortionSelections;
     public List<float> ValeursComparees; // selon le sous-type
     public int IndexBonneRéponse;
+    public string SortSolution; // pour les questions de type Sort
 
     public List<int> Solutions;
     public List<SpecialMeasureData> SpecialMeasures; // pour les questions de type FunMeasure

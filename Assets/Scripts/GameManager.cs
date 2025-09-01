@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
             case QuestionType.CaloriesDual:
             case QuestionType.Sport:
             case QuestionType.FunMeasure:
+            case QuestionType.Tri:
                 isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
                 break;
 
@@ -123,7 +124,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log($"[GameManager] Answer - Type:{currentQuestion.Type} | Correct:{isCorrect} | User:{userAnswer}");
+        Debug.Log($"[GameManager] Answer - Type:{currentQuestion.Type} | Correct:{isCorrect} | User:{userAnswer} | Reponse vrai :{currentQuestion.IndexBonneRéponse}");
 
 
 

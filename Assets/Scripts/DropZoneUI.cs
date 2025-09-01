@@ -24,8 +24,6 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
 
     [SerializeField] private List<PortionSelection> PortionSelections;
 
-
-
     // mapping item -> index slot
     private readonly Dictionary<FoodDraggableUI, int> itemToSlot = new Dictionary<FoodDraggableUI, int>();
 
@@ -34,31 +32,34 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     [ReadOnly, SerializeField] private int lastAssignedSlot = -1;
     [ReadOnly, SerializeField] private int currentCalories;
 
+    // ➕ Debug ordre pour la question de tri (indices initiaux par slot, -1 si vide)
+    [Header("Debug Tri (readonly)")]
+    [ReadOnly, SerializeField] private List<int> currentOrder = new List<int>();
+    [SerializeField] private TextMeshProUGUI debugOrderText; // assigné dans l’inspecteur
+
     private bool isPointerOver;
     private bool isDragging;
 
     private void Awake()
     {
-        if (zoneCanvas == null) zoneCanvas = GetComponentInParent<Canvas>()?.rootCanvas;
-
-        // surface raycastable minimale
-        if (zoneRect != null)
-        {
-            Image img = zoneRect.GetComponent<Image>();
-            if (img == null)
-            {
-                img = zoneRect.gameObject.AddComponent<Image>();
-                img.color = new Color(1, 1, 1, 0);
-            }
-            img.raycastTarget = true;
-        }
 
         if (highlightImage != null) highlightImage.color = normalColor;
+
+        // init debug ordre à la taille des slots si déjà set dans le prefab
+        ResizeCurrentOrderToSlots();
     }
 
     public void Init(List<PortionSelection> currentPortionSelections)
     {
         this.PortionSelections = currentPortionSelections;
+
+        // Pour le tri : la capacité = nombre de slots
+        if (slots != null && slots.Count > 0)
+            maxItems = slots.Count;
+
+        ResizeCurrentOrderToSlots();
+        RebuildCurrentOrderFromMap();
+
         FoodDraggableUI.OnAnyBeginDrag += HandleBeginDrag;
         FoodDraggableUI.OnAnyEndDrag += HandleEndDrag;
     }
@@ -105,10 +106,10 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     {
         if (zoneRect == null) return;
 
-        var dragged = eventData.pointerDrag ? eventData.pointerDrag.GetComponent<FoodDraggableUI>() : null;
+        FoodDraggableUI dragged = eventData.pointerDrag ? eventData.pointerDrag.GetComponent<FoodDraggableUI>() : null;
         if (dragged == null) return;
 
-        var draggedRT = dragged.transform as RectTransform;
+        RectTransform draggedRT = dragged.transform as RectTransform;
         if (draggedRT == null) return;
 
         // autoriser le rearrangement même si plein
@@ -155,7 +156,7 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
             dragged.NotifyDropped();
 
             UpdateCalories();
-
+            RebuildCurrentOrderFromMap(); // ➕ met à jour l’ordre de tri
         }
         // sinon : refus -> reset par FoodDraggableUI
     }
@@ -164,20 +165,22 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     {
         float total = 0f;
 
-        foreach (var kvp in itemToSlot)
+        foreach (KeyValuePair<FoodDraggableUI, int> kvp in itemToSlot)
         {
-            var item = kvp.Key;
+            FoodDraggableUI item = kvp.Key;
             if (item == null) continue;
 
-            FoodData food = item.GetFood();
             int index = item.GetIndex();
-            PortionSelection sel = PortionSelections[index];
+            PortionSelection sel = PortionSelections != null && index >= 0 && index < PortionSelections.Count
+                ? PortionSelections[index]
+                : default;
 
             total += sel.Value;
         }
 
         currentCalories = Mathf.RoundToInt(total);
-        debugCaloriesText.text = $"{currentCalories}";
+        if (debugCaloriesText != null)
+            debugCaloriesText.text = $"{currentCalories}";
     }
 
     public int GetCurrentCalories() => currentCalories;
@@ -193,6 +196,7 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
         item.ResetToOriginal(true);
         lastAssignedSlot = -1;
         UpdateCalories();
+        RebuildCurrentOrderFromMap(); // ➕ MAJ ordre
     }
 
     private int FindNearestFreeSlot(Vector2 localPos)
@@ -212,5 +216,58 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
             if (d2 < bestD2) { bestD2 = d2; best = i; }
         }
         return best;
+    }
+
+    // ========= ➕ Ajouts pour la question de tri =========
+
+    /// <summary>
+    /// Renvoie l’ordre courant par slot : taille = slots.Count.
+    /// Chaque entrée vaut l’index initial (FoodDraggableUI.GetIndex()) ou -1 si slot vide.
+    /// </summary>
+    public List<int> GetCurrentOrderIndices()
+    {
+        return new List<int>(currentOrder); // copie défensive
+    }
+
+    private void RebuildCurrentOrderFromMap()
+    {
+        ResizeCurrentOrderToSlots();
+
+        // reset à -1
+        for (int i = 0; i < currentOrder.Count; i++) currentOrder[i] = -1;
+
+        foreach (KeyValuePair<FoodDraggableUI, int> kvp in itemToSlot)
+        {
+            FoodDraggableUI item = kvp.Key;
+            int slotIdx = kvp.Value;
+            if (item == null) continue;
+            if (slotIdx < 0 || slotIdx >= currentOrder.Count) continue;
+
+            currentOrder[slotIdx] = item.GetIndex();
+        }
+
+        // === Debug affichage textuel (ex: "2-5-3-1") ===
+        if (debugOrderText != null)
+        {
+            string orderStr = string.Join("-", currentOrder);
+            debugOrderText.text = orderStr;
+        }
+    }
+
+    private void ResizeCurrentOrderToSlots()
+    {
+        int n = (slots != null) ? slots.Count : 0;
+        if (n <= 0) { currentOrder.Clear(); return; }
+
+        if (currentOrder == null)
+        {
+            currentOrder = new List<int>(n);
+        }
+
+        if (currentOrder.Count != n)
+        {
+            currentOrder.Clear();
+            for (int i = 0; i < n; i++) currentOrder.Add(-1);
+        }
     }
 }

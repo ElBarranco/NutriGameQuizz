@@ -14,6 +14,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private float dropRateFunMeasure = 0.1f;
     [SerializeField] private float dropRateMealComposition = 0.2f;
     [SerializeField] private float dropRateSportDual = 1f;
+    [SerializeField] private float dropRateSort = 0.5f;
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
@@ -26,6 +27,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private bool useFunMeasure = true;
     [SerializeField] private bool useMealComposition = true;
     [SerializeField] private bool useSportDual = true;
+    [SerializeField] private bool useSort = true;
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
@@ -37,6 +39,8 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private MealCompositionQuestionGenerator mealCompositionQuestionGenerator;
 
     [SerializeField] private SportCaloriesDualQuestionGenerator sportCaloriesDualQuestionGenerator;
+
+    [SerializeField] private SortFoodQuestionGenerator sortFoodQuestionGenerator;
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -81,6 +85,18 @@ public class LevelGenerator : QuestionGenerator
                         )
                     );
                     break;
+
+                case QuestionType.Tri:
+                    {
+                        level.Questions.Add(
+                            sortFoodQuestionGenerator.Generate(
+                                foodList,
+                                food => base.ResolvePortionSafe(food, QuestionSubType.Calorie), // calcule la valeur
+                                -1 // 3 ou 4 items aléatoire
+                            )
+                        );
+                        break;
+                    }
 
                 case QuestionType.CaloriesDual:
                 default:
@@ -174,7 +190,8 @@ public class LevelGenerator : QuestionGenerator
         if (useEstimateCalories) total += dropRateEstimate;
         if (useFunMeasure) total += dropRateFunMeasure;
         if (useMealComposition) total += dropRateMealComposition;
-        if (useSportDual) total += dropRateSportDual;          
+        if (useSportDual) total += dropRateSportDual;
+        if (useSort) total += dropRateSort;
 
         // Sécurité : si tout est off ou total == 0, on fallback
         if (total <= 0f)
@@ -187,7 +204,8 @@ public class LevelGenerator : QuestionGenerator
         if (useEstimateCalories && rand < (acc += dropRateEstimate)) return QuestionType.EstimateCalories;
         if (useFunMeasure && rand < (acc += dropRateFunMeasure)) return QuestionType.FunMeasure;
         if (useMealComposition && rand < (acc += dropRateMealComposition)) return QuestionType.MealComposition;
-        if (useSportDual && rand < (acc += dropRateSportDual)) return QuestionType.Sport; 
+        if (useSportDual && rand < (acc += dropRateSportDual)) return QuestionType.Sport;
+        if (useSort && rand < (acc += dropRateSort)) return QuestionType.Tri;
 
         // Fallback (ne devrait pas arriver, mais safe)
         return QuestionType.CaloriesDual;
