@@ -51,7 +51,7 @@ public class QuestionTitleManager : MonoBehaviour
                 break;
 
             case QuestionType.FunMeasure:
-                title = "Tu vas être surpris...";
+                title = "Quelle proposition est la plus calorique ?"; break;
                 break;
 
             case QuestionType.MealComposition:

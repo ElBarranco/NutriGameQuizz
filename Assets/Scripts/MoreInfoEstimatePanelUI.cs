@@ -10,6 +10,7 @@ public class MoreInfoEstimatePanelUI : MoreInfoPanelBase
     [SerializeField] private TextMeshProUGUI playerGuessText;
 
     [SerializeField] private Image fillSprite;
+    [SerializeField] private Image foodImage;
 
     // --- Réfs tween pour cleanup ---
     private Sequence showSeq;          // séquence d’apparition + anims
@@ -25,6 +26,8 @@ public class MoreInfoEstimatePanelUI : MoreInfoPanelBase
         string unit = TextFormatter.UnitForQuestion(sousType);
         float realValue = 0f;
         float guessValue = playerGuess;
+
+        foodImage.sprite = SpriteLoader.LoadFoodSprite(food.Name);
 
         switch (sousType)
         {

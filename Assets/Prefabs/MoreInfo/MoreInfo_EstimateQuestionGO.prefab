@@ -359,6 +359,7 @@ MonoBehaviour:
   realValueText: {fileID: 5467807830218107874}
   playerGuessText: {fileID: 7981219048673075001}
   fillSprite: {fileID: 2696574984184451367}
+  foodImage: {fileID: 7331105659648293300}
 --- !u!1 &3612882831243939011
 GameObject:
   m_ObjectHideFlags: 0

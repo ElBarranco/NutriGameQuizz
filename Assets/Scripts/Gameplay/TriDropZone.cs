@@ -38,13 +38,13 @@ public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
         RebuildCurrentOrderFromMap();
 
         FoodDraggableUI.OnAnyBeginDrag += HandleBeginDrag;
-        FoodDraggableUI.OnAnyEndDrag   += HandleEndDrag;
+        FoodDraggableUI.OnAnyEndDrag += HandleEndDrag;
     }
 
     private void OnDisable()
     {
         FoodDraggableUI.OnAnyBeginDrag -= HandleBeginDrag;
-        FoodDraggableUI.OnAnyEndDrag   -= HandleEndDrag;
+        FoodDraggableUI.OnAnyEndDrag -= HandleEndDrag;
     }
 
     private void ApplyActiveSlots(int count)
@@ -67,10 +67,10 @@ public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
     }
 
     // ---------- Highlight ----------
-    private void HandleBeginDrag(FoodDraggableUI _) { isDragging = true;  UpdateHighlight(); }
-    private void HandleEndDrag  (FoodDraggableUI _) { isDragging = false; UpdateHighlight(); }
-    public  void OnPointerEnter (PointerEventData _) { isPointerOver = true;  UpdateHighlight(); }
-    public  void OnPointerExit  (PointerEventData _) { isPointerOver = false; UpdateHighlight(); }
+    private void HandleBeginDrag(FoodDraggableUI _) { isDragging = true; UpdateHighlight(); }
+    private void HandleEndDrag(FoodDraggableUI _) { isDragging = false; UpdateHighlight(); }
+    public void OnPointerEnter(PointerEventData _) { isPointerOver = true; UpdateHighlight(); }
+    public void OnPointerExit(PointerEventData _) { isPointerOver = false; UpdateHighlight(); }
 
     private void UpdateHighlight()
     {
@@ -86,24 +86,51 @@ public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
     public void PlaceItemInSlot(FoodDraggableUI dragged, int slotIndex)
     {
         RectTransform draggedRT = dragged.transform as RectTransform;
-        RectTransform slotRT    = slots[slotIndex];
+        RectTransform slotRT = slots[slotIndex];
 
-        if (itemToSlot.ContainsKey(dragged))
-            itemToSlot.Remove(dragged);
+        // Si le dragged était déjà dans un slot, on retient son index
+        int? previousSlotIndex = itemToSlot.ContainsKey(dragged) ? itemToSlot[dragged] : (int?)null;
 
         FoodDraggableUI occupant = GetOccupantAtSlot(slotIndex);
-        if (occupant)
+
+        if (occupant != null && occupant != dragged)
         {
-            itemToSlot.Remove(occupant);
-            occupant.ResetToOriginal(true);
+            // SLOT OCCUPÉ → ON SWAP
+            int occupantIndex = itemToSlot[occupant];
+
+            // Swap les références dans la map
+            itemToSlot[occupant] = previousSlotIndex ?? -1;
+            itemToSlot[dragged] = occupantIndex;
+
+            // Animate l'occupant vers l'ancien slot du dragged
+            RectTransform oldSlotRT = previousSlotIndex.HasValue ? slots[previousSlotIndex.Value] : null;
+            if (oldSlotRT != null)
+            {
+                occupant.transform.SetParent(oldSlotRT, worldPositionStays: true);
+                occupant.transform.DOKill(false);
+                Vector3 oldTarget = oldSlotRT.TransformPoint(oldSlotRT.rect.center);
+                occupant.transform.DOMove(oldTarget, 0.25f)
+                    .SetEase(Ease.OutBack)
+                    .OnComplete(() => ((RectTransform)occupant.transform).anchoredPosition = Vector2.zero);
+            }
+            else
+            {
+                occupant.ResetToOriginal(true); // fallback si dragged n'était pas dans un slot
+            }
+        }
+        else
+        {
+            // Slot vide → remove ancien slot du dragged
+            if (itemToSlot.ContainsKey(dragged))
+                itemToSlot.Remove(dragged);
         }
 
+        // Positionne le dragged dans le nouveau slot
         draggedRT.DOKill(false);
         Vector3 targetWorld = slotRT.TransformPoint(slotRT.rect.center);
-
         draggedRT.SetParent(slotRT, worldPositionStays: true);
         draggedRT.localRotation = Quaternion.identity;
-        draggedRT.localScale    = Vector3.one;
+        draggedRT.localScale = Vector3.one;
 
         draggedRT.DOMove(targetWorld, 0.25f)
                  .SetEase(Ease.OutBack)

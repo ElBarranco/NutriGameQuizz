@@ -1,27 +1,34 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class SlotTriDrop : MonoBehaviour, IDropHandler
+public class SlotTriDrop : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private int index;
     private TriDropZone owner;
+
+    [Header("Feedback Visuel")]
+    [SerializeField] private GameObject hoverFeedbackGO;
 
     public void Setup(TriDropZone dropZone, int slotIndex)
     {
         owner = dropZone;
         index = slotIndex;
-
-
+        hoverFeedbackGO.SetActive(false);
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (owner == null || eventData.pointerDrag == null) return;
-
-        FoodDraggableUI item = eventData.pointerDrag.GetComponent<FoodDraggableUI>();
-        if (!item) return;
-
+        var item = eventData.pointerDrag.GetComponent<FoodDraggableUI>();
         owner.PlaceItemInSlot(item, index);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hoverFeedbackGO.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hoverFeedbackGO.SetActive(false);
     }
 }

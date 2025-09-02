@@ -24,41 +24,39 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     [SerializeField] private Image bgB;
 
     [Header("Dial (facultatif)")]
-    [SerializeField] private RectTransform dial;           // sprite au milieu qui se déplace
-    [SerializeField] private float dialTravel = 220f;      // amplitude +-X
-    [SerializeField] private float dialTween = 0.12f;      // lissage du dial
+    [SerializeField] private RectTransform dial; // sprite au milieu qui se déplace
 
-    [Header("Dimensions")]
-    [SerializeField] private float widthDeselected = 425f;
-    [SerializeField] private float widthSelected = 600f;
-    [SerializeField] private float widthNeutral = 512f;
+    // ====== PARAMÈTRES FIGÉS (non sérialisés, non modifiables par d'autres scripts) ======
+    private const float DIAL_TRAVEL     = 220f;   // amplitude +-X
+    private const float DIAL_TWEEN      = 0.12f;  // lissage du dial
 
-    [Header("Tweens")]
-    [SerializeField] private float widthTween = 0.12f;
-    [SerializeField] private float colorTween = 0.12f;
-    [SerializeField] private float scaleTween = 0.10f;
+    // Dimensions
+    private const float WIDTH_DESEL     = 425f;
+    private const float WIDTH_SEL       = 600f;
+    private const float WIDTH_NEUTRAL   = 512f;
 
-    [Header("Couleurs")]
-    [SerializeField] private Color colorSelected = Color.white;
-    [SerializeField] private Color colorDeselected = new Color(1f, 1f, 1f, 0.6f);
+    // Tweens
+    private const float WIDTH_TWEEN     = 0.12f;
+    private const float COLOR_TWEEN     = 0.12f;
+    private const float SCALE_TWEEN     = 0.10f;
 
-    [Header("Couleurs ON/OFF")]
-    [Tooltip("Autour de 0, on reste neutre pour éviter le flicker.")]
-    [Range(0f, 0.2f)] [SerializeField] private float colorDeadZone = 0.04f;
+    // Couleurs
+    private static readonly Color COLOR_SELECTED   = Color.white;
+    private static readonly Color COLOR_DESELECTED = new Color(1f, 1f, 1f, 0.6f);
 
-    [Header("Réponse Continue (mapping X → f)")]
-    [Tooltip("Zone morte autour du centre (0..1). 0.08 = 8% de demi-largeur d’écran ignorée.")]
-    [Range(0f, 0.5f)] [SerializeField] private float deadZone = 0.08f;
-    [Tooltip("Amplification globale de la réponse (0.0..2.0). 1 = linéaire après deadZone.")]
-    [Range(0f, 2f)] [SerializeField] private float responseGain = 1.0f;
-    [Tooltip("Courbure de la réponse (>1 = plus doux au début, <1 = plus réactif).")]
-    [Range(0.25f, 3f)] [SerializeField] private float responseExponent = 1.35f;
-    [Tooltip("Décale le point neutre (ex: 0.05 = pousse légèrement à droite).")]
-    [Range(-0.25f, 0.25f)] [SerializeField] private float responseOffset = 0f;
-    [Tooltip("Échelle max/min appliquée en bout de course.")]
-    [SerializeField] private float maxScale = 1.12f;
-    [SerializeField] private float minScale = 0.88f;
+    // Couleurs ON/OFF
+    private const float COLOR_DEAD_ZONE = 0.04f; // [0..0.2]
 
+    // Réponse Continue (mapping X → f)
+    private const float DEAD_ZONE       = 0.08f;  // [0..0.5]
+    private const float RESPONSE_GAIN   = 1.0f;   // [0..2]
+    private const float RESPONSE_EXP    = 1.35f;  // [0.25..3]
+    private const float RESPONSE_OFFSET = 0f;     // [-0.25..0.25]
+    private const float MAX_SCALE       = 1.12f;
+    private const float MIN_SCALE       = 0.88f;
+    // ======================================================================================
+
+    // Données & état accessibles aux classes enfants (comme dans ton script original)
     protected FoodData foodA;
     protected FoodData foodB;
 
@@ -190,17 +188,17 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
 
         cardSequence.Join(foodAContainer.DOScale(1f, 0.2f).SetEase(Ease.OutBack));
         cardSequence.Join(foodBContainer.DOScale(1f, 0.2f).SetEase(Ease.OutBack));
-        TweenWidth(foodAContainer, widthNeutral, 0.2f);
-        TweenWidth(foodBContainer, widthNeutral, 0.2f);
+        TweenWidth(foodAContainer, WIDTH_NEUTRAL, 0.2f);
+        TweenWidth(foodBContainer, WIDTH_NEUTRAL, 0.2f);
 
-        if (bgA) bgA.DOColor(colorDeselected, 0.2f);
-        if (bgB) bgB.DOColor(colorDeselected, 0.2f);
+        if (bgA) bgA.DOColor(COLOR_DESELECTED, 0.2f);
+        if (bgB) bgB.DOColor(COLOR_DESELECTED, 0.2f);
 
         // Dial revient au centre
         if (dial)
         {
             dial.DOKill();
-            dial.DOAnchorPosY(0f, dialTween).SetEase(Ease.OutQuad);
+            dial.DOAnchorPosY(0f, DIAL_TWEEN).SetEase(Ease.OutQuad);
         }
     }
 
@@ -219,24 +217,23 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     }
 
     // ---------- Présélection : calcul uniquement basé sur X ----------
-
     private void UpdatePreselectByX()
     {
         // X normalisé → [-1..1]
         float nx = Mathf.Clamp(cardTransform.anchoredPosition.x / (screenWidth * 0.5f), -1f, 1f);
 
         // Offset éventuel
-        nx = Mathf.Clamp(nx + responseOffset, -1f, 1f);
+        nx = Mathf.Clamp(nx + RESPONSE_OFFSET, -1f, 1f);
 
         // Dead-zone + courbe
         float sign = Mathf.Sign(nx);
         float ax = Mathf.Abs(nx);
         float t = 0f;
-        if (ax > deadZone)
+        if (ax > DEAD_ZONE)
         {
-            t = Mathf.InverseLerp(deadZone, 0.75f, ax);
-            t = Mathf.Pow(t, responseExponent);
-            t = Mathf.Clamp01(t * responseGain);
+            t = Mathf.InverseLerp(DEAD_ZONE, 0.75f, ax);
+            t = Mathf.Pow(t, RESPONSE_EXP);
+            t = Mathf.Clamp01(t * RESPONSE_GAIN);
         }
 
         float f = sign * t; // [-1..1] : -1 = A (gauche), +1 = B (droite)
@@ -260,52 +257,51 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
         dial?.DOKill();
 
         // Échelles (symétriques)
-        float scaleBig   = Mathf.Lerp(1f, maxScale, t);
-        float scaleSmall = Mathf.Lerp(1f, minScale, t);
+        float scaleBig   = Mathf.Lerp(1f, MAX_SCALE, t);
+        float scaleSmall = Mathf.Lerp(1f, MIN_SCALE, t);
         float targetScaleA = towardsB ? scaleSmall : scaleBig;
         float targetScaleB = towardsB ? scaleBig   : scaleSmall;
 
-        foodAContainer.DOScale(targetScaleA, instant ? 0f : scaleTween).SetEase(Ease.OutQuad);
-        foodBContainer.DOScale(targetScaleB, instant ? 0f : scaleTween).SetEase(Ease.OutQuad);
+        foodAContainer.DOScale(targetScaleA, instant ? 0f : SCALE_TWEEN).SetEase(Ease.OutQuad);
+        foodBContainer.DOScale(targetScaleB, instant ? 0f : SCALE_TWEEN).SetEase(Ease.OutQuad);
 
         // Largeurs
-        float widthBig   = Mathf.Lerp(widthNeutral, widthSelected, t);
-        float widthSmall = Mathf.Lerp(widthNeutral, widthDeselected, t);
+        float widthBig   = Mathf.Lerp(WIDTH_NEUTRAL, WIDTH_SEL, t);
+        float widthSmall = Mathf.Lerp(WIDTH_NEUTRAL, WIDTH_DESEL, t);
 
-        TweenWidth(foodAContainer, towardsB ? widthSmall : widthBig, instant ? 0f : widthTween);
-        TweenWidth(foodBContainer, towardsB ? widthBig   : widthSmall, instant ? 0f : widthTween);
+        TweenWidth(foodAContainer, towardsB ? widthSmall : widthBig,  instant ? 0f : WIDTH_TWEEN);
+        TweenWidth(foodBContainer, towardsB ? widthBig   : widthSmall, instant ? 0f : WIDTH_TWEEN);
 
         // Couleurs ON/OFF
         Color targetA, targetB;
-        if (Mathf.Abs(f) <= colorDeadZone)
+        if (Mathf.Abs(f) <= COLOR_DEAD_ZONE)
         {
-            targetA = colorDeselected;
-            targetB = colorDeselected;
+            targetA = COLOR_DESELECTED;
+            targetB = COLOR_DESELECTED;
         }
         else if (towardsB)
         {
-            targetA = colorDeselected;
-            targetB = colorSelected;
+            targetA = COLOR_DESELECTED;
+            targetB = COLOR_SELECTED;
         }
         else
         {
-            targetA = colorSelected;
-            targetB = colorDeselected;
+            targetA = COLOR_SELECTED;
+            targetB = COLOR_DESELECTED;
         }
 
-        if (bgA) bgA.DOColor(targetA, instant ? 0f : colorTween);
-        if (bgB) bgB.DOColor(targetB, instant ? 0f : colorTween);
+        if (bgA) bgA.DOColor(targetA, instant ? 0f : COLOR_TWEEN);
+        if (bgB) bgB.DOColor(targetB, instant ? 0f : COLOR_TWEEN);
 
         // Dial (glisse en X)
         if (dial)
         {
-            float targetY = f * dialTravel;
-            dial.DOAnchorPosY(targetY, instant ? 0f : dialTween).SetEase(Ease.OutQuad);
+            float targetY = f * DIAL_TRAVEL;
+            dial.DOAnchorPosY(targetY, instant ? 0f : DIAL_TWEEN).SetEase(Ease.OutQuad);
         }
     }
 
     // ---------- Utilitaires ----------
-
     private void TweenWidth(RectTransform rt, float targetWidth, float duration)
     {
         var le = rt.GetComponent<LayoutElement>();
