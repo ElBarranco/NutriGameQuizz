@@ -1,12 +1,14 @@
 using UnityEngine;
+using TMPro;
 
 public class FinalUIController : MonoBehaviour
 {
-
+    [SerializeField] private TextMeshProUGUI scoreText;
 
 
     public void InitFinalUI(int score, int bestStreak)
     {
-        
+        scoreText.text = $"Score : {score}";
+
     }
 }

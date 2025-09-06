@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 6262698385892197082}
   - component: {fileID: 2232572341650290928}
   m_Layer: 5
-  m_Name: Icon 1
+  m_Name: Icon 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1024,10 +1024,10 @@ MonoBehaviour:
   sportAValuePerHour: {fileID: 5432549443901407141}
   sportBName: {fileID: 8782478402664845157}
   sportBValue: {fileID: 1035825529541933988}
-  sportBValuePerHour: {fileID: 676946839432482216}
+  sportBValuePerHour: {fileID: 3227055827094861272}
   sportADuration: {fileID: 7308755330826091451}
   sportBDuration: {fileID: 4458458996157212861}
-  imageA: {fileID: 8549087361153142960}
+  imageA: {fileID: 7331105659648293300}
   imageB: {fileID: 2232572341650290928}
   sportAHighlight: {fileID: 4254358621084784966}
   sportBHighlight: {fileID: 1631905211444499935}
@@ -1787,7 +1787,7 @@ GameObject:
   - component: {fileID: 1379477184397072844}
   - component: {fileID: 1631905211444499935}
   m_Layer: 5
-  m_Name: PanelTitre (1)
+  m_Name: PanelTitre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

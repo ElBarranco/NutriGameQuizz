@@ -36,7 +36,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private FoodData food;
     private PortionSelection portion;
-    private float grams;
+
 
     private void Awake()
     {
@@ -45,12 +45,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (canvas != null) canvas = canvas.rootCanvas;
         if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
 
-        if (removeButton != null)
-        {
-            removeButton.onClick.RemoveAllListeners();
-            removeButton.onClick.AddListener(Btn_Remove);
-            removeButton.gameObject.SetActive(false);
-        }
+
     }
     public void PlaySpawnAnimation(float delay = 0f)
     {
@@ -62,12 +57,11 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void Init(FoodData f, PortionSelection sel, int index)
     {
         food = f;
-        grams = 100f;
+
         currentIndex = index;
 
         nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel);
 
-        if (gramsText) gramsText.text = $"{Mathf.RoundToInt(grams)} g";
         icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
     }
 
@@ -180,7 +174,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     // ---------- Getters ----------
     public FoodData GetFood() => food;
-    public float GetGrams() => grams;
+
 
     public int GetIndex() => currentIndex;
 }

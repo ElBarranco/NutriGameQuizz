@@ -134,11 +134,13 @@ public class FoodDataParser : CsvParserBase
         switch (key)
         {
             case "liquide":
-                // NOTE: si ton enum prévoit ParVolume pour les liquides, remplace par ParVolume ici.
-                portionType = FoodPortionType.ParPoids;
+                portionType = FoodPortionType.Liquide;
                 return true;
             case "unitaire":
                 portionType = FoodPortionType.Unitaire;
+                return true;
+            case "tranche":
+                portionType = FoodPortionType.Tranche;
                 return true;
             case "petit":
                 portionType = FoodPortionType.PetiteUnite;

@@ -12,9 +12,6 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
     [SerializeField] private TextMeshProUGUI foodBValue;          // valeur PAR PORTION
     [SerializeField] private TextMeshProUGUI foodBValuePer100;    // valeur POUR 100 g
 
-    // labels de portion (ex: "1 bol", "½ unité", "200 g")
-    [SerializeField] private TextMeshProUGUI foodAPortion;
-    [SerializeField] private TextMeshProUGUI foodBPortion;
 
     [SerializeField] private Image imageA;
     [SerializeField] private Image imageB;
@@ -49,12 +46,9 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
         string unit = TextFormatter.GetUnitForSubType(sousType);
 
         // Noms
-        foodAName.text = a.Name;
-        foodBName.text = b.Name;
+        foodAName.text = PortionTextFormatter.ToDisplayWithFood(a, portionA);
+        foodBName.text = PortionTextFormatter.ToDisplayWithFood(b, portionB);
 
-        // Portions (texte court)
-        if (foodAPortion) foodAPortion.text = PortionTextFormatter.ToText(portionA);
-        if (foodBPortion) foodBPortion.text = PortionTextFormatter.ToText(portionB);
 
         // Valeurs finales (PAR PORTION)
         foodAValue.text = base.FormatValue(portionA.Value, unit);

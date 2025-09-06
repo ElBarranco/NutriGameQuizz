@@ -47,10 +47,11 @@ public class LevelGenerator : QuestionGenerator
         foodList = filteredFoodList;
     }
 
-    public LevelData GenerateLevel(int numberOfQuestions = 10)
+    public LevelData GenerateLevel(int numberOfQuestions, DifficultyLevel currentDifficulty)
     {
         LevelData level = ScriptableObject.CreateInstance<LevelData>();
         level.TypeDeNiveau = LevelType.Normal;
+        level.Difficulty = currentDifficulty;
         level.Questions = new List<QuestionData>();
 
         for (int i = 0; i < numberOfQuestions; i++)
@@ -81,7 +82,8 @@ public class LevelGenerator : QuestionGenerator
                     level.Questions.Add(
                         sportCaloriesDualQuestionGenerator.Generate(
                             foodList,
-                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie) // même pattern que MealComposition
+                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie), // même pattern que MealComposition
+                            currentDifficulty
                         )
                     );
                     break;

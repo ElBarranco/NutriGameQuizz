@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void LaunchGame()
+    public void LaunchGame(DifficultyLevel level = DifficultyLevel.Easy)
     {
         IsGameRunning = true;
         List<FoodData> allFoods = foodParser.GetFoodData();
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
 
         generator.SetFoodDataList(foodList);
-        generatedLevel = generator.GenerateLevel(10);
+        generatedLevel = generator.GenerateLevel(10, level);
 
         questionList = generatedLevel.Questions;
         currentQuestionIndex = 0;

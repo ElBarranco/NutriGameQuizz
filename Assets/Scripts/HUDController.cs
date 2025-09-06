@@ -118,7 +118,7 @@ public class HUDController : MonoBehaviour
             case QuestionType.EstimateCalories:
                 currentMoreInfoPanel = Instantiate(moreInfoEstimatePrefab, moreInfoPanelParent);
                 MoreInfoEstimatePanelUI estimatePanel = currentMoreInfoPanel.GetComponent<MoreInfoEstimatePanelUI>();
-                estimatePanel.Show(data.Aliments[0], userAnswer, data.SousType);
+                estimatePanel.Show(data.Aliments[0], data.PortionSelections[0], userAnswer, data.SousType);
                 break;
 
             case QuestionType.Sport:
@@ -149,7 +149,7 @@ public class HUDController : MonoBehaviour
             case QuestionType.Tri:
                 currentMoreInfoPanel = Instantiate(moreInfoTriPrefab, moreInfoPanelParent);
                 MoreInfoSortPanelUI triPanel = currentMoreInfoPanel.GetComponent<MoreInfoSortPanelUI>();
-                triPanel.Show(data, userAnswer); 
+                triPanel.Show(data, userAnswer);
                 break;
 
             case QuestionType.CaloriesDual:

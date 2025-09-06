@@ -38,10 +38,7 @@ public class EstimateCaloriesUI : MonoBehaviour
         sliderValueText.text = $"{guess}";
     }
 
-    /// <summary>
-    /// Portion est optionnelle.
-    /// Comme dans QuestionCaloriesDualUI, elle ne sert qu’à l’affichage (texte).
-    /// </summary>
+
     public void Init(QuestionSubType sousType, FoodData foodData, PortionSelection? portion, Action<int, bool> callback)
     {
         food = foodData;
@@ -84,11 +81,8 @@ public class EstimateCaloriesUI : MonoBehaviour
         // UI
         foodImage.sprite = SpriteLoader.LoadFoodSprite(food.Name);
 
-        // Portion facultative (juste affichage, comme dans DualUI)
-        if (portion.HasValue)
-            foodNameText.text = PortionTextFormatter.ToDisplayWithFood(food, portion.Value);
-        else
-            foodNameText.text = food.Name;
+        foodNameText.text = PortionTextFormatter.ToDisplayWithFood(food, portion.Value);
+
 
         RefreshSliderValue();
     }

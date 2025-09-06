@@ -22,7 +22,6 @@ public static class PortionCalculator
         PortionUnitaire.Trois => 3f * pieceWeightG,
         PortionUnitaire.Quatre => 4f * pieceWeightG,
         PortionUnitaire.Cinq => 5f * pieceWeightG,
-        // ⚠️ "Saladier" n'a pas trop de sens en "Unitaire", garde-le dans PetiteUnite
         _ => pieceWeightG
     };
 

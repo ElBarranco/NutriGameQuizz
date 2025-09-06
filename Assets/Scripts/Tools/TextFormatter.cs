@@ -1,7 +1,7 @@
 using UnityEngine;
 public static class TextFormatter
 {
-    public static string UnitForQuestion(QuestionSubType type)
+    public static string GetUnitForSubType(QuestionSubType type)
     {
         switch (type)
         {
@@ -31,17 +31,10 @@ public static class TextFormatter
             _ => "Calories"
         };
     }
-
-    public static string GetUnitForSubType(QuestionSubType subType)
+    public static string ToDisplayValue(QuestionSubType subType, float value)
     {
-        switch (subType)
-        {
-            case QuestionSubType.Calorie: return "kcal";
-            case QuestionSubType.Proteine: return "g";
-            case QuestionSubType.Glucide: return "g";
-            case QuestionSubType.Lipide: return "g";
-            case QuestionSubType.Fibres: return "g";
-            default: return "";
-        }
+        string unit = GetUnitForSubType(subType);
+        return $"{Mathf.RoundToInt(value)} {unit}";
     }
+
 }
