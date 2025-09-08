@@ -55,9 +55,7 @@ public class QuestionTitleManager : MonoBehaviour
                 break;
 
             case QuestionType.MealComposition:
-                title = targetCalories > 0
-                    ? $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !"
-                    : "Compose ton repas !";
+                title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !"; 
                 break;
             case QuestionType.Tri:
                 title = "Classe les aliments du - au + calorique !";
@@ -67,7 +65,7 @@ public class QuestionTitleManager : MonoBehaviour
                 if (foods != null && foods.Count > 0)
                 {
                     FoodData food = foods[0];
-                    title = $"Combien de sport faut-il pour brûler {Mathf.RoundToInt(targetCalories)} kcal (≈ {food.Name}) ?";
+                    title = $"Combien de sport faut-il pour brûler un {food.Name}) ?";
 
                     FoodItemUI item = Instantiate(foodItemPrefab, foodItemParent);
                     _currentFoodItem = item.gameObject;

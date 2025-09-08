@@ -27,33 +27,33 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     [SerializeField] private RectTransform dial; // sprite au milieu qui se déplace
 
     // ====== PARAMÈTRES FIGÉS (non sérialisés, non modifiables par d'autres scripts) ======
-    private const float DIAL_TRAVEL     = 220f;   // amplitude +-X
-    private const float DIAL_TWEEN      = 0.12f;  // lissage du dial
+    private const float DIAL_TRAVEL = 220f;   // amplitude +-X
+    private const float DIAL_TWEEN = 0.12f;  // lissage du dial
 
     // Dimensions
-    private const float WIDTH_DESEL     = 425f;
-    private const float WIDTH_SEL       = 600f;
-    private const float WIDTH_NEUTRAL   = 512f;
+    private const float WIDTH_DESEL = 425f;
+    private const float WIDTH_SEL = 600f;
+    private const float WIDTH_NEUTRAL = 512f;
 
     // Tweens
-    private const float WIDTH_TWEEN     = 0.12f;
-    private const float COLOR_TWEEN     = 0.12f;
-    private const float SCALE_TWEEN     = 0.10f;
+    private const float WIDTH_TWEEN = 0.12f;
+    private const float COLOR_TWEEN = 0.12f;
+    private const float SCALE_TWEEN = 0.10f;
 
     // Couleurs
-    private static readonly Color COLOR_SELECTED   = Color.white;
-    private static readonly Color COLOR_DESELECTED = new Color(1f, 1f, 1f, 0.6f);
+    [SerializeField] private Color COLOR_SELECTED = Color.white;
+    [SerializeField] private Color COLOR_DESELECTED = new Color(1f, 1f, 1f, 0.6f);
 
     // Couleurs ON/OFF
     private const float COLOR_DEAD_ZONE = 0.04f; // [0..0.2]
 
     // Réponse Continue (mapping X → f)
-    private const float DEAD_ZONE       = 0.08f;  // [0..0.5]
-    private const float RESPONSE_GAIN   = 1.0f;   // [0..2]
-    private const float RESPONSE_EXP    = 1.35f;  // [0.25..3]
+    private const float DEAD_ZONE = 0.08f;  // [0..0.5]
+    private const float RESPONSE_GAIN = 1.0f;   // [0..2]
+    private const float RESPONSE_EXP = 1.35f;  // [0.25..3]
     private const float RESPONSE_OFFSET = 0f;     // [-0.25..0.25]
-    private const float MAX_SCALE       = 1.12f;
-    private const float MIN_SCALE       = 0.88f;
+    private const float MAX_SCALE = 1.12f;
+    private const float MIN_SCALE = 0.88f;
     // ======================================================================================
 
     // Données & état accessibles aux classes enfants (comme dans ton script original)
@@ -257,20 +257,20 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
         dial?.DOKill();
 
         // Échelles (symétriques)
-        float scaleBig   = Mathf.Lerp(1f, MAX_SCALE, t);
+        float scaleBig = Mathf.Lerp(1f, MAX_SCALE, t);
         float scaleSmall = Mathf.Lerp(1f, MIN_SCALE, t);
         float targetScaleA = towardsB ? scaleSmall : scaleBig;
-        float targetScaleB = towardsB ? scaleBig   : scaleSmall;
+        float targetScaleB = towardsB ? scaleBig : scaleSmall;
 
         foodAContainer.DOScale(targetScaleA, instant ? 0f : SCALE_TWEEN).SetEase(Ease.OutQuad);
         foodBContainer.DOScale(targetScaleB, instant ? 0f : SCALE_TWEEN).SetEase(Ease.OutQuad);
 
         // Largeurs
-        float widthBig   = Mathf.Lerp(WIDTH_NEUTRAL, WIDTH_SEL, t);
+        float widthBig = Mathf.Lerp(WIDTH_NEUTRAL, WIDTH_SEL, t);
         float widthSmall = Mathf.Lerp(WIDTH_NEUTRAL, WIDTH_DESEL, t);
 
-        TweenWidth(foodAContainer, towardsB ? widthSmall : widthBig,  instant ? 0f : WIDTH_TWEEN);
-        TweenWidth(foodBContainer, towardsB ? widthBig   : widthSmall, instant ? 0f : WIDTH_TWEEN);
+        TweenWidth(foodAContainer, towardsB ? widthSmall : widthBig, instant ? 0f : WIDTH_TWEEN);
+        TweenWidth(foodBContainer, towardsB ? widthBig : widthSmall, instant ? 0f : WIDTH_TWEEN);
 
         // Couleurs ON/OFF
         Color targetA, targetB;

@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.68
-  m_fontSizeBase: 84.68
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -652,8 +652,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.68
-  m_fontSizeBase: 84.68
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -887,8 +887,6 @@ MonoBehaviour:
   foodBName: {fileID: 8782478402664845157}
   foodBValue: {fileID: 1035825529541933988}
   foodBValuePer100: {fileID: 3227055827094861272}
-  foodAPortion: {fileID: 0}
-  foodBPortion: {fileID: 0}
   imageA: {fileID: 7331105659648293300}
   imageB: {fileID: 2232572341650290928}
   foodAHighlight: {fileID: 1601635261093132418}

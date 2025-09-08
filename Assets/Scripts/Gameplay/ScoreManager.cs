@@ -4,6 +4,8 @@ using System;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager Instance { get; private set; }
+
     [Header("Statistiques")]
     [ReadOnly, SerializeField] private int bonnesReponses;
     [ReadOnly, SerializeField] private int mauvaisesReponses;
@@ -16,7 +18,7 @@ public class ScoreManager : MonoBehaviour
     [Header("Config Scoring")]
     [SerializeField, Min(1)] private int pointsParBonneReponse = 10;
     [SerializeField] private bool utiliserMultiplicateur = true;
-    
+
     [ShowIf(nameof(utiliserMultiplicateur))]
     [SerializeField, Min(1)] private int palierStreakPourMultiplicateur = 3;
 
@@ -45,6 +47,18 @@ public class ScoreManager : MonoBehaviour
             int multiplicateur = 1 + (streakActuel / palierStreakPourMultiplicateur);
             return Mathf.Clamp(multiplicateur, 1, multiplicateurMax);
         }
+    }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void EnregistrerBonneReponse()
@@ -87,5 +101,10 @@ public class ScoreManager : MonoBehaviour
         OnStreakChange?.Invoke(streakActuel, meilleurStreak);
         OnMultiplicateurChange?.Invoke(MultiplicateurEffectif);
         OnScoreChange?.Invoke(score);
+    }
+    
+    public int GetScore()
+    {
+        return score;
     }
 }

@@ -94,7 +94,7 @@ public class LevelGenerator : QuestionGenerator
                             sortFoodQuestionGenerator.Generate(
                                 foodList,
                                 food => base.ResolvePortionSafe(food, QuestionSubType.Calorie), // calcule la valeur
-                                -1 // 3 ou 4 items aléatoire
+                                currentDifficulty
                             )
                         );
                         break;

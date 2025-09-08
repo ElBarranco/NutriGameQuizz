@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 40ec8841be8f44fac8d37f972770a9c7
+guid: 584d9a485e2134026a71a74753458c0f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1313598479154574110
-    second: haricotverts_0
+      213: 150520832659961571
+    second: 40pt @1x_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: haricotverts_0
+      name: 40pt @1x_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 68
-        width: 500
-        height: 375
+        x: 0
+        y: 0
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2ec8f78942925cde0800000000000000
-      internalID: -1313598479154574110
+      spriteID: 3e63ef956e1c61200800000000000000
+      internalID: 150520832659961571
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      haricotverts_0: -1313598479154574110
+      40pt @1x_0: 150520832659961571
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

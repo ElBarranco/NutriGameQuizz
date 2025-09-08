@@ -18,6 +18,8 @@ public class FoodItemUI : MonoBehaviour
     [SerializeField] private Color solutionColor = Color.green;
     [SerializeField] private Color defaultColor = Color.white;
     [SerializeField] private Color wrongColor = Color.white;
+    
+
     public void Init(FoodData f, PortionSelection sel, bool trueAnswer = false, QuestionSubType subType = QuestionSubType.Calorie)
     {
         // Nom + portion lisible (PAS les calories ici)
@@ -35,16 +37,16 @@ public class FoodItemUI : MonoBehaviour
 
         // Valeur PAR PORTION (pré-calculée dans sel.Value)
         portionText.text = $"{Mathf.RoundToInt(sel.Value)} {unit}";
-        
+
         // Feedback visuel
         ApplySolutionVisuals(trueAnswer);
     }
     private void ApplySolutionVisuals(bool isSolution)
     {
 
-        //solutionMarker.SetActive(isSolution);
+        solutionMarker.SetActive(isSolution);
 
-        solutionImage.color = isSolution ? solutionColor : wrongColor;
+        //solutionImage.color = isSolution ? solutionColor : wrongColor;
     }
 
 }

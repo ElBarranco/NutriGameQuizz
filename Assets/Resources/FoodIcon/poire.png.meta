@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 2578230022413404171
     second: poire_0
+  - first:
+      213: 1929479567487719845
+    second: poire_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,9 +132,9 @@ TextureImporter:
       name: poire_0
       rect:
         serializedVersion: 2
-        x: 129
+        x: 47
         y: 60
-        width: 259
+        width: 341
         height: 396
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -143,6 +146,28 @@ TextureImporter:
       bones: []
       spriteID: b08c23b9b86b7c320800000000000000
       internalID: 2578230022413404171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: poire_1
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 214
+        width: 44
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a9da7d9173e6ca10800000000000000
+      internalID: 1929479567487719845
       vertices: []
       indices: 
       edges: []
@@ -162,6 +187,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       poire_0: 2578230022413404171
+      poire_1: 1929479567487719845
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

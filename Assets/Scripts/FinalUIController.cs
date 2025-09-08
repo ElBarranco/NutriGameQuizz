@@ -6,7 +6,7 @@ public class FinalUIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
 
 
-    public void InitFinalUI(int score, int bestStreak)
+    public void InitFinalUI(int score)
     {
         scoreText.text = $"Score : {score}";
 

@@ -228,7 +228,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000015259, y: 144.73279}
-  m_SizeDelta: {x: 999.813, y: 1224.2417}
+  m_SizeDelta: {x: 887.2616, y: 1224.2417}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8622522440978851468
 CanvasRenderer:
@@ -303,23 +303,6 @@ MonoBehaviour:
   bgA: {fileID: 7624805065623500666}
   bgB: {fileID: 1606539250072758700}
   dial: {fileID: 7085877286623015380}
-  dialTravel: 220
-  dialTween: 0.12
-  widthDeselected: 425
-  widthSelected: 600
-  widthNeutral: 512
-  widthTween: 0.12
-  colorTween: 0.12
-  scaleTween: 0.1
-  colorSelected: {r: 0.7067724, g: 1, b: 0.495283, a: 1}
-  colorDeselected: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
-  colorDeadZone: 0.04
-  deadZone: 0.08
-  responseGain: 1
-  responseExponent: 1.35
-  responseOffset: 0
-  maxScale: 1.12
-  minScale: 0.88
   perfectTolerancePercent: 0.05
 --- !u!1 &3612882831243939011
 GameObject:
@@ -415,8 +398,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.68
-  m_fontSizeBase: 84.68
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -814,8 +797,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.68
-  m_fontSizeBase: 84.68
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

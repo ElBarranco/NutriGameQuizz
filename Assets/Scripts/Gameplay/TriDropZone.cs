@@ -85,49 +85,67 @@ public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
     // ---------- API appelée par SlotTriDrop ----------
     public void PlaceItemInSlot(FoodDraggableUI dragged, int slotIndex)
     {
-        RectTransform draggedRT = dragged.transform as RectTransform;
+        if (dragged == null) return;
+        if (slotIndex < 0 || slotIndex >= activeSlots)
+        {
+            dragged.NotifyDropped();
+            dragged.ResetToOriginal(true);
+            return;
+        }
+
+        RectTransform draggedRT = (RectTransform)dragged.transform;
         RectTransform slotRT = slots[slotIndex];
 
-        // Si le dragged était déjà dans un slot, on retient son index
-        int? previousSlotIndex = itemToSlot.ContainsKey(dragged) ? itemToSlot[dragged] : (int?)null;
+        // Le dragged avait-il déjà un slot dans CETTE TriDropZone ?
+        bool draggedHadSlot = itemToSlot.TryGetValue(dragged, out int previousSlotIndex);
 
+        // Qui occupe le slot cible ?
         FoodDraggableUI occupant = GetOccupantAtSlot(slotIndex);
 
+        // ---------- SLOT OCCUPÉ ----------
         if (occupant != null && occupant != dragged)
         {
-            // SLOT OCCUPÉ → ON SWAP
-            int occupantIndex = itemToSlot[occupant];
-
-            // Swap les références dans la map
-            itemToSlot[occupant] = previousSlotIndex ?? -1;
-            itemToSlot[dragged] = occupantIndex;
-
-            // Animate l'occupant vers l'ancien slot du dragged
-            RectTransform oldSlotRT = previousSlotIndex.HasValue ? slots[previousSlotIndex.Value] : null;
-            if (oldSlotRT != null)
+            if (!draggedHadSlot)
             {
+                // ⬅️ Vient du dock initial → on libère le slot en resetant l’occupant
+                if (itemToSlot.ContainsKey(occupant)) itemToSlot.Remove(occupant);
+                occupant.ResetToOriginal(true);
+
+                // (pas de return : on laisse le code plus bas PLACER le dragged dans le slot)
+            }
+            else
+            {
+                // ⬅️ Les deux items sont déjà dans la zone → SWAP (l’occupant va vers l’ancien slot du dragged)
+                int occupantIndex = itemToSlot[occupant];
+
+                itemToSlot[occupant] = previousSlotIndex;
+                itemToSlot[dragged] = occupantIndex;
+
+                RectTransform oldSlotRT = slots[previousSlotIndex];
                 occupant.transform.SetParent(oldSlotRT, worldPositionStays: true);
                 occupant.transform.DOKill(false);
+
                 Vector3 oldTarget = oldSlotRT.TransformPoint(oldSlotRT.rect.center);
                 occupant.transform.DOMove(oldTarget, 0.25f)
                     .SetEase(Ease.OutBack)
                     .OnComplete(() => ((RectTransform)occupant.transform).anchoredPosition = Vector2.zero);
             }
-            else
-            {
-                occupant.ResetToOriginal(true); // fallback si dragged n'était pas dans un slot
-            }
         }
         else
         {
-            // Slot vide → remove ancien slot du dragged
-            if (itemToSlot.ContainsKey(dragged))
+            // ---------- SLOT VIDE ----------
+            if (draggedHadSlot)
+            {
+                // Il quitte son ancien slot : libère l’entrée ; réassignée plus bas
                 itemToSlot.Remove(dragged);
+            }
+            // Si vient du dock initial : autorisé, on continue
         }
 
-        // Positionne le dragged dans le nouveau slot
+        // ---------- Place / anime le DRAGGED dans le slot cible ----------
         draggedRT.DOKill(false);
         Vector3 targetWorld = slotRT.TransformPoint(slotRT.rect.center);
+
         draggedRT.SetParent(slotRT, worldPositionStays: true);
         draggedRT.localRotation = Quaternion.identity;
         draggedRT.localScale = Vector3.one;
@@ -136,15 +154,18 @@ public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
                  .SetEase(Ease.OutBack)
                  .OnComplete(() => draggedRT.anchoredPosition = Vector2.zero);
 
+        // Map & état
         itemToSlot[dragged] = slotIndex;
         lastAssignedSlot = slotIndex;
 
+        // Signaux/clean (garde ton comportement actuel)
         dragged.SetCurrentDropZone(null);
         dragged.NotifyDropped();
 
         RebuildCurrentOrderFromMap();
     }
 
+    
     public void RemoveItem(FoodDraggableUI item)
     {
         if (itemToSlot.ContainsKey(item))

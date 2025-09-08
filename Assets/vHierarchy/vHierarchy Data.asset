@@ -17,6 +17,7 @@ MonoBehaviour:
     - 8c9cfa26abfee488c85f1582747f6a02
     - 5b50c0f6cc8c547caa9c9086e89ec0d0
     - e373663afd68e4d57b4047448ca0277d
+    - 75037970276e043b298102e04731caea
     values:
     - goDatas_byGlobalId:
         keys:
@@ -35,6 +36,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-1484456777904994752-1561843634
         - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-1655888571-0
         - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-243210511-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-1201367818-0
         values:
         - colorIndex: 1
           iconNameOrGuid: 
@@ -80,7 +82,7 @@ MonoBehaviour:
           iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 6
           iconNameOrGuid: Settings Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -94,12 +96,21 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: cs Script Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-1-5b50c0f6cc8c547caa9c9086e89ec0d0-5721892770022935777-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b50c0f6cc8c547caa9c9086e89ec0d0-6261495846777532038-0
         values:
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
           isIconRecursive: 0
@@ -110,6 +121,14 @@ MonoBehaviour:
         values:
         - colorIndex: 0
           iconNameOrGuid: cs Script Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-1-75037970276e043b298102e04731caea-6501271156782793818-0
+        values:
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

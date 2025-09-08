@@ -17,16 +17,13 @@ public class SortFoodQuestionGenerator : MonoBehaviour
     [SerializeField, Tooltip("Nombre maximum d’essais aléatoires pour trouver un set valide.")]
     private int maxAttempts = 80;
 
-    /// <summary>
-    /// Génère une question de tri.
-    /// - foods : source des aliments.
-    /// - portionResolver : fonction qui retourne la PortionSelection calculée (valeur incluse) pour un food donné.
-    /// - count : si < 0, choisit aléatoirement entre [minCount, maxCount].
-    /// </summary>
+
     public QuestionData Generate(
         List<FoodData> foods,
         Func<FoodData, PortionSelection> portionResolver,
+DifficultyLevel currentDifficulty,
         int count = -1
+
     )
     {
         if (foods == null || foods.Count == 0)
@@ -35,9 +32,7 @@ public class SortFoodQuestionGenerator : MonoBehaviour
             return null;
         }
 
-        int target = (count < 0)
-            ? UnityEngine.Random.Range(minCount, maxCount + 1)
-            : Mathf.Clamp(count, 3, 4);
+        int target = GetTargetFoodCount(count, currentDifficulty);
 
         // 1) Pré-calcul des valeurs via le resolver
         List<(FoodData food, PortionSelection sel, float value)> candidates =
@@ -138,6 +133,20 @@ public class SortFoodQuestionGenerator : MonoBehaviour
         return q;
     }
 
+    private int GetTargetFoodCount(int count, DifficultyLevel difficulty)
+    {
+        if (difficulty == DifficultyLevel.Easy)
+        {
+            return 3;
+        }
+
+        if (count < 0)
+        {
+            return UnityEngine.Random.Range(minCount, maxCount + 1);
+        }
+
+        return Mathf.Clamp(count, 3, 4);
+    }
     private static string EncodeOrderString(List<int> order)
     {
         return string.Concat(order); // ex: [0,2,3] -> "023"

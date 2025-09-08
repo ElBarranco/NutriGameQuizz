@@ -16,8 +16,9 @@ public class HUDController : MonoBehaviour
     [SerializeField] private Vector2 shownPosition;
     [SerializeField] private Vector2 hiddenPosition;
 
+    [Header("UI")]
     [SerializeField] private GameObject hudInGameUI;
-    [SerializeField] private GameObject finalScreenUI;
+    [SerializeField] private FinalUIController finalUI;
 
 
     [Header("Buttons")]
@@ -53,7 +54,7 @@ public class HUDController : MonoBehaviour
         hiddenPosition = new Vector2(0f, -height);
 
         hudInGameUI.SetActive(false);
-        finalScreenUI.SetActive(false);
+        finalUI.gameObject.SetActive(false);
     }
     public void InitGame(int totalQuestions)
     {
@@ -234,7 +235,8 @@ public class HUDController : MonoBehaviour
     public void ShowEndGameUI()
     {
         hudInGameUI.SetActive(false);
-        finalScreenUI.SetActive(true);
+        finalUI.gameObject.SetActive(true);
+        finalUI.InitFinalUI(ScoreManager.Instance.GetScore());
         Debug.Log("🎉 Fin du jeu ! Affichage de l'écran de fin.");
     }
 
@@ -242,7 +244,7 @@ public class HUDController : MonoBehaviour
     {
         InteractionManager.Instance.TriggerMediumVibration();
         hudInGameUI.SetActive(true);
-        finalScreenUI.SetActive(false);
+        finalUI.gameObject.SetActive(false);
         uiManager.ShowMenu();
     }
 }
