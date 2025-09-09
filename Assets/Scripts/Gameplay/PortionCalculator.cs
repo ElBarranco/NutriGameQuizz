@@ -38,31 +38,38 @@ public static class PortionCalculator
         return ml * Mathf.Max(0.01f, densityGPerMl);
     }
 
-    // Depuis une PortionSelection (si Grams déjà fixé, on le respecte)
-    public static float ToGrams(PortionSelection sel, float defaultPieceWeightG = 120f, float densityGPerMl = 1f)
+    public static float ToGrams(PortionSelection sel, FoodData food, float defaultPieceWeightG = 120f, float densityGPerMl = 1f)
     {
-        // On ne respecte Grams que si la portion est explicitement "ParPoids"
-        if (sel.Type == FoodPortionType.ParPoids && sel.Grams > 0f)
-            return sel.Grams;
-
-        return sel.Type switch
+        switch (sel.Type)
         {
-            FoodPortionType.Unitaire => sel.Unitaire.HasValue
-                                            ? ToGrams(sel.Unitaire.Value, defaultPieceWeightG)
-                                            : defaultPieceWeightG,
+            case FoodPortionType.Unitaire:
+                {
+                    float pieceWeight = Mathf.Max(1f, defaultPieceWeightG);
+                    if (food != null)
+                    {
+                        if (food.Weight > 0f) pieceWeight = food.Weight;
+                        else if (food.Volume > 0f) pieceWeight = food.Volume * Mathf.Max(0.01f, densityGPerMl);
+                    }
 
-            FoodPortionType.PetiteUnite => sel.PetiteUnite.HasValue
-                                            ? ToGrams(sel.PetiteUnite.Value)
-                                            : 100f,
+                    if (sel.Unitaire.HasValue)
+                        return Mathf.Max(0f, ToGrams(sel.Unitaire.Value, pieceWeight));
 
-            FoodPortionType.Liquide => sel.Liquide.HasValue
-                                            ? ToGrams(sel.Liquide.Value, densityGPerMl)
-                                            : 100f * densityGPerMl,
+                    return Mathf.Max(0f, pieceWeight);
+                }
 
-            _ /* ParPoids */              => Mathf.Max(0f, sel.Grams)
-        };
+            case FoodPortionType.PetiteUnite:
+                return sel.PetiteUnite.HasValue ? ToGrams(sel.PetiteUnite.Value) : 100f;
+
+            case FoodPortionType.Liquide:
+                return sel.Liquide.HasValue
+                    ? ToGrams(sel.Liquide.Value, densityGPerMl)
+                    : 100f * Mathf.Max(0.01f, densityGPerMl);
+
+            case FoodPortionType.ParPoids:
+            default:
+                return Mathf.Max(0f, sel.Grams); // Tranche/Default: on prend le poids fourni
+        }
     }
-
     // ---------- Calculs nutrition ----------
     public static float GetPer100(FoodData f, QuestionSubType sub) => sub switch
     {

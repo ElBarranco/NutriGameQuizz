@@ -79,7 +79,7 @@ public abstract class QuestionGenerator : MonoBehaviour
 
         // 3) Harmonisation en grammes RÉELS selon le type de portion choisi
         //    (n'écrase pas si Grams > 0 déjà fourni)
-        sel.Grams = PortionCalculator.ToGrams(sel, pieceWeight, density);
+        sel.Grams = PortionCalculator.ToGrams(sel, food,pieceWeight, density);
 
         // 4) Valeur nutritionnelle selon le sous-type (Calorie / Prot / Gluc / …)
         sel.Value = PortionCalculator.ComputeValue(food, sel.Grams, subType);
@@ -142,7 +142,7 @@ public abstract class QuestionGenerator : MonoBehaviour
             : new PortionSelection { Type = food.PortionType, Grams = 100f };
 
         // Normaliser les grammes si la portion est symbolique (Unitaire/PetiteUnite/Liquide)
-        sel.Grams = PortionCalculator.ToGrams(sel, defaultPieceWeightG);
+        sel.Grams = PortionCalculator.ToGrams(sel, food, defaultPieceWeightG);
         // Calculer la valeur par portion pour le sous-type demandé
         sel.Value = PortionCalculator.ComputeValue(food, sel.Grams, subType);
         return sel;
