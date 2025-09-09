@@ -18,6 +18,7 @@ MonoBehaviour:
     - 5b50c0f6cc8c547caa9c9086e89ec0d0
     - e373663afd68e4d57b4047448ca0277d
     - 75037970276e043b298102e04731caea
+    - e9a5f8dc5a16a4ae0a51bacefe4c175d
     values:
     - goDatas_byGlobalId:
         keys:
@@ -37,6 +38,8 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-1655888571-0
         - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-243210511-0
         - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-1201367818-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-420144275-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8c9cfa26abfee488c85f1582747f6a02-541900879-0
         values:
         - colorIndex: 1
           iconNameOrGuid: 
@@ -102,6 +105,14 @@ MonoBehaviour:
           iconNameOrGuid: Folder Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-1-5b50c0f6cc8c547caa9c9086e89ec0d0-5721892770022935777-0
@@ -129,6 +140,24 @@ MonoBehaviour:
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-e9a5f8dc5a16a4ae0a51bacefe4c175d-793427015-0
+        - globalObjectIdString: GlobalObjectId_V1-2-e9a5f8dc5a16a4ae0a51bacefe4c175d-759032148-0
+        - globalObjectIdString: GlobalObjectId_V1-2-e9a5f8dc5a16a4ae0a51bacefe4c175d-1341016839-0
+        values:
+        - colorIndex: 3
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 1
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

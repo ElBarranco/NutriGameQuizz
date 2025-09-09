@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -7,7 +8,8 @@ public class DebugFoodGallery : MonoBehaviour
     [Header("Refs")]
     [SerializeField] private FoodDataParser dataParser;
     [SerializeField] private FoodItemUI itemPrefab;
-    [SerializeField] private RectTransform scrollViewContent; 
+    [SerializeField] private RectTransform scrollViewContent;
+    [SerializeField] private GameObject buttonGO;
 
     [Header("Génération")]
     [SerializeField] private QuestionSubType subType = QuestionSubType.Calorie;
@@ -36,23 +38,36 @@ public class DebugFoodGallery : MonoBehaviour
 
     // ------------------ Entry points ------------------
 
-    [Button("Build Now")]
+    
     public void Build()
     {
+        buttonGO.SetActive(false);
         if (clearBeforeBuild)
             ClearChildren(scrollViewContent);
 
         List<FoodData> foods = dataParser.GetFoodData();
+
+        List<string> petiteUniteLogs = new List<string>();
+
         for (int i = 0; i < foods.Count; i++)
         {
             FoodData f = foods[i];
+            List<PortionSelection> selections = new List<PortionSelection>(GenerateAllSelections(f));
 
-            foreach (PortionSelection sel in GenerateAllSelections(f))
+            if (f.PortionType == FoodPortionType.PetiteUnite)
+            {
+                foreach (var sel in selections)
+                {
+                    petiteUniteLogs.Add($"{f.Name} - {sel.PetiteUnite}");
+                }
+            }
+
+            foreach (PortionSelection sel in selections)
             {
                 // Copier la struct pour pouvoir la modifier
                 PortionSelection computed = sel;
 
-                float grams = PortionCalculator.ToGrams(computed, f,defaultPieceWeightG, defaultDensityGPerMl);
+                float grams = PortionCalculator.ToGrams(computed, f, defaultPieceWeightG, defaultDensityGPerMl);
                 computed.Grams = grams;
                 computed.Value = PortionCalculator.ComputeValue(f, grams, subType);
 
@@ -60,6 +75,11 @@ public class DebugFoodGallery : MonoBehaviour
                 ui.name = PortionTextFormatter.ToDisplayWithFood(f, computed);
                 ui.Init(f, computed, false, subType);
             }
+        }
+
+        if (petiteUniteLogs.Count > 0)
+        {
+            Debug.Log(string.Join("\n", petiteUniteLogs));
         }
 
         Debug.Log("[DebugFoodGallery] Build terminé.");
@@ -97,7 +117,6 @@ public class DebugFoodGallery : MonoBehaviour
                 }
             case FoodPortionType.Tranche:
                 {
-                    // Pas d'énum dédiée => fallback en poids (ex: 30/50/100 g).
                     foreach (PortionSelection s in GenerateParPoidsFallback(new[] { 30, 50, 100 }))
                         yield return s;
                     break;
@@ -238,11 +257,9 @@ public class DebugFoodGallery : MonoBehaviour
 
     // ------------------ Utils ------------------
 
-
     private static void ClearChildren(Transform root)
     {
         if (root == null) return;
-        // Scène de debug locale : on nettoie sans conditionnel d'éditeur.
         for (int i = root.childCount - 1; i >= 0; i--)
         {
             Transform c = root.GetChild(i);
