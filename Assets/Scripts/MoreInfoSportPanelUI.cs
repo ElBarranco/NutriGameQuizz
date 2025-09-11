@@ -37,11 +37,8 @@ public class MoreInfoSportPanelUI : MoreInfoPanelBase
 
     public void Show(int targetCalorie, FoodData aliment, SportData a, SportData b, int indexBonneReponse, int userAnswerIndex = -1)
     {
-        sportAName.text = a.Name;
-        sportBName.text = b.Name;
-
-        sportADuration.text = TextFormatter.ToDisplayDuration(a.Duration) + " de " + a.Name;
-        sportBDuration.text = TextFormatter.ToDisplayDuration(b.Duration) + " de " + b.Name;
+        sportAName.text = TextFormatter.ToDisplayDuration(a.Duration) + " de " + a.Name;
+        sportAName.text = TextFormatter.ToDisplayDuration(b.Duration) + " de " + b.Name;
 
         sportAValue.text = a.Calories + " kcal";
         sportBValue.text = b.Calories + " kcal";
