@@ -37,4 +37,15 @@ public static class TextFormatter
         return $"{Mathf.RoundToInt(value)} {unit}";
     }
 
+    public static string ToDisplayDuration(int durationInMinutes)
+    {
+        if (durationInMinutes >= 60)
+        {
+            int hours = durationInMinutes / 60;
+            int minutes = durationInMinutes % 60;
+            return minutes > 0 ? $"{hours}h{minutes}" : $"{hours}h";
+        }
+        return $"{durationInMinutes} min";
+    }
+
 }

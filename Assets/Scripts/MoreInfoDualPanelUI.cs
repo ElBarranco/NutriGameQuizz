@@ -28,6 +28,8 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
     [SerializeField] private Image resultIconB;            // icône côté B
     [SerializeField] private Sprite iconCorrect;           // ✅
     [SerializeField] private Sprite iconWrong;             // ❌
+    [SerializeField] private GameObject HoverA;
+    [SerializeField] private GameObject HoverB;
 
     [Header("Fonds (couleur uniquement)")]
     [SerializeField] private Image bgA;
@@ -107,6 +109,9 @@ public class MoreInfoDualPanelUI : MoreInfoPanelBase
         bool userPickedA = userAnswerIndex == 0;
         bool aIsCorrect = indexBonneReponse == 0;
         bool bIsCorrect = indexBonneReponse == 1;
+
+        HoverA.SetActive(userPickedA);
+        HoverB.SetActive(!userPickedA);
 
         // 1) Toujours colorer le BG du côté correct en vert
         if (aIsCorrect && bgA) bgA.color = correctColor;

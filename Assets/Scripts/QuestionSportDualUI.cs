@@ -33,8 +33,8 @@ public class QuestionSportDualUI : QuestionCaloriesDualUI
 
 
         // Libellés boutons (les champs nameA/nameB sont "protected" dans la classe parente)
-        nameA.text = sportAData.Duration.ToString() + " min de " + sportAData.Name;
-        nameB.text = sportBData.Duration.ToString() + " min de " + sportBData.Name;
+        nameA.text = TextFormatter.ToDisplayDuration(sportAData.Duration) + " de " + sportAData.Name;
+        nameB.text = TextFormatter.ToDisplayDuration(sportBData.Duration) + " de " + sportBData.Name;
 
         // Icônes de sport (si présentes dans Resources/SportIcon/)
         imageA.sprite = SpriteLoader.LoadSportSprite(sportAData.Name);
@@ -59,5 +59,5 @@ public class QuestionSportDualUI : QuestionCaloriesDualUI
         externalCallback.Invoke(chosenIndex, false);
     }
 
-    
+
 }

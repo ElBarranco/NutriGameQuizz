@@ -732,7 +732,7 @@ MonoBehaviour:
   shownPosition: {x: 0, y: 0}
   hiddenPosition: {x: 0, y: 0}
   hudInGameUI: {fileID: 1435699206}
-  finalUI: {fileID: 0}
+  finalUI: {fileID: 1578470461}
   correctButtonGO: {fileID: 2126738382}
   wrongButtonGO: {fileID: 636093253}
   moreInfoDualPrefab: {fileID: 3472369455136401110, guid: 5b50c0f6cc8c547caa9c9086e89ec0d0, type: 3}
@@ -4451,7 +4451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1578470460
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5032,12 +5032,12 @@ MonoBehaviour:
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
-  useCaloriesDual: 1
-  useEstimateCalories: 1
-  useFunMeasure: 1
-  useMealComposition: 1
+  useCaloriesDual: 0
+  useEstimateCalories: 0
+  useFunMeasure: 0
+  useMealComposition: 0
   useSportDual: 1
-  useSort: 1
+  useSort: 0
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}

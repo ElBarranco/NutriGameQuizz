@@ -1,9 +1,12 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+using System.IO;
 
 public class PrefabSwitcherEditor : EditorWindow
 {
-    private GameObject[] selectedPrefabs; // Liste des prefabs spécifiques à afficher
+    private List<GameObject> questionPrefabs = new List<GameObject>();
+    private List<GameObject> moreInfoPrefabs = new List<GameObject>();
     private Vector2 scrollPos;
 
     [MenuItem("Custom Tools/Prefab Switcher")]
@@ -14,29 +17,42 @@ public class PrefabSwitcherEditor : EditorWindow
 
     private void OnEnable()
     {
-        // Charger manuellement les prefabs que tu veux afficher
-        selectedPrefabs = new GameObject[]
-        {
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Question/Q_DualQuestionGO v.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Question/Q_SpecialQuestionGO.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Question/Q_EstimateQuestionGO.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Question/Q_Meal Composition GO.prefab"),
-            
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/MoreInfo/MoreInfo_DualQuestionGO.prefab"),
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/MoreInfo/MoreInfo_EstimateQuestionGO.prefab"),
+        // Charger automatiquement les prefabs depuis les dossiers
+        questionPrefabs = LoadPrefabsFromFolder("Assets/Prefabs/Question");
+        moreInfoPrefabs = LoadPrefabsFromFolder("Assets/Prefabs/MoreInfo");
 
-        };
+        //AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Question/Q_EstimateQuestionGO.prefab"),
     }
 
-    void OnGUI()
+    private List<GameObject> LoadPrefabsFromFolder(string folderPath)
     {
-        GUILayout.Label("Ouvrir un Prefab spécifique", EditorStyles.boldLabel);
+        List<GameObject> prefabs = new List<GameObject>();
 
-        scrollPos = GUILayout.BeginScrollView(scrollPos, false, true);
-
-        foreach (GameObject prefab in selectedPrefabs)
+        if (!Directory.Exists(folderPath))
         {
-            if (prefab != null) // S'assurer que le prefab n'est pas null
+            Debug.LogWarning($"Dossier introuvable : {folderPath}");
+            return prefabs;
+        }
+
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { folderPath });
+
+        foreach (string guid in guids)
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+            if (prefab != null)
+                prefabs.Add(prefab);
+        }
+
+        return prefabs;
+    }
+
+    private void DrawPrefabButtons(List<GameObject> prefabs)
+    {
+        foreach (GameObject prefab in prefabs)
+        {
+            if (prefab != null)
             {
                 if (GUILayout.Button(prefab.name))
                 {
@@ -49,6 +65,21 @@ public class PrefabSwitcherEditor : EditorWindow
                 GUILayout.Label("Prefab non trouvé", EditorStyles.miniLabel);
             }
         }
+    }
+
+    void OnGUI()
+    {
+        scrollPos = GUILayout.BeginScrollView(scrollPos, false, true);
+
+        // Section Question Prefabs
+        GUILayout.Label("📌 Question ", EditorStyles.boldLabel);
+        DrawPrefabButtons(questionPrefabs);
+
+        GUILayout.Space(15); // Espace visuel
+
+        // Section MoreInfo Prefabs
+        GUILayout.Label("ℹ️ MoreInfo ", EditorStyles.boldLabel);
+        DrawPrefabButtons(moreInfoPrefabs);
 
         GUILayout.EndScrollView();
     }

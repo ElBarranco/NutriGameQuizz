@@ -61,19 +61,19 @@ public class MealCompositionQuestionGenerator : QuestionGenerator
 
             for (int i = 0; i < foods.Count; i++)
             {
-                // Portion déjà normalisée et valuée par base.ResolvePortion(...)
-                PortionSelection sel = base.ResolvePortion(resolvePortionSafe, foods[i], subType);
+                FoodData f = foods[i];
 
-                // (Option) si tu veux diversifier la QUANTITÉ des non‑picked
+                PortionSelection sel = ResolvePortion(resolvePortionSafe, f, subType);
+
                 if (!picked.Contains(i))
                 {
-                    // Réduction ou zéro -> il faut alors recalculer la Value une seule fois
                     sel.Grams = startNonPickedAtZero ? 0f : sel.Grams * 0.3f;
-                    sel.Value = PortionCalculator.ComputeValue(foods[i], sel.Grams, subType);
+                    sel.Value = PortionCalculator.ComputeValue(f, sel.Grams, subType);
                 }
 
                 itemValues.Add(sel.Value);
-                if (picked.Contains(i)) targetValue += sel.Value;
+                if (picked.Contains(i))
+                    targetValue += sel.Value;
 
                 portions.Add(sel);
             }
