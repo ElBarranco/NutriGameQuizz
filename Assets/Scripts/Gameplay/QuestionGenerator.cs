@@ -97,6 +97,7 @@ public abstract class QuestionGenerator : MonoBehaviour
         List<FoodData> result = new List<FoodData>(capacity);
         List<FoodData> pool = new List<FoodData>(source);
         int n = Mathf.Min(count, pool.Count);
+        
         for (int i = 0; i < n; i++)
         {
             int idx = Random.Range(0, pool.Count);
