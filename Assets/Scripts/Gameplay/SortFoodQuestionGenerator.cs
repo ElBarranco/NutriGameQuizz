@@ -26,12 +26,6 @@ DifficultyLevel currentDifficulty,
 
     )
     {
-        if (foods == null || foods.Count == 0)
-        {
-            Debug.LogError("[SortFoodQuestionGenerator] Liste d'aliments vide.");
-            return null;
-        }
-
         int target = GetTargetFoodCount(count, currentDifficulty);
 
         // 1) Pré-calcul des valeurs via le resolver

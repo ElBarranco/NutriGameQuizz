@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
             case QuestionType.CaloriesDual:
             case QuestionType.Sport:
             case QuestionType.FunMeasure:
+            case QuestionType.Intru:
             case QuestionType.Tri:
                 isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
                 break;

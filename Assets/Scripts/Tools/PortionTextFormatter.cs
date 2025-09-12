@@ -42,7 +42,10 @@ public static class PortionTextFormatter
                 }
                 return $"{Mathf.RoundToInt(sel.Grams)} g";
 
-            case FoodPortionType.Liquide: // NEW
+            case FoodPortionType.Simple:
+                return "";
+
+            case FoodPortionType.Liquide:
                 if (sel.Liquide.HasValue)
                 {
                     switch (sel.Liquide.Value)
@@ -76,16 +79,14 @@ public static class PortionTextFormatter
                 }
 
             case FoodPortionType.PetiteUnite:
+            case FoodPortionType.Liquide:
                 {
                     string cont = ToText(sel);
                     return $"{cont} {DeOrD(name)}{name}";
                 }
 
-            case FoodPortionType.Liquide: // NEW
-                {
-                    string cont = ToText(sel);
-                    return $"{cont} {DeOrD(name)}{name}";
-                }
+            case FoodPortionType.Simple: // ✅ nouveau cas
+                return name; // juste le nom de l’aliment
 
             case FoodPortionType.ParPoids:
             default:

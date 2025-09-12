@@ -51,12 +51,13 @@ public class QuestionTitleManager : MonoBehaviour
                 break;
 
             case QuestionType.FunMeasure:
-                title = "Quelle proposition est la plus calorique ?"; break;
+                title = "Quelle proposition est la plus calorique ?";
                 break;
 
             case QuestionType.MealComposition:
                 title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !"; 
                 break;
+
             case QuestionType.Tri:
                 title = "Classe les aliments du - au + calorique !";
                 break;
@@ -70,12 +71,15 @@ public class QuestionTitleManager : MonoBehaviour
                     FoodItemUI item = Instantiate(foodItemPrefab, foodItemParent);
                     _currentFoodItem = item.gameObject;
                     item.Init(food, portions[0], false, QuestionSubType.Calorie);
-
                 }
                 else
                 {
                     title = "Trouve l'équivalent en sport !";
                 }
+                break;
+
+            case QuestionType.Intru:
+                title = "Élimine les aliments pauvres en protéines !!";
                 break;
 
             default:

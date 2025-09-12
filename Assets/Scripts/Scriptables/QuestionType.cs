@@ -5,5 +5,6 @@ public enum QuestionType
     EstimateCalories,
     MealComposition,
     Sport,
+    Intru,
     Tri
 }

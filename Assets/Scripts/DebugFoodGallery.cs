@@ -67,7 +67,7 @@ public class DebugFoodGallery : MonoBehaviour
                 // Copier la struct pour pouvoir la modifier
                 PortionSelection computed = sel;
 
-                float grams = PortionCalculator.ToGrams(computed, f, defaultPieceWeightG, defaultDensityGPerMl);
+                float grams = PortionCalculator.ToGrams(computed, f);
                 computed.Grams = grams;
                 computed.Value = PortionCalculator.ComputeValue(f, grams, subType);
 

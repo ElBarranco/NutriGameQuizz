@@ -741,6 +741,7 @@ MonoBehaviour:
   moreInfoMealPrefab: {fileID: 3472369455136401110, guid: 844408e47421a4343bc411a5a94a46d8, type: 3}
   moreInfoSportPrefab: {fileID: 3472369455136401110, guid: 6f52a7a6be6cc4a939e8df5569bbb28c, type: 3}
   moreInfoTriPrefab: {fileID: 3472369455136401110, guid: 45cf340c2183c48199961f0bbdb4927d, type: 3}
+  moreInfoIntrusPrefab: {fileID: 3472369455136401110, guid: 9587d94455fa74cce88a171903eca898, type: 3}
   moreInfoPanelParent: {fileID: 1826148115}
   nutrientIcon: {fileID: 1052516937}
   caloriesIcon: {fileID: 8334651344603559088, guid: 677d3d42c6e2c433384f5091a20825de, type: 3}
@@ -1299,6 +1300,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 440119511}
   m_CullTransparentMesh: 1
+--- !u!1 &463188144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 463188145}
+  - component: {fileID: 463188146}
+  m_Layer: 0
+  m_Name: Intru
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &463188145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463188144}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &463188146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463188144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce95d00d3611f450f9416be232bbcd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemCount: 4
+  easyIntrusRange: {x: 1, y: 1}
+  mediumIntrusRange: {x: 1, y: 2}
+  hardIntrusRange: {x: 2, y: 3}
 --- !u!1 &481389359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2577,7 @@ MonoBehaviour:
   mealCompositionGo: {fileID: 3472369455136401110, guid: d26e699219aab45e8abf20e4b9b02ce8, type: 3}
   SportDualGo: {fileID: 3472369455136401110, guid: e6839d13c789340db9cf6532edfb239a, type: 3}
   sortGo: {fileID: 3472369455136401110, guid: e373663afd68e4d57b4047448ca0277d, type: 3}
+  intrusGo: {fileID: 3472369455136401110, guid: eb87c2796dfff4717bdfb9b6febaa070, type: 3}
   questionParent: {fileID: 1826148115}
 --- !u!1 &804851719
 GameObject:
@@ -3897,7 +3947,6 @@ MonoBehaviour:
   defaultPieceWeightG: 120
   mealFoodsCount: 6
   pickedRange: {x: 2, y: 3}
-  startNonPickedAtZero: 1
   randomSubType: 1
   forcedSubType: 0
   maxUniqueAttempts: 30
@@ -5007,6 +5056,7 @@ Transform:
   - {fileID: 1516825078}
   - {fileID: 481389360}
   - {fileID: 1991710772}
+  - {fileID: 463188145}
   m_Father: {fileID: 549119271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
@@ -5029,6 +5079,7 @@ MonoBehaviour:
   dropRateMealComposition: 0.2
   dropRateSportDual: 1
   dropRateSort: 0.5
+  dropRateIntru: 0.5
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
@@ -5036,14 +5087,16 @@ MonoBehaviour:
   useEstimateCalories: 0
   useFunMeasure: 0
   useMealComposition: 0
-  useSportDual: 1
+  useSportDual: 0
   useSort: 0
+  useIntrus: 1
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
   mealCompositionQuestionGenerator: {fileID: 1516825079}
   sportCaloriesDualQuestionGenerator: {fileID: 481389361}
   sortFoodQuestionGenerator: {fileID: 1991710773}
+  intruderFoodQuestionGenerator: {fileID: 463188146}
 --- !u!1 &1756326488
 GameObject:
   m_ObjectHideFlags: 0

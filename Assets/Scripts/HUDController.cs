@@ -32,6 +32,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject moreInfoMealPrefab;
     [SerializeField] private GameObject moreInfoSportPrefab;
     [SerializeField] private GameObject moreInfoTriPrefab;
+    [SerializeField] private GameObject moreInfoIntrusPrefab;
     [SerializeField] private Transform moreInfoPanelParent;
 
     private GameObject currentMoreInfoPanel;
@@ -153,6 +154,12 @@ public class HUDController : MonoBehaviour
                 triPanel.Show(data, userAnswer);
                 break;
 
+            case QuestionType.Intru: 
+                currentMoreInfoPanel = Instantiate(moreInfoIntrusPrefab, moreInfoPanelParent);
+                MoreInfoIntrusPanelUI intrusPanel = currentMoreInfoPanel.GetComponent<MoreInfoIntrusPanelUI>();
+                intrusPanel.Show(data, userAnswer);
+                break;
+
             case QuestionType.CaloriesDual:
             default:
                 currentMoreInfoPanel = Instantiate(moreInfoDualPrefab, moreInfoPanelParent);
@@ -169,8 +176,6 @@ public class HUDController : MonoBehaviour
                 break;
         }
     }
-
-
     public void HideMoreInfo()
     {
         if (currentMoreInfoPanel == null)

@@ -10,6 +10,7 @@ public class QuestionFactory : MonoBehaviour
     [SerializeField] private GameObject mealCompositionGo;
     [SerializeField] private GameObject SportDualGo; // prefab UI sport
     [SerializeField] private GameObject sortGo;      // prefab UI tri
+    [SerializeField] private GameObject intrusGo;    // ✅ prefab UI intrus
     [SerializeField] private Transform questionParent;
 
     // Référence éventuelle, mais on n’utilise pas ce type en paramètre pour éviter les conversions
@@ -71,6 +72,14 @@ public class QuestionFactory : MonoBehaviour
                     GameObject go = Instantiate(sortGo, questionParent);
                     go.GetComponent<QuestionSortUI>()
                       .Init(data, onAnswered); 
+                    break;
+                }
+
+            case QuestionType.Intru: 
+                {
+                    GameObject go = Instantiate(intrusGo, questionParent);
+                    go.GetComponent<QuestionIntrusUI>()
+                      .Init(data, onAnswered);
                     break;
                 }
 

@@ -15,6 +15,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private float dropRateMealComposition = 0.2f;
     [SerializeField] private float dropRateSportDual = 1f;
     [SerializeField] private float dropRateSort = 0.5f;
+    [SerializeField] private float dropRateIntru = 0.5f;
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
@@ -28,6 +29,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private bool useMealComposition = true;
     [SerializeField] private bool useSportDual = true;
     [SerializeField] private bool useSort = true;
+    [SerializeField] private bool useIntrus = true;
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
@@ -41,6 +43,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private SportCaloriesDualQuestionGenerator sportCaloriesDualQuestionGenerator;
 
     [SerializeField] private SortFoodQuestionGenerator sortFoodQuestionGenerator;
+    [SerializeField] private IntruderFoodQuestionGenerator intruderFoodQuestionGenerator;
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -96,6 +99,14 @@ public class LevelGenerator : QuestionGenerator
                                 food => base.ResolvePortionSafe(food, QuestionSubType.Calorie), // calcule la valeur
                                 currentDifficulty
                             )
+                        );
+                        break;
+                    }
+
+                case QuestionType.Intru:
+                    {
+                        level.Questions.Add(
+                            intruderFoodQuestionGenerator.Generate(foodList,currentDifficulty)
                         );
                         break;
                     }
@@ -194,6 +205,7 @@ public class LevelGenerator : QuestionGenerator
         if (useMealComposition) total += dropRateMealComposition;
         if (useSportDual) total += dropRateSportDual;
         if (useSort) total += dropRateSort;
+        if (useIntrus) total += dropRateIntru;
 
         // Sécurité : si tout est off ou total == 0, on fallback
         if (total <= 0f)
@@ -208,6 +220,7 @@ public class LevelGenerator : QuestionGenerator
         if (useMealComposition && rand < (acc += dropRateMealComposition)) return QuestionType.MealComposition;
         if (useSportDual && rand < (acc += dropRateSportDual)) return QuestionType.Sport;
         if (useSort && rand < (acc += dropRateSort)) return QuestionType.Tri;
+        if (useIntrus && rand < (acc += dropRateIntru)) return QuestionType.Intru;
 
         // Fallback (ne devrait pas arriver, mais safe)
         return QuestionType.CaloriesDual;

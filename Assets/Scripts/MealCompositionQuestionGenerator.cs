@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,118 +9,102 @@ public class MealCompositionQuestionGenerator : QuestionGenerator
     [Header("Params")]
     [SerializeField] private int mealFoodsCount = 6;
     [SerializeField] private Vector2Int pickedRange = new Vector2Int(2, 4);
-    [SerializeField] private bool startNonPickedAtZero = true;
 
     [Header("Sous-type")]
     [SerializeField] private bool randomSubType = true;
-    [SerializeField] private QuestionSubType forcedSubType = QuestionSubType.Calorie; // utilisé si randomSubType = false
+    [SerializeField] private QuestionSubType forcedSubType = QuestionSubType.Calorie; 
 
     [Header("Robustesse")]
-    [SerializeField] private int maxUniqueAttempts = 30;    // nb d’essais si collision de somme
-    [SerializeField] private float targetSnap = 25f;        // arrondi de la cible
-    [SerializeField] private float uniquenessTolerance = 5f; // tolérance pour comparer les sommes
+    [SerializeField] private int maxUniqueAttempts = 30;     
+    [SerializeField] private float targetSnap = 25f;         
+    [SerializeField] private float uniquenessTolerance = 5f; 
 
-    public QuestionData Generate(List<FoodData> foodList, System.Func<FoodData, PortionSelection> resolvePortionSafe)
+    public QuestionData Generate(List<FoodData> foodList, Func<FoodData, PortionSelection> portionResolver)
     {
-        if (foodList == null || foodList.Count == 0)
-        {
-            Debug.LogWarning("[MealComposition] foodList vide.");
-            return new QuestionData
-            {
-                Type = QuestionType.MealComposition,
-                SousType = QuestionSubType.Calorie,
-                Aliments = new List<FoodData>(),
-                PortionSelections = new List<PortionSelection>(),
-                ValeursComparees = new List<float> { 0f },
-                IndexBonneRéponse = 0,
-                Solutions = new List<int>(),
-                MealTargetTolerance = targetSnap
-            };
-        }
-
-        // 0) Choisir le sous-type ici (random ou forcé)
+        // 0) Sous-type (random ou forcé)
         QuestionSubType subType = randomSubType ? GetRandomMealSubType() : forcedSubType;
 
-        // 1) Aliments distincts
-        List<FoodData> foods = PickDistinctFoods(foodList, mealFoodsCount);
+        // 1) Sélectionner des aliments distincts
+        List<FoodData> foods = base.PickDistinctFoods(foodList, mealFoodsCount);
 
-        // Mémos pour fallback si unicité échoue
-        List<PortionSelection> lastPortions = null;
-        List<int> lastSolutions = null;
-        float lastSnappedTarget = 0f;
+        // 2) Pré-calcul des valeurs via le resolver
+        List<(FoodData food, PortionSelection sel, float value)> candidates =
+            new List<(FoodData, PortionSelection, float)>();
 
-        // 2) Chercher une solution unique
-        for (int attempt = 0; attempt < maxUniqueAttempts; attempt++)
+        foreach (FoodData f in foods)
         {
-            int minPick = Mathf.Clamp(pickedRange.x, 1, foods.Count);
-            int maxPick = Mathf.Clamp(pickedRange.y, minPick, foods.Count);
-            int pickCount = Random.Range(minPick, maxPick + 1);
-            HashSet<int> picked = PickUniqueIndices(pickCount, foods.Count);
-
-            List<PortionSelection> portions = new List<PortionSelection>(foods.Count);
-            List<float> itemValues = new List<float>(foods.Count);
-            float targetValue = 0f;
-
-            for (int i = 0; i < foods.Count; i++)
+            try
             {
-                FoodData f = foods[i];
+                PortionSelection sel = portionResolver != null ? portionResolver.Invoke(f) : default;
+                float v = sel.Value;
+                if (float.IsNaN(v) || float.IsInfinity(v) || v <= 0f) continue;
 
-                PortionSelection sel = ResolvePortion(resolvePortionSafe, f, subType);
-
-                if (!picked.Contains(i))
-                {
-                    sel.Grams = startNonPickedAtZero ? 0f : sel.Grams * 0.3f;
-                    sel.Value = PortionCalculator.ComputeValue(f, sel.Grams, subType);
-                }
-
-                itemValues.Add(sel.Value);
-                if (picked.Contains(i))
-                    targetValue += sel.Value;
-
-                portions.Add(sel);
+                candidates.Add((f, sel, v));
             }
-
-            float snappedTarget = Snap(targetValue, targetSnap);
-
-            lastPortions = portions;
-            lastSnappedTarget = snappedTarget;
-            lastSolutions = new List<int>(picked);
-
-            // Unicité : aucun autre sous-ensemble ne doit matcher la cible
-            if (IsUniqueSubsetSum(itemValues, picked, snappedTarget, uniquenessTolerance))
+            catch
             {
-                return new QuestionData
-                {
-                    Type = QuestionType.MealComposition,
-                    SousType = subType, // ✅ on stocke le sous-type tiré
-                    Aliments = foods,
-                    PortionSelections = portions,
-                    ValeursComparees = new List<float> { snappedTarget },
-                    IndexBonneRéponse = 0,
-                    Solutions = new List<int>(picked),
-                    MealTargetTolerance = targetSnap
-                };
+                // Ignore si problème
             }
         }
 
-        Debug.LogWarning("[MealComposition] Unicité non garantie après maxUniqueAttempts — on renvoie la dernière génération.");
+        if (candidates.Count == 0)
+        {
+            Debug.LogWarning("[MealComposition] Aucun candidat valide.");
+            return null;
+        }
+
+        // 3) Tentatives pour trouver une combinaison unique
+        List<(FoodData food, PortionSelection sel, float value)> picked = null;
+        List<int> pickedIndices = null;
+        float snappedTarget = 0f;
+
+        for (int attempt = 0; attempt < maxUniqueAttempts; attempt++)
+        {
+            int minPick = Mathf.Clamp(pickedRange.x, 1, candidates.Count);
+            int maxPick = Mathf.Clamp(pickedRange.y, minPick, candidates.Count);
+            int pickCount = Random.Range(minPick, maxPick + 1);
+
+            HashSet<int> chosen = base.PickUniqueIndices(pickCount, candidates.Count);
+
+            List<(FoodData food, PortionSelection sel, float value)> chosenSet =
+                candidates.Where((c, idx) => chosen.Contains(idx)).ToList();
+
+            float targetValue = chosenSet.Sum(c => c.value);
+            snappedTarget = base.Snap(targetValue, targetSnap);
+
+            List<float> itemValues = candidates.Select(c => c.value).ToList();
+
+            if (base.IsUniqueSubsetSum(itemValues, chosen, snappedTarget, uniquenessTolerance))
+            {
+                picked = candidates;
+                pickedIndices = new List<int>(chosen);
+                break;
+            }
+        }
+
+        if (picked == null)
+        {
+            Debug.LogWarning("[MealComposition] Unicité non garantie après maxUniqueAttempts.");
+            picked = candidates;
+            pickedIndices = new List<int>();
+        }
+
+        // 4) Construction QuestionData
         return new QuestionData
         {
             Type = QuestionType.MealComposition,
-            SousType = randomSubType ? GetRandomMealSubType() : forcedSubType, // au cas où tu veux indiquer un sous-type
-            Aliments = foods,
-            PortionSelections = lastPortions ?? new List<PortionSelection>(),
-            ValeursComparees = new List<float> { lastSnappedTarget },
+            SousType = subType,
+            Aliments = picked.Select(c => c.food).ToList(),
+            PortionSelections = picked.Select(c => c.sel).ToList(),
+            ValeursComparees = new List<float> { snappedTarget },
             IndexBonneRéponse = 0,
-            Solutions = lastSolutions ?? new List<int>(),
+            Solutions = pickedIndices,
             MealTargetTolerance = targetSnap
         };
     }
 
-    // --- Sous-type aléatoire (simple : Calories / Protéines / Glucides) ---
     private static QuestionSubType GetRandomMealSubType()
     {
-        // Adapte si tu veux inclure Lipides/Fibres/etc.
         int r = Random.Range(0, 3); // 0..2
         switch (r)
         {
@@ -126,61 +112,5 @@ public class MealCompositionQuestionGenerator : QuestionGenerator
             case 1: return QuestionSubType.Proteine;
             default: return QuestionSubType.Glucide;
         }
-    }
-
-    // --- Unicité ---
-    private static bool IsUniqueSubsetSum(List<float> itemValues, HashSet<int> picked, float target, float tol)
-    {
-        int n = itemValues.Count;
-        int pickedMask = 0;
-        for (int i = 0; i < n; i++)
-            if (picked.Contains(i))
-                pickedMask |= (1 << i);
-
-        int maxMask = 1 << n;
-        for (int mask = 1; mask < maxMask; mask++)
-        {
-            if (mask == pickedMask) continue;
-            float sum = 0f;
-            for (int i = 0; i < n; i++)
-                if ((mask & (1 << i)) != 0)
-                    sum += itemValues[i];
-
-            if (Mathf.Abs(Snap(sum, 1f) - target) <= tol)
-                return false;
-        }
-        return true;
-    }
-
-    // --- Helpers locaux ---
-
-
-    private static float Snap(float v, float step)
-    {
-        if (step <= 0f) return v;
-        return Mathf.Round(v / step) * step;
-    }
-
-    private static List<FoodData> PickDistinctFoods(List<FoodData> source, int count)
-    {
-        int capacity = Mathf.Min(count, source.Count);
-        List<FoodData> result = new List<FoodData>(capacity);
-        List<FoodData> pool = new List<FoodData>(source);
-        int n = Mathf.Min(count, pool.Count);
-        for (int i = 0; i < n; i++)
-        {
-            int idx = Random.Range(0, pool.Count);
-            result.Add(pool[idx]);
-            pool.RemoveAt(idx);
-        }
-        return result;
-    }
-
-    private static HashSet<int> PickUniqueIndices(int pickCount, int maxExclusive)
-    {
-        HashSet<int> set = new HashSet<int>();
-        while (set.Count < pickCount)
-            set.Add(Random.Range(0, maxExclusive));
-        return set;
     }
 }
