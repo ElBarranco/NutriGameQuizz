@@ -1344,7 +1344,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce95d00d3611f450f9416be232bbcd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCount: 4
+  easyFoodRange: {x: 3, y: 3}
+  mediumFoodRange: {x: 3, y: 4}
+  hardFoodRange: {x: 4, y: 4}
   easyIntrusRange: {x: 1, y: 1}
   mediumIntrusRange: {x: 1, y: 2}
   hardIntrusRange: {x: 2, y: 3}
@@ -1811,7 +1813,6 @@ Transform:
   m_Children:
   - {fileID: 987643477}
   - {fileID: 1123806310}
-  - {fileID: 1748609303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &549119272
@@ -5047,8 +5048,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748609302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.72589, y: -1.24399, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5057,7 +5058,7 @@ Transform:
   - {fileID: 481389360}
   - {fileID: 1991710772}
   - {fileID: 463188145}
-  m_Father: {fileID: 549119271}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
 MonoBehaviour:
@@ -6071,6 +6072,7 @@ SceneRoots:
   - {fileID: 502056887}
   - {fileID: 240437384}
   - {fileID: 1272413622}
+  - {fileID: 1748609303}
   - {fileID: 549119271}
   - {fileID: 771620113}
   - {fileID: 1198444763}
