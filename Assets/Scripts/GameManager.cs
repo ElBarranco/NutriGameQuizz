@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int[] streakMilestones = new[] { 3, 5, 10, 15, 20 };
     private bool _lastAnswerWasCorrect = false;
 
-    [SerializeField] private RewardFXController rewardFX;
+
     [SerializeField] private QuestionFactory questionFactory;
     [SerializeField] private LevelGenerator generator;
     [SerializeField] private HUDController hud;
@@ -133,16 +133,12 @@ public class GameManager : MonoBehaviour
         EnableMoreInfo = true;
         _lastAnswerWasCorrect = isCorrect;
 
-        if (isCorrect)
-            scoreManager.EnregistrerBonneReponse();
-        else
-            scoreManager.EnregistrerMauvaiseReponse();
+
+        scoreManager.EnregistrerReponse(isCorrect, isPerfect);
 
         hud.SetNextButtonVisible(true, isCorrect);
         hud.ShowMoreInfo(currentQuestion, currentAnswer);
 
-        // Si ton système de FX gère le perfect, passe-le
-        rewardFX.PlayForAnswer(isCorrect, isPerfect);
 
         if (CurrentQuestionDataAnswer.Count > 1)
         {

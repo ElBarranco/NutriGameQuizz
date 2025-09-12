@@ -24,6 +24,7 @@ public class ScoreManager : MonoBehaviour
 
     [ShowIf(nameof(utiliserMultiplicateur))]
     [SerializeField, Min(1)] private int multiplicateurMax = 3;
+    [SerializeField] private RewardFXController rewardFX;
 
     // Événements
     public event Action<int> OnScoreChange;
@@ -61,6 +62,22 @@ public class ScoreManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void EnregistrerRecyclingAnswer(bool isCorrect)
+    {
+        rewardFX.PlayForAnswer(isCorrect, false);
+    }
+    public void EnregistrerReponse(bool isCorrect, bool isPerfect = false)
+    {
+        if (isCorrect)
+        {
+            EnregistrerBonneReponse();
+        }
+        else
+        {
+            EnregistrerMauvaiseReponse();
+        }
+        rewardFX.PlayForAnswer(isCorrect, isPerfect);
+    }
     public void EnregistrerBonneReponse()
     {
         bonnesReponses++;
@@ -102,7 +119,7 @@ public class ScoreManager : MonoBehaviour
         OnMultiplicateurChange?.Invoke(MultiplicateurEffectif);
         OnScoreChange?.Invoke(score);
     }
-    
+
     public int GetScore()
     {
         return score;

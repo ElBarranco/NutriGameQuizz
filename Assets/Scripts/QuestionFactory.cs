@@ -11,6 +11,7 @@ public class QuestionFactory : MonoBehaviour
     [SerializeField] private GameObject SportDualGo; // prefab UI sport
     [SerializeField] private GameObject sortGo;      // prefab UI tri
     [SerializeField] private GameObject intrusGo;    // ✅ prefab UI intrus
+    [SerializeField] private GameObject recyclingGo; // ✅ prefab UI recycling
     [SerializeField] private Transform questionParent;
 
     // Référence éventuelle, mais on n’utilise pas ce type en paramètre pour éviter les conversions
@@ -79,6 +80,14 @@ public class QuestionFactory : MonoBehaviour
                 {
                     GameObject go = Instantiate(intrusGo, questionParent);
                     go.GetComponent<QuestionIntrusUI>()
+                      .Init(data, onAnswered);
+                    break;
+                }
+
+            case QuestionType.Recycling: // ✅ nouveau case
+                {
+                    GameObject go = Instantiate(recyclingGo, questionParent);
+                    go.GetComponent<QuestionRecyclingUI>() // il faudra créer ce script
                       .Init(data, onAnswered);
                     break;
                 }

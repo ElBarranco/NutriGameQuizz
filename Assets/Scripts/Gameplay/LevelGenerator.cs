@@ -6,7 +6,6 @@ public class LevelGenerator : QuestionGenerator
 {
     private List<FoodData> foodList;
 
-
     // Configuration interne
     [Header("Drop Rates - Type de question")]
     [SerializeField] private float dropRateCaloriesDual = 0.7f;
@@ -16,6 +15,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private float dropRateSportDual = 1f;
     [SerializeField] private float dropRateSort = 0.5f;
     [SerializeField] private float dropRateIntru = 0.5f;
+    [SerializeField] private float dropRateRecycling = 0.5f; 
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
@@ -30,6 +30,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private bool useSportDual = true;
     [SerializeField] private bool useSort = true;
     [SerializeField] private bool useIntrus = true;
+    [SerializeField] private bool useRecycling = true; 
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
@@ -39,11 +40,10 @@ public class LevelGenerator : QuestionGenerator
 
     [SerializeField] private SpecialMeasureManager specialMeasureManager;
     [SerializeField] private MealCompositionQuestionGenerator mealCompositionQuestionGenerator;
-
     [SerializeField] private SportCaloriesDualQuestionGenerator sportCaloriesDualQuestionGenerator;
-
     [SerializeField] private SortFoodQuestionGenerator sortFoodQuestionGenerator;
     [SerializeField] private IntruderFoodQuestionGenerator intruderFoodQuestionGenerator;
+    [SerializeField] private RecyclingFoodQuestionGenerator recyclingFoodQuestionGenerator; 
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -71,57 +71,56 @@ public class LevelGenerator : QuestionGenerator
                     level.Questions.Add(
                         mealCompositionQuestionGenerator.Generate(
                             foodList,
-                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie) // adapte vers Func<FoodData, PortionSelection>
+                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie)
                         )
                     );
                     break;
 
                 case QuestionType.EstimateCalories:
-                    {
-                        level.Questions.Add(GenerateEstimateCaloriesQuestion());
-                        break;
-                    }
+                    level.Questions.Add(GenerateEstimateCaloriesQuestion());
+                    break;
+
                 case QuestionType.Sport:
                     level.Questions.Add(
                         sportCaloriesDualQuestionGenerator.Generate(
                             foodList,
-                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie), // même pattern que MealComposition
+                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie),
                             currentDifficulty
                         )
                     );
                     break;
 
                 case QuestionType.Tri:
-                    {
-                        level.Questions.Add(
-                            sortFoodQuestionGenerator.Generate(
-                                foodList,
-                                food => base.ResolvePortionSafe(food, QuestionSubType.Calorie), // calcule la valeur
-                                currentDifficulty
-                            )
-                        );
-                        break;
-                    }
+                    level.Questions.Add(
+                        sortFoodQuestionGenerator.Generate(
+                            foodList,
+                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie),
+                            currentDifficulty
+                        )
+                    );
+                    break;
 
                 case QuestionType.Intru:
-                    {
-                        level.Questions.Add(
-                            intruderFoodQuestionGenerator.Generate(foodList,currentDifficulty)
-                        );
-                        break;
-                    }
+                    level.Questions.Add(
+                        intruderFoodQuestionGenerator.Generate(foodList, currentDifficulty)
+                    );
+                    break;
+
+                case QuestionType.Recycling: // ✅ Nouveau case
+                    level.Questions.Add(
+                        recyclingFoodQuestionGenerator.Generate(foodList, currentDifficulty)
+                    );
+                    break;
 
                 case QuestionType.CaloriesDual:
                 default:
                     {
-                        // --- LOGIQUE SPECIFIQUE AU DUEL (2 aliments) ---
                         QuestionSubType subType = GetRandomQuestionSubTypeWithDropRates();
 
                         FoodData a;
                         FoodData b;
                         PickTwoDistinctFoods(subType, out a, out b);
 
-                        // Portions résolues + Value déjà calculée par sous-type
                         PortionSelection selA = base.ResolvePortionSafe(a, subType);
                         PortionSelection selB = base.ResolvePortionSafe(b, subType);
 
@@ -153,10 +152,8 @@ public class LevelGenerator : QuestionGenerator
     private QuestionData GenerateEstimateCaloriesQuestion()
     {
         FoodData f = foodList[Random.Range(0, foodList.Count)];
-        // Value = kcal par portion (on prend Calorie par défaut)
         QuestionSubType subType = GetRandomQuestionSubTypeWithDropRates();
         PortionSelection sel = base.ResolvePortionSafe(f, subType);
-
 
         return new QuestionData
         {
@@ -164,12 +161,10 @@ public class LevelGenerator : QuestionGenerator
             SousType = QuestionSubType.Calorie,
             Aliments = new List<FoodData> { f },
             PortionSelections = new List<PortionSelection> { sel },
-            ValeursComparees = new List<float> { sel.Value }, // cible à estimer
+            ValeursComparees = new List<float> { sel.Value },
             IndexBonneRéponse = 0
         };
     }
-
-
 
     // ---------- Génération FunMeasure ----------
     private QuestionData GenerateFunMeasureQuestion()
@@ -206,8 +201,8 @@ public class LevelGenerator : QuestionGenerator
         if (useSportDual) total += dropRateSportDual;
         if (useSort) total += dropRateSort;
         if (useIntrus) total += dropRateIntru;
+        if (useRecycling) total += dropRateRecycling; // ✅ Nouveau
 
-        // Sécurité : si tout est off ou total == 0, on fallback
         if (total <= 0f)
             return QuestionType.CaloriesDual;
 
@@ -221,8 +216,8 @@ public class LevelGenerator : QuestionGenerator
         if (useSportDual && rand < (acc += dropRateSportDual)) return QuestionType.Sport;
         if (useSort && rand < (acc += dropRateSort)) return QuestionType.Tri;
         if (useIntrus && rand < (acc += dropRateIntru)) return QuestionType.Intru;
+        if (useRecycling && rand < (acc += dropRateRecycling)) return QuestionType.Recycling; // ✅ Nouveau
 
-        // Fallback (ne devrait pas arriver, mais safe)
         return QuestionType.CaloriesDual;
     }
 

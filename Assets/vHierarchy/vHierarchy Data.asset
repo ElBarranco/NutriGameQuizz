@@ -19,6 +19,7 @@ MonoBehaviour:
     - e373663afd68e4d57b4047448ca0277d
     - 75037970276e043b298102e04731caea
     - e9a5f8dc5a16a4ae0a51bacefe4c175d
+    - d1cc2558b4f3a4838b389bd944e5e32d
     values:
     - goDatas_byGlobalId:
         keys:
@@ -158,6 +159,19 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 7
           iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-1-d1cc2558b4f3a4838b389bd944e5e32d-0-0
+        - globalObjectIdString: GlobalObjectId_V1-1-d1cc2558b4f3a4838b389bd944e5e32d-1832362149158244625-0
+        values:
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

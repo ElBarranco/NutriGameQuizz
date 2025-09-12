@@ -1830,7 +1830,6 @@ MonoBehaviour:
   foodParser: {fileID: 502056888}
   streakCelebrationUI: {fileID: 1561843637}
   streakMilestones: 03000000050000000a0000000f00000014000000
-  rewardFX: {fileID: 804851721}
   questionFactory: {fileID: 771620114}
   generator: {fileID: 1748609304}
   hud: {fileID: 301530438}
@@ -2579,6 +2578,7 @@ MonoBehaviour:
   SportDualGo: {fileID: 3472369455136401110, guid: e6839d13c789340db9cf6532edfb239a, type: 3}
   sortGo: {fileID: 3472369455136401110, guid: e373663afd68e4d57b4047448ca0277d, type: 3}
   intrusGo: {fileID: 3472369455136401110, guid: eb87c2796dfff4717bdfb9b6febaa070, type: 3}
+  recyclingGo: {fileID: 3472369455136401110, guid: d1cc2558b4f3a4838b389bd944e5e32d, type: 3}
   questionParent: {fileID: 1826148115}
 --- !u!1 &804851719
 GameObject:
@@ -2963,6 +2963,58 @@ MonoBehaviour:
   utiliserMultiplicateur: 1
   palierStreakPourMultiplicateur: 3
   multiplicateurMax: 5
+  rewardFX: {fileID: 804851721}
+--- !u!1 &1164078000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164078001}
+  - component: {fileID: 1164078002}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1164078001
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164078000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1272413622}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1164078002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164078000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 105931589c1fc4d5b85b68e402051cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  correctPrefab: {fileID: 6637286217001381205, guid: 503a0c832988b48b4a4bd9eb45d0cdba, type: 3}
+  wrongPrefab: {fileID: 6637286217001381205, guid: 27b01b1d232ae4310bb2086b3d9540d7, type: 3}
+  feedbackParent: {fileID: 1672045952}
 --- !u!1 &1185126134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3781,6 +3833,7 @@ RectTransform:
   - {fileID: 1731596808}
   - {fileID: 301530437}
   - {fileID: 804851720}
+  - {fileID: 1164078001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3893,6 +3946,7 @@ RectTransform:
   - {fileID: 1561843635}
   - {fileID: 629852180}
   - {fileID: 243210512}
+  - {fileID: 1672045952}
   m_Father: {fileID: 301530437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4850,6 +4904,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3f73affc9914edd8cd7cc3f6779432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1672045951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1672045952}
+  - component: {fileID: 1672045953}
+  m_Layer: 5
+  m_Name: FeedbackContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1672045952
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672045951}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1435699207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 20.003, y: 699.18164}
+  m_SizeDelta: {x: 982.01, y: 228.3539}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1672045953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672045951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b718b1edeb76046818e8f39473b9edf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questionTitleText: {fileID: 0}
+  foodItemPrefab: {fileID: 1989313868064565267, guid: 75037970276e043b298102e04731caea, type: 3}
+  foodItemParent: {fileID: 0}
 --- !u!1 &1731596807
 GameObject:
   m_ObjectHideFlags: 0
@@ -5058,6 +5163,7 @@ Transform:
   - {fileID: 481389360}
   - {fileID: 1991710772}
   - {fileID: 463188145}
+  - {fileID: 2037564502}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
@@ -5081,6 +5187,7 @@ MonoBehaviour:
   dropRateSportDual: 1
   dropRateSort: 0.5
   dropRateIntru: 0.5
+  dropRateRecycling: 0.5
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
@@ -5090,7 +5197,8 @@ MonoBehaviour:
   useMealComposition: 0
   useSportDual: 0
   useSort: 0
-  useIntrus: 1
+  useIntrus: 0
+  useRecycling: 1
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
@@ -5098,6 +5206,7 @@ MonoBehaviour:
   sportCaloriesDualQuestionGenerator: {fileID: 481389361}
   sortFoodQuestionGenerator: {fileID: 1991710773}
   intruderFoodQuestionGenerator: {fileID: 463188146}
+  recyclingFoodQuestionGenerator: {fileID: 2037564501}
 --- !u!1 &1756326488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5980,6 +6089,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027818416}
   m_CullTransparentMesh: 1
+--- !u!1 &2037564500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2037564502}
+  - component: {fileID: 2037564501}
+  m_Layer: 0
+  m_Name: Recycling
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2037564501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037564500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23d78a31b5c943eebf5168f4b230015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemCountRange: {x: 5, y: 10}
+--- !u!4 &2037564502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037564500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2126738382
 GameObject:
   m_ObjectHideFlags: 0

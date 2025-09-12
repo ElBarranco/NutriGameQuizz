@@ -6,5 +6,6 @@ public enum QuestionType
     MealComposition,
     Sport,
     Intru,
-    Tri
+    Tri,
+    Recycling
 }
