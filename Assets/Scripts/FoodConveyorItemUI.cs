@@ -10,8 +10,6 @@ public class FoodConveyorItemUI : FoodDraggableUI
     public event System.Action<FoodConveyorItemUI, bool> OnItemDestroyed;
 
     [Header("Conveyor Settings")]
-    [SerializeField] private float speed = 100f;
-    private RectTransform endPoint;
     [SerializeField] private RectTransform titre;
     private bool isMoving = true;
 
@@ -48,6 +46,12 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
         UpdateDebugColor();
     }
+    public override void Init(FoodData f, PortionSelection sel, int index)
+    {
+        base.Init(f, sel, index);
+
+        rect.anchoredPosition = Vector2.zero;
+    }
 
     private void Update()
     {
@@ -63,16 +67,6 @@ public class FoodConveyorItemUI : FoodDraggableUI
                 Destroy(gameObject);
             }
             return;
-        }
-
-        if (!isMoving) return;
-
-        rect.anchoredPosition -= new Vector2(0, speed * Time.deltaTime);
-
-        if (endPoint != null && rect.position.y < endPoint.position.y)
-        {
-            NotifyDestroyed();
-            Destroy(gameObject);
         }
     }
 

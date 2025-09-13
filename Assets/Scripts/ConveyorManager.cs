@@ -28,8 +28,10 @@ public class ConveyorManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             ConveyorSlotUI slot = Instantiate(slotPrefab, slotParent);
+            slot.transform.SetAsFirstSibling();  // place en premier dans la hiérarchie (donc derrière visuellement)
             slot.gameObject.name = $"Slot_{i}";
             slots.Add(slot);
+           
         }
 
         nextSlotIndex = 0;

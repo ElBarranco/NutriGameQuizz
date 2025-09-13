@@ -81,7 +81,7 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
 
             // 🔹 Instantie l’item DANS le slot
             conveyorManager.ActivateSlot(slot);
-            FoodConveyorItemUI item = Instantiate(foodPrefab, slot.transform);
+            FoodConveyorItemUI item = Instantiate(foodPrefab, slot.transform, false);
             item.Init(f, sel, i);
             item.PlaySpawnAnimation();
 

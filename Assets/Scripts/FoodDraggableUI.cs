@@ -73,7 +73,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             .SetDelay(delay);
     }
 
-    public void Init(FoodData f, PortionSelection sel, int index)
+    public virtual void Init(FoodData f, PortionSelection sel, int index)
     {
         food = f;
         currentIndex = index;
