@@ -8,30 +8,32 @@ using DG.Tweening;
 
 public class RecyclingDropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("Capacité")]
-    [SerializeField, Min(1)] private int maxItems = 20;
-
     [Header("Feedback UI")]
     [SerializeField] private RectTransform zoneRect;
-    [SerializeField] private TextMeshProUGUI debugText;
-    [SerializeField] private Image highlightImage;                  // assigne une Image (fond semi-transparent)
+
+    [SerializeField] private Image highlightImage;
     [SerializeField] private Color highlightColor = new Color(1, 1, 1, 0.15f);
     [SerializeField] private Color normalColor = new Color(1, 1, 1, 0f);
 
-    // Liste des items acceptés
     private readonly List<FoodDraggableUI> acceptedItems = new List<FoodDraggableUI>();
 
-    // Résultat encodé (0 = intrus, 1 = valide)
-    [ReadOnly, SerializeField] private List<int> currentAnswers = new List<int>();
 
-    private bool isPointerOver;
-    private bool isDragging;
+    private bool isPointerOver;   // état courant "over"
+    private bool isDragging;      // vrai si un item est en train d'être drag
+    private Canvas rootCanvas;    // pour le raycast écran → UI
 
     private void Awake()
     {
-        if (highlightImage != null) highlightImage.color = normalColor;
+        if (highlightImage != null)
+        {
+            highlightImage.color = normalColor;
+            // évite que l'image de surbrillance bloque des raycasts
+            highlightImage.raycastTarget = false;
+        }
 
-        // on écoute les événements globaux de drag
+        rootCanvas = GetComponentInParent<Canvas>()?.rootCanvas;
+
+        // écoute globale des débuts/fins de drag
         FoodDraggableUI.OnAnyBeginDrag += HandleBeginDrag;
         FoodDraggableUI.OnAnyEndDrag += HandleEndDrag;
     }
@@ -45,17 +47,28 @@ public class RecyclingDropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHan
     private void HandleBeginDrag(FoodDraggableUI _)
     {
         isDragging = true;
-        UpdateHighlight();
+        // on force un 1er refresh
+        RecomputePointerOver();
     }
 
     private void HandleEndDrag(FoodDraggableUI _)
     {
         isDragging = false;
-        UpdateHighlight();
+        // fin de drag ⇒ on coupe le highlight
+        if (isPointerOver)
+        {
+            isPointerOver = false;
+            UpdateHighlight();
+        }
+        else
+        {
+            UpdateHighlight();
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        // on garde ces callbacks (PC/éditeur), mais l’Update ci-dessous corrige les trous mobile
         isPointerOver = true;
         UpdateHighlight();
     }
@@ -66,9 +79,34 @@ public class RecyclingDropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHan
         UpdateHighlight();
     }
 
+    private void Update()
+    {
+        // 🔁 Recalcule robuste du "over" en drag (mobile-friendly)
+        if (isDragging)
+        {
+            bool before = isPointerOver;
+            RecomputePointerOver();
+            if (isPointerOver != before)
+                UpdateHighlight();
+        }
+    }
+
+    private void RecomputePointerOver()
+    {
+        if (zoneRect == null) { isPointerOver = false; return; }
+
+        Camera cam = null;
+        if (rootCanvas != null && rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            cam = rootCanvas.worldCamera;
+
+        // Input.mousePosition fonctionne pour le premier touch sur mobile
+        isPointerOver = RectTransformUtility.RectangleContainsScreenPoint(zoneRect, Input.mousePosition, cam);
+    }
+
     private void UpdateHighlight()
     {
         if (!highlightImage) return;
+        // ✅ actif SEULEMENT si on drag ET qu’on est au-dessus
         Color target = (isDragging && isPointerOver) ? highlightColor : normalColor;
         highlightImage.DOKill();
         highlightImage.DOColor(target, 0.12f);
@@ -76,66 +114,32 @@ public class RecyclingDropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHan
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (zoneRect == null) return;
-
-        FoodDraggableUI dragged = eventData.pointerDrag ? eventData.pointerDrag.GetComponent<FoodDraggableUI>() : null;
+        FoodConveyorItemUI dragged = eventData.pointerDrag
+            ? eventData.pointerDrag.GetComponent<FoodConveyorItemUI>()
+            : null;
         if (dragged == null) return;
 
-        if (acceptedItems.Count >= maxItems) return; // limite atteinte
+        // ✅ L’item sait s’il est intrus
+        bool isValid = !dragged.IsIntruder();
 
-        // Vérifie si intrus ou pas
-        bool isValid = IsFoodValid(dragged.GetFood());
-
-        // Enregistre la réponse
         acceptedItems.Add(dragged);
-        currentAnswers.Add(isValid ? 1 : 0);
 
-        // Reparenter visuellement dans la zone
         RectTransform draggedRT = dragged.GetComponent<RectTransform>();
         draggedRT.SetParent(zoneRect, worldPositionStays: true);
         draggedRT.anchoredPosition = Vector2.zero;
 
         if (isValid)
-        {
-            // ✅ si bon aliment : animation de disparition
-            if (dragged is FoodConveyorItemUI conveyorItem)
-                conveyorItem.PlayCollectedAnimation();
-            else
-                Destroy(dragged.gameObject);
-
-            // Spawn feedback correct
-
-        }
+            dragged.PlayCollectedAnimation();
         else
-        {
-            // ❌ si intrus : pour l’instant on le garde
-            // Exemple : (dragged as FoodConveyorItemUI)?.PlayRejectedAnimation();
+            ; // hook rejet si besoin
 
-            // Spawn feedback faux
-
-        }
         FeedbackSpawner.Instance.SpawnFeedbackAtRect(zoneRect, isValid);
         ScoreManager.Instance.EnregistrerRecyclingAnswer(isValid);
-        UpdateDebug();
+
         UpdateHighlight();
     }
 
-    private void UpdateDebug()
-    {
-        if (debugText != null)
-        {
-            debugText.text = "Réponses: " + string.Join(",", currentAnswers);
-        }
-    }
 
-    public List<int> GetAnswers()
-    {
-        return new List<int>(currentAnswers); // copie défensive
-    }
 
-    // Ici tu choisis la logique (ex: selon Proteines, Glucides, Lipides)
-    private bool IsFoodValid(FoodData food)
-    {
-        return food.Proteins >= 2f; // ex: règle protéines
-    }
+
 }

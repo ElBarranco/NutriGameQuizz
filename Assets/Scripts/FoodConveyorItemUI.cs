@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using UnityEngine.UI;
-
+using NaughtyAttributes;
 public class FoodConveyorItemUI : FoodDraggableUI
 {
     public static event System.Action<FoodConveyorItemUI> OnAnyThrown; // ✅ global : quand lancé
@@ -23,7 +23,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
     private Vector2 velocity;
     private bool isThrown = false;
     private float lifeTimer = 0f;
-    private bool isIntruder = false;
+    [ReadOnly] [SerializeField] private bool isIntruder = false;
 
     [Header("Debug Intrus")]
     [SerializeField] private bool showIntruderDebug = false;

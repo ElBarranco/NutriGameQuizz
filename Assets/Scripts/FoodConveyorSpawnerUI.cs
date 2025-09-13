@@ -74,8 +74,13 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
             FoodConveyorItemUI item = Instantiate(foodPrefab, itemsParent);
             item.transform.position = spawnPoint.position;
             item.Init(f, sel, i);
-            item.SetAsIntruder(answer == 0);
             item.PlaySpawnAnimation();
+            
+            bool isIntruder = answer == 0;
+            item.SetAsIntruder(isIntruder);
+
+            string intruSuffix = isIntruder ? "_Intru" : "";
+            item.gameObject.name = $"Item_{f.Name}_{intruSuffix}";
 
             item.SetSpeed(itemSpeed);
             item.SetEndPoint(endPoint);

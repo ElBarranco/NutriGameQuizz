@@ -159,6 +159,9 @@ public class HUDController : MonoBehaviour
                 MoreInfoIntrusPanelUI intrusPanel = currentMoreInfoPanel.GetComponent<MoreInfoIntrusPanelUI>();
                 intrusPanel.Show(data, userAnswer);
                 break;
+            case QuestionType.Recycling: 
+                GameManager.Instance.TriggerNextStep();
+                break;
 
             case QuestionType.CaloriesDual:
             default:

@@ -76,6 +76,7 @@ MonoBehaviour:
   throwSpeedThreshold: 1200
   throwDecay: 0.98
   maxLifetime: 5
+  isIntruder: 0
   showIntruderDebug: 0
   debugImage: {fileID: 3839847696828315710}
   intruderColor: {r: 1, g: 0.2971698, b: 0.2971698, a: 1}
