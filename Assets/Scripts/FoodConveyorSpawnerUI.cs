@@ -7,15 +7,14 @@ using NaughtyAttributes;
 public class FoodConveyorSpawnerUI : MonoBehaviour
 {
     [Header("Références")]
-    [SerializeField] private RectTransform spawnPoint;
-    [SerializeField] private RectTransform endPoint;
+
+    [SerializeField] private ConveyorManager conveyorManager;
     [SerializeField] private FoodConveyorItemUI foodPrefab;
-    [SerializeField] private Transform itemsParent;
+
 
     [Header("Paramètres")]
     [SerializeField] private float spawnInterval = 1.5f;
     [SerializeField] private float fastSpawnDelay = 0.2f; // délai réduit si plus d’alive
-    [SerializeField] private float itemSpeed = 100f;
 
     [Header("Debug")]
     [SerializeField] private TextMeshProUGUI debugText; // assigner dans l’inspecteur
@@ -54,6 +53,7 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
         cachedAnswers = answers;
 
         maxItemsToSpawn = foods.Count;
+        conveyorManager.GenerateSlots(maxItemsToSpawn);
         spawnedCount = 0;
         aliveCount = 0;
         allSpawned = false;
@@ -71,19 +71,25 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
             PortionSelection sel = cachedPortions[i];
             int answer = cachedAnswers[i];
 
-            FoodConveyorItemUI item = Instantiate(foodPrefab, itemsParent);
-            item.transform.position = spawnPoint.position;
+            // 🔹 Récupère le prochain slot
+            ConveyorSlotUI slot = conveyorManager.GetNextFreeSlot();
+            if (slot == null)
+            {
+                Debug.LogWarning("Pas de slot dispo !");
+                yield break;
+            }
+
+            // 🔹 Instantie l’item DANS le slot
+            conveyorManager.ActivateSlot(slot);
+            FoodConveyorItemUI item = Instantiate(foodPrefab, slot.transform);
             item.Init(f, sel, i);
             item.PlaySpawnAnimation();
-            
+
             bool isIntruder = answer == 0;
             item.SetAsIntruder(isIntruder);
 
             string intruSuffix = isIntruder ? "_Intru" : "";
             item.gameObject.name = $"Item_{f.Name}_{intruSuffix}";
-
-            item.SetSpeed(itemSpeed);
-            item.SetEndPoint(endPoint);
 
             spawnedItems.Add(item);
             spawnedCount++;
