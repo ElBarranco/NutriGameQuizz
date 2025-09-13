@@ -26,7 +26,6 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
     private Transform conveyorParent;
     private Transform dragParent;
-    private bool isBeingKilled = false;
 
     [Header("Debug Intrus")]
     [SerializeField] private bool showIntruderDebug = false;
@@ -194,7 +193,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
         isBeingKilled = true;
     }
 
-    private void DisableTitre()
+    public void DisableTitre()
     {
         titre.gameObject.SetActive(false);
     }
