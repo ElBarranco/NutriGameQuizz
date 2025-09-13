@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using TMPro;
 
 public class QuestionRecyclingUI : MonoBehaviour
 {
     [Header("Références")]
+    [SerializeField] private TextMeshProUGUI questionText;
     [SerializeField] private FoodConveyorSpawnerUI spawner;
 
     private QuestionData question;
@@ -30,6 +32,9 @@ public class QuestionRecyclingUI : MonoBehaviour
 
         aliveItems.Clear();
 
+        // Affiche le texte correspondant
+        UpdateQuestionText(q.SousType);
+
         // Lance le spawn
         spawner.Init(q.Aliments, q.PortionSelections, q.Solutions);
 
@@ -51,5 +56,18 @@ public class QuestionRecyclingUI : MonoBehaviour
             onAnswered?.Invoke(1, true);
             Destroy(gameObject);
         }
+    }
+
+    private void UpdateQuestionText(QuestionSubType subType)
+    {
+        string txt = subType switch
+        {
+            QuestionSubType.Proteine => "protéines",
+            QuestionSubType.Glucide => "glucides",
+            QuestionSubType.Lipide => "lipides",
+            _ => ""
+        };
+
+        questionText.text = txt;
     }
 }

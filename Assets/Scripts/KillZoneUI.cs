@@ -10,11 +10,22 @@ public class KillZoneUI : MonoBehaviour, IDropHandler
         FoodConveyorItemUI item = eventData.pointerDrag?.GetComponent<FoodConveyorItemUI>();
         if (item == null) return;
 
-        bool isCorrect = item.IsIntruder();
-        FeedbackSpawner.Instance.SpawnFeedbackAtRect(item.GetComponent<RectTransform>(), isCorrect);
-        ScoreManager.Instance.EnregistrerRecyclingAnswer(isCorrect);
+        bool isIntruder = item.IsIntruder();
+        // Feedback visuel
+        FeedbackSpawner.Instance.SpawnFeedbackAtRect(item.GetComponent<RectTransform>(), isIntruder);
 
-        item.PlayCollectedAnimation(); // scale down puis destroy 
+        // Enregistrement score
+        ScoreManager.Instance.EnregistrerRecyclingAnswer(isIntruder);
+
+        // ✅ Intrus -> bonne réponse (rejet)
+        if (isIntruder)
+        {
+            item.PlayCollectedAnimation();
+        }
+        else
+        {
+            item.PlayRejectedAnimation();
+        }
 
 
     }

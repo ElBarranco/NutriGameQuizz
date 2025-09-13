@@ -8,7 +8,8 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     public static event System.Action<FoodDraggableUI> OnAnyBeginDrag;
     public static event System.Action<FoodDraggableUI> OnAnyEndDrag;
-    [SerializeField] private Image icon;
+
+    [SerializeField] protected Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI gramsText;
     [SerializeField] private Button removeButton;
@@ -27,6 +28,9 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Vector2 originalPos;
     protected Transform originalParent;
 
+    private static Transform dragLayer; // ✅ Global
+    private static bool dragLayerChecked = false;
+
     // Dock d’origine + index (pour un reset avec tween)
     private InitialDockUI originalDock;
     private int originalDockIndex = -1;
@@ -39,15 +43,28 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     protected bool isBeingKilled = false;
 
-
     protected virtual void Awake()
     {
-        // Sécurise les références
         if (rect == null) rect = GetComponent<RectTransform>();
         if (canvas == null) canvas = GetComponentInParent<Canvas>();
         if (canvas != null) canvas = canvas.rootCanvas;
         if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
+
+        // ✅ Trouver le DragLayer global une seule fois
+        if (!dragLayerChecked)
+        {
+            dragLayerChecked = true;
+            if (canvas != null)
+            {
+                Transform found = canvas.rootCanvas.transform.Find("DragLayer");
+                if (found != null)
+                    dragLayer = found;
+                else
+                    Debug.LogWarning("⚠️ Aucun DragLayer trouvé dans le Canvas root !");
+            }
+        }
     }
+
     public void PlaySpawnAnimation(float delay = 0f)
     {
         rect.localScale = Vector3.zero;
@@ -55,14 +72,12 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             .SetEase(Ease.OutBack)
             .SetDelay(delay);
     }
+
     public void Init(FoodData f, PortionSelection sel, int index)
     {
         food = f;
-
         currentIndex = index;
-
         nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel);
-
         icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
     }
 
@@ -80,7 +95,7 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         originalDockIndex = index;
     }
 
-    public void NotifyDropped() { wasDropped = true; }
+    public void NotifyDropped() => wasDropped = true;
 
     public void SetCurrentDropZone(DropZoneUI dz)
     {
@@ -99,17 +114,15 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void ResetToOriginal(bool tween)
     {
         if (isBeingKilled) return;
-        
+
         rect.DOKill(false);
 
-        // Utilise le dock d’origine si disponible (tween garanti via PlaceAtIndex)
         if (originalDock != null && originalDockIndex >= 0)
         {
             originalDock.PlaceAtIndex(this, originalDockIndex, tween);
         }
         else
         {
-            // Fallback : parent/pos d’origine
             rect.SetParent(originalParent, worldPositionStays: false);
             rect.localRotation = Quaternion.identity;
             rect.localScale = Vector3.one;
@@ -134,7 +147,10 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         startParent = rect.parent;
 
         if (canvasGroup) canvasGroup.blocksRaycasts = false;
-        rect.SetAsLastSibling();
+
+        // ✅ Déplacer dans le DragLayer global (toujours tout devant)
+        if (dragLayer != null)
+            transform.SetParent(dragLayer, true);
 
         Vector2 localPoint;
         RectTransform canvasRT = canvas.transform as RectTransform;
@@ -143,7 +159,6 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             pointerOffset = rect.anchoredPosition - localPoint;
         else
             pointerOffset = Vector2.zero;
-
 
         OnAnyBeginDrag?.Invoke(this);
     }
@@ -162,7 +177,6 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public virtual void OnEndDrag(PointerEventData eventData)
     {
         if (canvasGroup) canvasGroup.blocksRaycasts = true;
-
         OnAnyEndDrag?.Invoke(this);
         StartCoroutine(EndDragDeferred());
     }
@@ -174,13 +188,10 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (transform.parent != startParent) yield break;
         rect.DOAnchorPos(startPos, 0.25f).SetEase(Ease.OutBack);
     }
-    public void MarkAsKilled()
-    {
-        isBeingKilled = true;
-    }
+
+    public void MarkAsKilled() => isBeingKilled = true;
+
     // ---------- Getters ----------
     public FoodData GetFood() => food;
-
-
     public int GetIndex() => currentIndex;
 }

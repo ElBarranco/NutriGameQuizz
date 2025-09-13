@@ -2527,6 +2527,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681840498}
   m_CullTransparentMesh: 1
+--- !u!1 &730838284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 730838285}
+  m_Layer: 5
+  m_Name: DragLayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &730838285
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730838284}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1435699207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0019855, y: -0.015015}
+  m_SizeDelta: {x: 1080, y: 2340}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &771620112
 GameObject:
   m_ObjectHideFlags: 0
@@ -3947,6 +3982,7 @@ RectTransform:
   - {fileID: 629852180}
   - {fileID: 243210512}
   - {fileID: 1672045952}
+  - {fileID: 730838285}
   m_Father: {fileID: 301530437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4332,7 +4368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 563.5746
+      value: 578.0424
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4368,7 +4404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 42
+      value: 34.766113
       objectReference: {fileID: 0}
     - target: {fileID: 2266898051346676062, guid: 31d32a33db2e1496e8b18e189c912c22, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4913,7 +4949,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1672045952}
-  - component: {fileID: 1672045953}
   m_Layer: 5
   m_Name: FeedbackContainer
   m_TagString: Untagged
@@ -4940,21 +4975,6 @@ RectTransform:
   m_AnchoredPosition: {x: 20.003, y: 699.18164}
   m_SizeDelta: {x: 982.01, y: 228.3539}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1672045953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1672045951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b718b1edeb76046818e8f39473b9edf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questionTitleText: {fileID: 0}
-  foodItemPrefab: {fileID: 1989313868064565267, guid: 75037970276e043b298102e04731caea, type: 3}
-  foodItemParent: {fileID: 0}
 --- !u!1 &1731596807
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,7 +6138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23d78a31b5c943eebf5168f4b230015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCountRange: {x: 2, y: 2}
+  itemCountRange: {x: 5, y: 10}
 --- !u!4 &2037564502
 Transform:
   m_ObjectHideFlags: 0

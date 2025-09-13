@@ -321,7 +321,6 @@ RectTransform:
   - {fileID: 6380177974387960983}
   - {fileID: 1501551694541733607}
   - {fileID: 7807031780738511287}
-  - {fileID: 7441582355420814375}
   m_Father: {fileID: 5026714138236642283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -341,14 +340,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0958b6f25a2d04195a1fd87def28c3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 6380177974387960983}
   conveyorManager: {fileID: 4080549907390373790}
-  endPoint: {fileID: 1501551694541733607}
   foodPrefab: {fileID: -1303816011467972332, guid: ea14f32322f424cc183fdbb3fee79682, type: 3}
-  itemsParent: {fileID: 2572605811601163597}
   spawnInterval: 3
   fastSpawnDelay: 0.15
-  itemSpeed: 100
   debugText: {fileID: 601575756552162243}
   aliveCount: 0
   allSpawned: 0
@@ -366,6 +361,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 7446884962471473855}
   slotParent: {fileID: 7441582355420814375}
+  endPoint: {fileID: 1501551694541733607}
+  speed: 100
 --- !u!1 &3305535616955888415
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +535,7 @@ RectTransform:
   - {fileID: 4267007462302329124}
   - {fileID: 1890234787760738772}
   - {fileID: 755099848995576880}
+  - {fileID: 7441582355420814375}
   - {fileID: 2572605811601163597}
   - {fileID: 2813529046193381419}
   m_Father: {fileID: 0}
@@ -579,6 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6aa6d18c68a54a89935add4b73f619d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questionText: {fileID: 7636365781058023914}
   spawner: {fileID: 4456210296966682453}
   aliveItems: []
 --- !u!1 &5153987231601677827
@@ -943,17 +942,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7453975228400472901}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8104815834977431555}
-  m_Father: {fileID: 1890234787760738772}
+  m_Father: {fileID: 5026714138236642283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.783, y: -15.3702}
+  m_AnchoredPosition: {x: 8.783, y: 110.6298}
   m_SizeDelta: {x: 310.7919, y: 938.7759}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7509131229790157461
@@ -1074,7 +1073,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 830b5ad216de74c1294118f41a455cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
   rect: {fileID: 8104815834977431555}
 --- !u!1 &8371295038574769861
 GameObject:

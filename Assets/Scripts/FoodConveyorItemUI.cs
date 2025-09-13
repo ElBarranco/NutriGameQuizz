@@ -3,41 +3,49 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using UnityEngine.UI;
 using NaughtyAttributes;
+
 public class FoodConveyorItemUI : FoodDraggableUI
 {
-    public static event System.Action<FoodConveyorItemUI> OnAnyThrown; // ✅ global : quand lancé
-    public event System.Action<FoodConveyorItemUI, bool> OnItemDestroyed; // ✅ par item : notifie la question
+    public static event System.Action<FoodConveyorItemUI> OnAnyThrown;
+    public event System.Action<FoodConveyorItemUI, bool> OnItemDestroyed;
 
     [Header("Conveyor Settings")]
-    [SerializeField] private float speed = 100f; // pixels par seconde
+    [SerializeField] private float speed = 100f;
     private RectTransform endPoint;
-    [SerializeField] private RectTransform titre; // assigner dans l’inspecteur
+    [SerializeField] private RectTransform titre;
     private bool isMoving = true;
 
     [Header("Throw Settings")]
-    [SerializeField] private float throwSpeedThreshold = 1200f; // vitesse minimale pour un "lancer"
-    [SerializeField] private float throwDecay = 0.98f;           // ralentissement progressif
-    [SerializeField] private float maxLifetime = 5f;             // sécurité auto-destruction
+    [SerializeField] private float throwSpeedThreshold = 1200f;
+    [SerializeField] private float throwDecay = 0.98f;
+    [SerializeField] private float maxLifetime = 5f;
 
     private Vector2 lastPos;
     private Vector2 velocity;
     private bool isThrown = false;
     private float lifeTimer = 0f;
-    [ReadOnly] [SerializeField] private bool isIntruder = false;
+    [ReadOnly][SerializeField] private bool isIntruder = false;
+
+    private Transform conveyorParent;
+    private Transform dragParent;
+    private bool isBeingKilled = false;
 
     [Header("Debug Intrus")]
     [SerializeField] private bool showIntruderDebug = false;
-    [SerializeField] private Image debugImage; // une image à colorer (UI)
+    [SerializeField] private Image debugImage;
     [SerializeField] private Color intruderColor = new Color(1f, 0f, 0f, 0.4f);
     [SerializeField] private Color normalColor = new Color(1f, 1f, 1f, 0f);
 
     public static event System.Action<FoodConveyorItemUI, bool> OnAnyDestroyed;
 
-
     protected override void Awake()
     {
         base.Awake();
         lastPos = rect.anchoredPosition;
+
+        conveyorParent = transform.parent;   // le slot/tapis d’origine
+        dragParent = conveyorParent.parent;  // parent global (canvas, etc.)
+
         UpdateDebugColor();
     }
 
@@ -70,10 +78,13 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+        transform.SetParent(dragParent, true);
         base.OnBeginDrag(eventData);
         isMoving = false;
         isThrown = false;
         velocity = Vector2.zero;
+
+        // ✅ change de parent → ne bouge plus avec le slot
     }
 
     public override void OnDrag(PointerEventData eventData)
@@ -95,11 +106,10 @@ public class FoodConveyorItemUI : FoodDraggableUI
             DisableTitre();
             OnAnyThrown?.Invoke(this);
 
-            bool isCorrect = isIntruder; // ✔️ si c’est un intrus → bonne réponse
+            bool isCorrect = isIntruder;
             FeedbackSpawner.Instance.SpawnFeedbackAtRect(rect, isCorrect);
             ScoreManager.Instance.EnregistrerRecyclingAnswer(isCorrect);
 
-            // ⚠️ On ne détruit pas tout de suite (il "vole"), mais on considérera que c’est fini pour la question
             NotifyDestroyed();
         }
         else
@@ -108,14 +118,17 @@ public class FoodConveyorItemUI : FoodDraggableUI
             {
                 base.OnEndDrag(eventData);
 
-                if (transform.parent == originalParent)
+                // ✅ si reset → on remet dans le slot/conveyor
+                if (transform.parent == dragParent)
+                {
+                    transform.SetParent(conveyorParent, true); // true = conserve la position monde
                     isMoving = true;
+                }
             }
         }
     }
 
-    public void SetSpeed(float newSpeed) => speed = newSpeed;
-    public void SetEndPoint(RectTransform target) => endPoint = target;
+
 
     public void StopMovement() => isMoving = false;
 
@@ -139,11 +152,37 @@ public class FoodConveyorItemUI : FoodDraggableUI
             });
     }
 
+
     public void PlayRejectedAnimation()
     {
+        MarkAsKilled();
         StopMovement();
-        rect.DOShakePosition(0.3f, 10f, 20, 90f)
-            .OnComplete(() => isMoving = true);
+        DisableTitre();
+
+        float jumpPower = Random.Range(600f, 1000f);
+        float duration = 0.85f;
+        float randomRot = Random.Range(-360f, 360f);
+
+        // Force un minimum de déplacement horizontal (au moins 80px à gauche/droite)
+        float offsetX = Random.Range(0, 2) == 0
+            ? Random.Range(-700f, -200f)   // toujours bien à gauche
+            : Random.Range(200f, 700f);    // toujours bien à droite
+
+        float offsetY = Random.Range(120f, 200f);
+        Vector2 randomOffset = new Vector2(offsetX, offsetY);
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(rect.DOJumpAnchorPos(rect.anchoredPosition + randomOffset, jumpPower, 1, duration)
+            .SetEase(Ease.OutQuad));
+        seq.Join(rect.DOScale(0.6f, 0.45f).SetEase(Ease.OutBack));
+        seq.Join(rect.DORotate(new Vector3(0, 0, randomRot), duration, RotateMode.FastBeyond360));
+        seq.Join(icon.DOFade(0.4f, duration));
+
+        seq.OnComplete(() =>
+        {
+            OnDestroy();
+            Destroy(gameObject);
+        });
     }
 
     private void MarkAsKilled()
@@ -153,8 +192,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
     private void DisableTitre()
     {
-        if (titre != null)
-            titre.gameObject.SetActive(false);
+        titre.gameObject.SetActive(false);
     }
 
     public bool IsIntruder() => isIntruder;
@@ -172,7 +210,6 @@ public class FoodConveyorItemUI : FoodDraggableUI
         OnAnyDestroyed?.Invoke(this, isIntruder);
     }
 
-    // === 🔔 Notify Question quand détruit ===
     private void NotifyDestroyed()
     {
         OnItemDestroyed?.Invoke(this, isIntruder);
