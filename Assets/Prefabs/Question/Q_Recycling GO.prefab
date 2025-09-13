@@ -361,7 +361,9 @@ MonoBehaviour:
   slotPrefab: {fileID: 7446884962471473855}
   slotParent: {fileID: 7441582355420814375}
   endPoint: {fileID: 1501551694541733607}
-  speed: 100
+  easySpeed: 50
+  normalSpeed: 100
+  hardSpeed: 180
 --- !u!1 &3305535616955888415
 GameObject:
   m_ObjectHideFlags: 0

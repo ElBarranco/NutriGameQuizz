@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         IsGameRunning = true;
         List<FoodData> allFoods = foodParser.GetFoodData();
         foodList = difficultyManager.FilterFoods(allFoods);
+        difficultyManager.SetDifficulty(level);
 
         if (foodList.Count < 2)
         {

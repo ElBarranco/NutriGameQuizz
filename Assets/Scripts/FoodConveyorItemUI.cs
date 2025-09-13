@@ -35,6 +35,8 @@ public class FoodConveyorItemUI : FoodDraggableUI
     [SerializeField] private Color normalColor = new Color(1f, 1f, 1f, 0f);
 
     public static event System.Action<FoodConveyorItemUI, bool> OnAnyDestroyed;
+    public static event System.Action<FoodConveyorItemUI> OnAnyBeginDragConveyor;
+    public static event System.Action<FoodConveyorItemUI> OnAnyEndDragConveyor;
 
     protected override void Awake()
     {
@@ -78,7 +80,8 @@ public class FoodConveyorItemUI : FoodDraggableUI
         isThrown = false;
         velocity = Vector2.zero;
 
-        // ✅ change de parent → ne bouge plus avec le slot
+        // 🚀 Notifie début de drag
+        OnAnyBeginDragConveyor?.Invoke(this);
     }
 
     public override void OnDrag(PointerEventData eventData)
@@ -92,6 +95,9 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        // 🚀 Notifie fin de drag
+        OnAnyEndDragConveyor?.Invoke(this);
+
         if (velocity.magnitude > throwSpeedThreshold)
         {
             isThrown = true;
@@ -116,7 +122,11 @@ public class FoodConveyorItemUI : FoodDraggableUI
                 if (transform.parent == dragParent)
                 {
                     transform.SetParent(conveyorParent, true); // true = conserve la position monde
-                    isMoving = true;
+                    // tween fluide vers (0,0) dans le slot
+                    rect.DOKill(); // kill tweens en cours pour éviter les conflits
+                    rect.DOLocalMove(Vector3.zero, 0.25f)
+                        .SetEase(Ease.OutBack)
+                        .OnComplete(() => isMoving = true);
                 }
             }
         }

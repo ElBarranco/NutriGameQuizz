@@ -65,6 +65,8 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
+        conveyorManager.Init();
+
         for (int i = spawnedCount; i < cachedFoods.Count; i++)
         {
             FoodData f = cachedFoods[i];
