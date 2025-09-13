@@ -87,7 +87,7 @@ public class QuestionFactory : MonoBehaviour
             case QuestionType.Recycling: // ✅ nouveau case
                 {
                     GameObject go = Instantiate(recyclingGo, questionParent);
-                    go.GetComponent<QuestionRecyclingUI>() // il faudra créer ce script
+                    go.GetComponent<QuestionRecyclingUI>() 
                       .Init(data, onAnswered);
                     break;
                 }

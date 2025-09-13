@@ -345,7 +345,11 @@ MonoBehaviour:
   foodPrefab: {fileID: -1303816011467972332, guid: ea14f32322f424cc183fdbb3fee79682, type: 3}
   itemsParent: {fileID: 2572605811601163597}
   spawnInterval: 3
+  fastSpawnDelay: 0.15
   itemSpeed: 100
+  debugText: {fileID: 601575756552162243}
+  aliveCount: 0
+  allSpawned: 0
 --- !u!114 &4080549907390373790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,7 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 4456210296966682453}
-  bottomPanel: {fileID: 7858339126486100134}
+  aliveItems: []
 --- !u!1 &5153987231601677827
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,8 +817,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 258.34204, y: 503.736}
-  m_SizeDelta: {x: 247.0804, y: 51.4713}
+  m_AnchoredPosition: {x: -1.6417, y: 606.6205}
+  m_SizeDelta: {x: 348.0833, y: 56.827}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1547855197876384708
 CanvasRenderer:
@@ -878,8 +882,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

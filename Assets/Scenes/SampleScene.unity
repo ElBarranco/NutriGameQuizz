@@ -6118,7 +6118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23d78a31b5c943eebf5168f4b230015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCountRange: {x: 5, y: 10}
+  itemCountRange: {x: 2, y: 2}
 --- !u!4 &2037564502
 Transform:
   m_ObjectHideFlags: 0

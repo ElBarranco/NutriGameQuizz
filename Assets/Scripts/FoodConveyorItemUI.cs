@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class FoodConveyorItemUI : FoodDraggableUI
 {
+    public static event System.Action<FoodConveyorItemUI> OnAnyThrown; // ✅ global : quand lancé
+    public event System.Action<FoodConveyorItemUI, bool> OnItemDestroyed; // ✅ par item : notifie la question
+
     [Header("Conveyor Settings")]
     [SerializeField] private float speed = 100f; // pixels par seconde
     private RectTransform endPoint;
@@ -20,8 +23,6 @@ public class FoodConveyorItemUI : FoodDraggableUI
     private Vector2 velocity;
     private bool isThrown = false;
     private float lifeTimer = 0f;
-    private bool isBeingKilled = false;
-
     private bool isIntruder = false;
 
     [Header("Debug Intrus")]
@@ -30,11 +31,13 @@ public class FoodConveyorItemUI : FoodDraggableUI
     [SerializeField] private Color intruderColor = new Color(1f, 0f, 0f, 0.4f);
     [SerializeField] private Color normalColor = new Color(1f, 1f, 1f, 0f);
 
+    public static event System.Action<FoodConveyorItemUI, bool> OnAnyDestroyed;
+
+
     protected override void Awake()
     {
         base.Awake();
         lastPos = rect.anchoredPosition;
-
         UpdateDebugColor();
     }
 
@@ -48,6 +51,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
             if (!RectTransformUtility.RectangleContainsScreenPoint(rect, rect.position, null) || lifeTimer > maxLifetime)
             {
+                NotifyDestroyed();
                 Destroy(gameObject);
             }
             return;
@@ -59,6 +63,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
         if (endPoint != null && rect.position.y < endPoint.position.y)
         {
+            NotifyDestroyed();
             Destroy(gameObject);
         }
     }
@@ -87,7 +92,15 @@ public class FoodConveyorItemUI : FoodDraggableUI
             isThrown = true;
             lifeTimer = 0f;
 
-            DisableTitre(); // ✅ désactiver le titre quand lancé
+            DisableTitre();
+            OnAnyThrown?.Invoke(this);
+
+            bool isCorrect = isIntruder; // ✔️ si c’est un intrus → bonne réponse
+            FeedbackSpawner.Instance.SpawnFeedbackAtRect(rect, isCorrect);
+            ScoreManager.Instance.EnregistrerRecyclingAnswer(isCorrect);
+
+            // ⚠️ On ne détruit pas tout de suite (il "vole"), mais on considérera que c’est fini pour la question
+            NotifyDestroyed();
         }
         else
         {
@@ -119,7 +132,11 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
         rect.DOScale(Vector3.zero, 0.3f)
             .SetEase(Ease.InBack)
-            .OnComplete(() => Destroy(gameObject));
+            .OnComplete(() =>
+            {
+                NotifyDestroyed();
+                Destroy(gameObject);
+            });
     }
 
     public void PlayRejectedAnimation()
@@ -136,20 +153,28 @@ public class FoodConveyorItemUI : FoodDraggableUI
 
     private void DisableTitre()
     {
-        titre.gameObject.SetActive(false);
+        if (titre != null)
+            titre.gameObject.SetActive(false);
     }
 
-    public bool IsIntruder()
-    {
-        return isIntruder;
-    }
+    public bool IsIntruder() => isIntruder;
 
-    // === Debug intrus ===
     private void UpdateDebugColor()
     {
         if (debugImage != null && showIntruderDebug)
         {
             debugImage.color = isIntruder ? intruderColor : normalColor;
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnAnyDestroyed?.Invoke(this, isIntruder);
+    }
+
+    // === 🔔 Notify Question quand détruit ===
+    private void NotifyDestroyed()
+    {
+        OnItemDestroyed?.Invoke(this, isIntruder);
     }
 }
