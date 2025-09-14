@@ -8,7 +8,7 @@ using TMPro;
 public class QuestionIntrusUI : MonoBehaviour
 {
     [Header("Références")]
-    [SerializeField] private RectTransform contentPanel;
+    [SerializeField] private List<GameObject> foodSlots; 
     [SerializeField] private FoodSelectableUI foodButtonPrefab;
     [SerializeField] private Button validateButtonUI;
     [SerializeField] private TextMeshProUGUI debugText;
@@ -25,30 +25,47 @@ public class QuestionIntrusUI : MonoBehaviour
         question = q;
         onAnswered = callback;
 
-        // Instancier les 4 aliments
-        for (int i = 0; i < q.Aliments.Count; i++)
+        // Reset
+        currentSelection.Clear();
+        CleanupSpawned();
+
+        // ✅ Activer uniquement les slots nécessaires
+        for (int i = 0; i < foodSlots.Count; i++)
         {
-            FoodData f = q.Aliments[i];
+            bool active = i < q.Aliments.Count;
+            foodSlots[i].SetActive(active);
 
-            FoodSelectableUI item = Instantiate(foodButtonPrefab, contentPanel, false);
-            item.gameObject.name = $"INTRUS_{f.Name}_{i}";
-            item.Init(f, i, OnFoodClicked);
+            if (active)
+            {
+                FoodData f = q.Aliments[i];
 
-            spawnedItems.Add(item);
+                // Instancier un bouton dans ce slot
+                FoodSelectableUI item = Instantiate(foodButtonPrefab, foodSlots[i].transform, false);
+                item.gameObject.name = $"INTRUS_{f.Name}_{i}";
+                item.Init(f, i, OnFoodClicked);
 
-            // Par défaut → tout est "bon" (1)
-            currentSelection.Add(1);
+                spawnedItems.Add(item);
+
+                currentSelection.Add(1); // par défaut "bon"
+            }
         }
 
-        UpdateDebugText(); // ✅ init
+        UpdateDebugText();
+    }
+
+    private void CleanupSpawned()
+    {
+        foreach (var item in spawnedItems)
+        {
+            if (item != null) Destroy(item.gameObject);
+        }
+        spawnedItems.Clear();
     }
 
     private void OnFoodClicked(int index, bool isSelectedAsIntrus)
     {
-        // Toggle entre 1 (bon) et 2 (intrus)
         currentSelection[index] = isSelectedAsIntrus ? 2 : 1;
-
-        UpdateDebugText(); // ✅ maj debug
+        UpdateDebugText();
     }
 
     private void UpdateDebugText()
@@ -64,7 +81,6 @@ public class QuestionIntrusUI : MonoBehaviour
 
         int encodedAnswer = EncodeSelection(currentSelection);
 
-        // On envoie la réponse au manager
         onAnswered?.Invoke(encodedAnswer, false);
 
         Destroy(gameObject);

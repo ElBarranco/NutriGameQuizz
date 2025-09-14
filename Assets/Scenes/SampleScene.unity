@@ -2995,6 +2995,7 @@ MonoBehaviour:
   streakActuel: 0
   meilleurStreak: 0
   pointsParBonneReponse: 10
+  pointsParBonneReponseRecycling: 2
   utiliserMultiplicateur: 1
   palierStreakPourMultiplicateur: 3
   multiplicateurMax: 5
@@ -5213,12 +5214,12 @@ MonoBehaviour:
   dropRateProteine: 0.3
   dropRateSucre: 0.2
   useCaloriesDual: 0
-  useEstimateCalories: 1
+  useEstimateCalories: 0
   useFunMeasure: 0
   useMealComposition: 0
   useSportDual: 0
   useSort: 0
-  useIntrus: 0
+  useIntrus: 1
   useRecycling: 0
   minCaloriesDelta: 20
   mealFoodsCount: 6
@@ -5896,6 +5897,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8bb6c6d41e74b61b966490a285fc34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
+  defaultPieceWeightG: 120
   minCount: 3
   maxCount: 4
   minDeltaBetweenAdjacent: 80
