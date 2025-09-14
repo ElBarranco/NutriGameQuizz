@@ -248,7 +248,7 @@ MonoBehaviour:
   itemsContainer: {fileID: 5975676113107139777}
   itemPrefab: {fileID: 4202320265651402393, guid: 75037970276e043b298102e04731caea, type: 3}
   nearTargetColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 1, g: 0.1745283, b: 0.1745283, a: 1}
   nearThreshold: 50
 --- !u!1 &3612882831243939011
 GameObject:
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 740237370865506388}
   - component: {fileID: 1569917931024074724}
   m_Layer: 5
-  m_Name: Titre 1 (2)
+  m_Name: Reponse Joueur
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

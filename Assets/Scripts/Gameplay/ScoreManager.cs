@@ -17,6 +17,7 @@ public class ScoreManager : MonoBehaviour
 
     [Header("Config Scoring")]
     [SerializeField, Min(1)] private int pointsParBonneReponse = 10;
+    [SerializeField, Min(1)] private int pointsParBonneReponseRecycling = 2;
     [SerializeField] private bool utiliserMultiplicateur = true;
 
     [ShowIf(nameof(utiliserMultiplicateur))]
@@ -64,6 +65,7 @@ public class ScoreManager : MonoBehaviour
 
     public void EnregistrerRecyclingAnswer(bool isCorrect)
     {
+        score += pointsParBonneReponseRecycling;
         rewardFX.PlayForAnswer(isCorrect, false);
     }
     public void EnregistrerReponse(bool isCorrect, bool isPerfect = false)

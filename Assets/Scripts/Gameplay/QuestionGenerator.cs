@@ -79,7 +79,7 @@ public abstract class QuestionGenerator : MonoBehaviour
 
         // 3) Harmonisation en grammes RÉELS selon le type de portion choisi
         //    (n'écrase pas si Grams > 0 déjà fourni)
-        sel.Grams = PortionCalculator.ToGrams(sel, food,pieceWeight, density);
+        sel.Grams = PortionCalculator.ToGrams(sel, food, pieceWeight, density);
 
         // 4) Valeur nutritionnelle selon le sous-type (Calorie / Prot / Gluc / …)
         sel.Value = PortionCalculator.ComputeValue(food, sel.Grams, subType);
@@ -97,7 +97,7 @@ public abstract class QuestionGenerator : MonoBehaviour
         List<FoodData> result = new List<FoodData>(capacity);
         List<FoodData> pool = new List<FoodData>(source);
         int n = Mathf.Min(count, pool.Count);
-        
+
         for (int i = 0; i < n; i++)
         {
             int idx = Random.Range(0, pool.Count);
@@ -121,10 +121,15 @@ public abstract class QuestionGenerator : MonoBehaviour
         return Mathf.Round(v / step) * step;
     }
 
+    protected QuestionSubType GetRandomSubType(params QuestionSubType[] subTypes)
+    {
+        int index = UnityEngine.Random.Range(0, subTypes.Length);
+        return subTypes[index];
+    }
 
     /// Tire un sous-type parmi (Calorie, Protéine, Glucide, éventuellement Lipide/Fibres).
 
-    protected QuestionSubType GetRandomSubType(bool includeLipides = false, bool includeFibres = false)
+    protected QuestionSubType GetXRandomSubType(bool includeLipides = false, bool includeFibres = false)
     {
         List<QuestionSubType> bag = new List<QuestionSubType> { QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Glucide };
         if (includeLipides) bag.Add(QuestionSubType.Lipide);

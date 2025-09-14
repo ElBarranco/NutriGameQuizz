@@ -7,7 +7,7 @@ using UnityEngine;
 /// Génère une question de type TRI : trier des aliments du - au + calorique (ou autre sous-type).
 /// Génération ONLY (pas d’UI).
 /// </summary>
-public class SortFoodQuestionGenerator : MonoBehaviour
+public class SortFoodQuestionGenerator : QuestionGenerator
 {
     [Header("Paramètres")]
     [SerializeField, Min(3)] private int minCount = 3;
@@ -146,11 +146,7 @@ DifficultyLevel currentDifficulty,
         }
     }
 
-    private QuestionSubType GetRandomSubType(params QuestionSubType[] subTypes)
-    {
-        int index = UnityEngine.Random.Range(0, subTypes.Length);
-        return subTypes[index];
-    }
+
 
 
     private int GetTargetFoodCount(int count, DifficultyLevel difficulty)

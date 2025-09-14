@@ -28,8 +28,20 @@ public class EstimateQuestionGenerator : QuestionGenerator
 
     private QuestionSubType GetRandomQuestionSubTypeWithDropRates(DifficultyLevel currentDifficulty)
     {
-        // TODO : tu peux faire varier en fonction de la difficulté
-        return QuestionSubType.Calorie;
+        switch (currentDifficulty)
+        {
+            case DifficultyLevel.Easy:
+                return QuestionSubType.Calorie;
+
+            case DifficultyLevel.Medium:
+                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
+
+            case DifficultyLevel.Hard:
+                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
+
+            default:
+                return QuestionSubType.Calorie;
+        }
     }
 
 }

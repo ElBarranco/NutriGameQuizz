@@ -8,7 +8,7 @@ public class FinalUIController : MonoBehaviour
 
     public void InitFinalUI(int score)
     {
-        scoreText.text = $"Score : {score}";
+        scoreText.text = $"{score}";
 
     }
 }
