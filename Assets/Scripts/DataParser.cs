@@ -81,11 +81,14 @@ public class FoodDataParser : CsvParserBase
                 && TryParseFloatFlexible(values[10], out float fibers)
                 && TryParseAndRoundToInt(values[11], out int indexGlycemique))
             {
+                FoodCategory mainCategory = ComputeMainCategory(proteins, carbohydrates, lipids);
+
                 var foodData = new FoodData(
                     name, type, rarity, portionType,
                     weight, volume, calories,
                     proteins, carbohydrates, lipids, fibers,
-                    indexGlycemique
+                    indexGlycemique,
+                    mainCategory
                 );
 
                 // Vérif sprite (une seule fois)
@@ -126,6 +129,15 @@ public class FoodDataParser : CsvParserBase
 
         dataList.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
         return dataList;
+    }
+
+
+    private static FoodCategory ComputeMainCategory(float proteins, float carbs, float lipids)
+    {
+        // On choisit la macro dominante. En cas d’égalité, priorité Protéines > Glucides > Lipides.
+        if (proteins >= carbs && proteins >= lipids) return FoodCategory.Proteine;
+        if (carbs >= lipids) return FoodCategory.Glucide;
+        return FoodCategory.Lipide;
     }
 
     private bool TryParseFoodPortionType(string input, out FoodPortionType portionType)

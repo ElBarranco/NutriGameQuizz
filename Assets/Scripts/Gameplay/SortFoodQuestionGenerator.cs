@@ -27,6 +27,8 @@ DifficultyLevel currentDifficulty,
     )
     {
         int target = GetTargetFoodCount(count, currentDifficulty);
+        QuestionSubType subType = GetSubType(currentDifficulty);
+
 
         // 1) Pré-calcul des valeurs via le resolver
         List<(FoodData food, PortionSelection sel, float value)> candidates =
@@ -114,7 +116,7 @@ DifficultyLevel currentDifficulty,
         QuestionData q = new QuestionData
         {
             Type = QuestionType.Tri,
-            SousType = QuestionSubType.Calorie, // tri sur les calories (ajuste si besoin)
+            SousType = QuestionSubType.Calorie,
             Aliments = displayOrder.Select(t => t.food).ToList(),
             PortionSelections = displayOrder.Select(t => t.sel).ToList(),
 
@@ -126,6 +128,30 @@ DifficultyLevel currentDifficulty,
 
         return q;
     }
+    private QuestionSubType GetSubType(DifficultyLevel currentDifficulty)
+    {
+        switch (currentDifficulty)
+        {
+            case DifficultyLevel.Easy:
+                return QuestionSubType.Calorie;
+
+            case DifficultyLevel.Medium:
+                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
+
+            case DifficultyLevel.Hard:
+                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
+
+            default:
+                return QuestionSubType.Calorie;
+        }
+    }
+
+    private QuestionSubType GetRandomSubType(params QuestionSubType[] subTypes)
+    {
+        int index = UnityEngine.Random.Range(0, subTypes.Length);
+        return subTypes[index];
+    }
+
 
     private int GetTargetFoodCount(int count, DifficultyLevel difficulty)
     {

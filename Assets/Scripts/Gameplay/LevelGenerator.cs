@@ -15,7 +15,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private float dropRateSportDual = 1f;
     [SerializeField] private float dropRateSort = 0.5f;
     [SerializeField] private float dropRateIntru = 0.5f;
-    [SerializeField] private float dropRateRecycling = 0.5f; 
+    [SerializeField] private float dropRateRecycling = 0.5f;
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
@@ -30,7 +30,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private bool useSportDual = true;
     [SerializeField] private bool useSort = true;
     [SerializeField] private bool useIntrus = true;
-    [SerializeField] private bool useRecycling = true; 
+    [SerializeField] private bool useRecycling = true;
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
@@ -43,7 +43,8 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private SportCaloriesDualQuestionGenerator sportCaloriesDualQuestionGenerator;
     [SerializeField] private SortFoodQuestionGenerator sortFoodQuestionGenerator;
     [SerializeField] private IntruderFoodQuestionGenerator intruderFoodQuestionGenerator;
-    [SerializeField] private RecyclingFoodQuestionGenerator recyclingFoodQuestionGenerator; 
+    [SerializeField] private RecyclingFoodQuestionGenerator recyclingFoodQuestionGenerator;
+    [SerializeField] private EstimateQuestionGenerator estimateQuestionGenerator;
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -77,7 +78,12 @@ public class LevelGenerator : QuestionGenerator
                     break;
 
                 case QuestionType.EstimateCalories:
-                    level.Questions.Add(GenerateEstimateCaloriesQuestion());
+                    level.Questions.Add(
+                        estimateQuestionGenerator.Generate(
+                            foodList,
+                            currentDifficulty
+                        )
+                        );
                     break;
 
                 case QuestionType.Sport:

@@ -91,10 +91,18 @@ public class QuestionTitleManager : MonoBehaviour
             case QuestionType.Recycling:
                 switch (subType)
                 {
-                    case QuestionSubType.Proteine: title = "Élimine les aliments pauvres en protéines !"; break;
-                    case QuestionSubType.Glucide: title = "Élimine les aliments pauvres en glucides !"; break;
-                    case QuestionSubType.Lipide: title = "Élimine les aliments pauvres en lipides !"; break;
-                    default: title = "Trie les bons aliments sur le tapis roulant !"; break;
+                    case QuestionSubType.Proteine:
+                        title = "Garde seulement les aliments protéinés !";
+                        break;
+                    case QuestionSubType.Glucide:
+                        title = "Garde seulement les aliments glucidiques !";
+                        break;
+                    case QuestionSubType.Lipide:
+                        title = "Garde seulement les aliments lipidiques !";
+                        break;
+                    default:
+                        title = "Trie les bons aliments sur le tapis roulant !";
+                        break;
                 }
                 break;
 

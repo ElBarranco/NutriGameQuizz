@@ -5180,6 +5180,7 @@ Transform:
   m_Children:
   - {fileID: 2134919855}
   - {fileID: 1516825078}
+  - {fileID: 2094326456}
   - {fileID: 481389360}
   - {fileID: 1991710772}
   - {fileID: 463188145}
@@ -5212,13 +5213,13 @@ MonoBehaviour:
   dropRateProteine: 0.3
   dropRateSucre: 0.2
   useCaloriesDual: 0
-  useEstimateCalories: 0
+  useEstimateCalories: 1
   useFunMeasure: 0
   useMealComposition: 0
   useSportDual: 0
   useSort: 0
   useIntrus: 0
-  useRecycling: 1
+  useRecycling: 0
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
@@ -5227,6 +5228,7 @@ MonoBehaviour:
   sortFoodQuestionGenerator: {fileID: 1991710773}
   intruderFoodQuestionGenerator: {fileID: 463188146}
   recyclingFoodQuestionGenerator: {fileID: 2037564501}
+  estimateQuestionGenerator: {fileID: 2094326457}
 --- !u!1 &1756326488
 GameObject:
   m_ObjectHideFlags: 0
@@ -6154,6 +6156,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1748609303}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2094326455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2094326456}
+  - component: {fileID: 2094326457}
+  m_Layer: 0
+  m_Name: Estimate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2094326456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094326455}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2094326457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094326455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e31e6e8b4b494ce7950feedd6c6e4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
+  defaultPieceWeightG: 120
 --- !u!1 &2126738382
 GameObject:
   m_ObjectHideFlags: 0

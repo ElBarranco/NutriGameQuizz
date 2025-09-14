@@ -47,7 +47,6 @@ public class QuestionRecyclingUI : MonoBehaviour
         if (aliveItems.Contains(item))
             aliveItems.Remove(item);
 
-        Debug.Log($"[QuestionRecyclingUI] Item détruit. Restants: {aliveItems.Count} (AllSpawned={spawner.HaveAllSpawned()})");
 
         // ✅ Ne check la fin QUE si tout a spawn
         if (spawner.HaveAllSpawned() && aliveItems.Count == 0)

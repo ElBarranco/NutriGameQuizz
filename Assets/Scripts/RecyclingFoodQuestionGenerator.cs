@@ -8,38 +8,33 @@ public class RecyclingFoodQuestionGenerator : MonoBehaviour
     [Header("Nombre d’aliments à générer (min / max)")]
     [SerializeField] private Vector2Int itemCountRange = new Vector2Int(8, 12);
 
-    // Seuils par sous-type
-    private const float PROTEIN_THRESHOLD = 2f;
-    private const float GLUCIDE_THRESHOLD = 5f;
-    private const float LIPID_THRESHOLD = 3f;
-
     public QuestionData Generate(List<FoodData> foods, DifficultyLevel currentDifficulty)
     {
         System.Random rng = new System.Random();
 
-        // 1) Tirer un sous-type aléatoire (Protéine, Glucide ou Lipide)
+        // 1) Tirer un sous-type aléatoire
         QuestionSubType subType = GetRandomSubType();
 
-        // 2) Split selon le sous-type choisi
-        List<FoodData> foodsIntrus = foods.Where(f => !IsValid(f, subType)).ToList();
-        List<FoodData> foodsValides = foods.Where(f => IsValid(f, subType)).ToList();
+        // 2) Séparer les aliments selon leur catégorie principale
+        List<FoodData> foodsValides = foods.Where(f => MatchesSubType(f, subType)).ToList();
+        List<FoodData> foodsIntrus = foods.Where(f => !MatchesSubType(f, subType)).ToList();
 
-        // 3) Nombre aléatoire d’aliments
+        // 3) Nombre d’aliments à générer
         int itemCount = UnityEngine.Random.Range(itemCountRange.x, itemCountRange.y + 1);
 
-        // 4) Mélanger et prendre itemCount aliments
+        // 4) Constituer un pool équilibré (valide + intrus), mélangé
         List<FoodData> pool = foodsIntrus.Concat(foodsValides)
                                          .OrderBy(_ => rng.Next())
                                          .Take(itemCount)
                                          .ToList();
 
-        // 5) Encoder en 0/1
+        // 5) Encoder les réponses
         List<int> encoded = new List<int>();
         List<PortionSelection> portions = new List<PortionSelection>();
 
         foreach (FoodData f in pool)
         {
-            encoded.Add(IsValid(f, subType) ? 1 : 0);
+            encoded.Add(MatchesSubType(f, subType) ? 1 : 0);
 
             portions.Add(new PortionSelection
             {
@@ -49,7 +44,7 @@ public class RecyclingFoodQuestionGenerator : MonoBehaviour
             });
         }
 
-        // 6) Retour QuestionData
+        // 6) Retourner QuestionData
         return new QuestionData
         {
             Type = QuestionType.Recycling,
@@ -57,28 +52,32 @@ public class RecyclingFoodQuestionGenerator : MonoBehaviour
             Aliments = pool,
             PortionSelections = portions,
             ValeursComparees = encoded.Select(e => (float)e).ToList(),
-            Solutions = encoded // ✅ stock direct en liste 0/1
+            Solutions = encoded
         };
     }
 
-    private bool IsValid(FoodData f, QuestionSubType subType)
+    /// <summary>
+    /// Vérifie si l’aliment correspond au sous-type demandé
+    /// (basé sur MainCategory calculé au parsing).
+    /// </summary>
+    private bool MatchesSubType(FoodData f, QuestionSubType subType)
     {
         switch (subType)
         {
-            case QuestionSubType.Proteine: return f.Proteins >= PROTEIN_THRESHOLD;
-            case QuestionSubType.Glucide: return f.Carbohydrates >= GLUCIDE_THRESHOLD;
-            case QuestionSubType.Lipide: return f.Lipids >= LIPID_THRESHOLD;
+            case QuestionSubType.Proteine: return f.MainCategory == FoodCategory.Proteine;
+            case QuestionSubType.Glucide: return f.MainCategory == FoodCategory.Glucide;
+            case QuestionSubType.Lipide: return f.MainCategory == FoodCategory.Lipide;
             default: return false;
         }
     }
 
     private QuestionSubType GetRandomSubType()
     {
-        Array values = new[] {
+        QuestionSubType[] values = {
             QuestionSubType.Proteine,
             QuestionSubType.Glucide,
             QuestionSubType.Lipide
         };
-        return (QuestionSubType)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+        return values[UnityEngine.Random.Range(0, values.Length)];
     }
 }

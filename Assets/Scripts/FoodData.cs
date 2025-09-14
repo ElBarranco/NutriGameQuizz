@@ -13,6 +13,7 @@ public class FoodData
     public int Calories;
     public float Proteins;
     public float Carbohydrates;
+    public FoodCategory MainCategory;
     public float Lipids;
     public float Fibers;
     public int IndexGlycemique;
@@ -20,7 +21,7 @@ public class FoodData
     public int Quantity = 1;
 
     public FoodData(string name, AlimentType type, AlimentRarity rarity, FoodPortionType portionType,
-        int weight, int volume, int calories, float proteins, float carbohydrates, float lipids, float fibers, int indexGlycemique)
+        int weight, int volume, int calories, float proteins, float carbohydrates, float lipids, float fibers, int indexGlycemique, FoodCategory mainCategory)
     {
         Name = name;
         Type = type;
@@ -34,5 +35,6 @@ public class FoodData
         Lipids = lipids;
         Fibers = fibers;
         IndexGlycemique = indexGlycemique;
+        MainCategory = mainCategory;
     }
 }
