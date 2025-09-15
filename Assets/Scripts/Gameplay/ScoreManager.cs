@@ -66,7 +66,7 @@ public class ScoreManager : MonoBehaviour
     public void EnregistrerRecyclingAnswer(bool isCorrect)
     {
         score += pointsParBonneReponseRecycling;
-        rewardFX.PlayForAnswer(isCorrect, false);
+        rewardFX.PlayForAnswer(isCorrect, false, 1);
     }
     public void EnregistrerReponse(bool isCorrect, bool isPerfect = false)
     {

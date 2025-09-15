@@ -16,7 +16,6 @@ public static class PortionCalculator
     // Conversion “unitaire” -> grammes à partir du poids moyen d’une pièce
     public static float ToGrams(PortionUnitaire p, float pieceWeightG) => p switch
     {
-        PortionUnitaire.Demi => 0.5f * pieceWeightG,
         PortionUnitaire.Un => 1f * pieceWeightG,
         PortionUnitaire.Deux => 2f * pieceWeightG,
         PortionUnitaire.Trois => 3f * pieceWeightG,

@@ -143,16 +143,6 @@ public class DebugFoodGallery : MonoBehaviour
 
     private IEnumerable<PortionSelection> GenerateUnitaire()
     {
-        if (includeDemiUnitaire)
-        {
-            PortionSelection demi = new PortionSelection
-            {
-                Type = FoodPortionType.Unitaire,
-                Unitaire = PortionUnitaire.Demi
-            };
-            yield return demi;
-        }
-
         int max = Mathf.Clamp(maxUnitaireCount, 1, 5);
         for (int i = 1; i <= max; i++)
         {

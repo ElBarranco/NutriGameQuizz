@@ -17,7 +17,7 @@ public abstract class QuestionGenerator : MonoBehaviour
         switch (sel.Type)
         {
             case FoodPortionType.Unitaire:
-                sel.Unitaire = (PortionUnitaire)Random.Range((int)PortionUnitaire.Demi, (int)PortionUnitaire.Cinq + 1);
+                sel.Unitaire = (PortionUnitaire)Random.Range((int)PortionUnitaire.Un, (int)PortionUnitaire.Cinq + 1);
                 break;
             case FoodPortionType.PetiteUnite:
                 sel.PetiteUnite = (PortionPetiteUnite)Random.Range(0, (int)PortionPetiteUnite.Cagette + 1);
@@ -45,7 +45,7 @@ public abstract class QuestionGenerator : MonoBehaviour
                 // Si rien déjà fixé, on tire une valeur au hasard (demi..cinq)
                 if (!sel.Unitaire.HasValue)
                 {
-                    int min = (int)PortionUnitaire.Demi;
+                    int min = (int)PortionUnitaire.Un;
                     int max = (int)PortionUnitaire.Cinq + 1; // +1 car exclusif
                     sel.Unitaire = (PortionUnitaire)Random.Range(min, max);
                 }

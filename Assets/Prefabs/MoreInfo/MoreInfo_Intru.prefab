@@ -570,6 +570,7 @@ MonoBehaviour:
   goodParent: {fileID: 383386752767491260}
   intrusParent: {fileID: 3847134871357236338}
   itemPrefab: {fileID: 1989313868064565267, guid: 75037970276e043b298102e04731caea, type: 3}
+  subtypeLabel: {fileID: 1222896212257371391}
   stepIndicators: []
 --- !u!1 &3901342826793603023
 GameObject:

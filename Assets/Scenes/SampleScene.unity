@@ -5213,14 +5213,14 @@ MonoBehaviour:
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
-  useCaloriesDual: 1
+  useCaloriesDual: 0
   useEstimateCalories: 1
-  useFunMeasure: 1
-  useMealComposition: 1
-  useSportDual: 1
-  useSort: 1
-  useIntrus: 1
-  useRecycling: 1
+  useFunMeasure: 0
+  useMealComposition: 0
+  useSportDual: 0
+  useSort: 0
+  useIntrus: 0
+  useRecycling: 0
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}

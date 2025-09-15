@@ -17,7 +17,6 @@ public static class PortionTextFormatter
                 {
                     switch (sel.Unitaire.Value)
                     {
-                        case PortionUnitaire.Demi: return "Un demi";
                         case PortionUnitaire.Un: return "Un";
                         case PortionUnitaire.Deux: return "2";
                         case PortionUnitaire.Trois: return "3";
@@ -73,8 +72,6 @@ public static class PortionTextFormatter
                     if (sel.Unitaire.HasValue && sel.Unitaire.Value == PortionUnitaire.Saladier)
                         return $"Un saladier {DeOrD(name)}{name}";
                     var (countText, count) = CountText(sel.Unitaire);
-                    if (sel.Unitaire.HasValue && sel.Unitaire.Value == PortionUnitaire.Demi)
-                        return $"Un demi {name}";
                     return $"{countText} {Pluralize(name, count)}";
                 }
 
@@ -103,7 +100,6 @@ public static class PortionTextFormatter
         if (!uni.HasValue) return ("Un", 1f);
         switch (uni.Value)
         {
-            case PortionUnitaire.Demi: return ("Un demi", 0.5f);
             case PortionUnitaire.Un: return ("Un", 1f);
             case PortionUnitaire.Deux: return ("2", 2f);
             case PortionUnitaire.Trois: return ("3", 3f);

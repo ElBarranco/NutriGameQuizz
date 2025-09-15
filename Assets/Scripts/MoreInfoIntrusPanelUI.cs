@@ -8,6 +8,7 @@ public class MoreInfoIntrusPanelUI : MoreInfoPanelBase
     [SerializeField] private Transform goodParent;   // conteneur pour les bons
     [SerializeField] private Transform intrusParent; // conteneur pour les intrus
     [SerializeField] private FoodItemUI itemPrefab;
+    [SerializeField] private TMP_Text subtypeLabel;  
 
     [Header("Steps / Indicateurs")]
     [SerializeField] private List<GameObject> stepIndicators;
@@ -16,6 +17,9 @@ public class MoreInfoIntrusPanelUI : MoreInfoPanelBase
     {
         // Indicateurs = nb d’aliments
         ApplyStepIndicators(q.Aliments.Count);
+
+        // Affiche le texte du sous-type
+        ApplySubtypeLabel(q.SousType);
 
         // Solution encodée (ex: 1212)
         string correct = q.IndexBonneRéponse.ToString();
@@ -49,6 +53,27 @@ public class MoreInfoIntrusPanelUI : MoreInfoPanelBase
         for (int i = 0; i < stepIndicators.Count; i++)
         {
             stepIndicators[i].SetActive(i < activeCount);
+        }
+    }
+
+    private void ApplySubtypeLabel(QuestionSubType subtype)
+    {
+        if (subtypeLabel == null) return;
+
+        switch (subtype)
+        {
+            case QuestionSubType.Proteine:
+                subtypeLabel.text = "Aliment Protéiné";
+                break;
+            case QuestionSubType.Lipide:
+                subtypeLabel.text = "Aliment Lipidique";
+                break;
+            case QuestionSubType.Glucide:
+                subtypeLabel.text = "Aliment Glucidique";
+                break;
+            default:
+                subtypeLabel.text = string.Empty; // rien pour les autres cas
+                break;
         }
     }
 }

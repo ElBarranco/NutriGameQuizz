@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using NaughtyAttributes;
+using DG.Tweening; // Pour DOFillAmount
 
 public class EstimateCaloriesUI : MonoBehaviour
 {
@@ -12,17 +13,13 @@ public class EstimateCaloriesUI : MonoBehaviour
     [SerializeField] private TMP_Text sliderValueText;
     [SerializeField] private TMP_Text UnitText;
     [SerializeField] private Button validateButton;
+    [SerializeField] private Image gaugeFill; // ← Gauge reliée au slider
+
     [ReadOnly][SerializeField] private float answer = 0;
 
-    [Header("Bornes par sous-type")]
-    [SerializeField] private int minCalories = 0;
-    [SerializeField] private int maxCalories = 700;
-
-    [SerializeField] private int minProteines = 0;
-    [SerializeField] private int maxProteines = 100;
-
-    [SerializeField] private int minGlucides = 0;
-    [SerializeField] private int maxGlucides = 100;
+    [Header("Bornes par sous-type (si besoin de fallback)")]
+    [SerializeField] private int minValueSlider = 0;
+    [SerializeField] private int maxValueSlider = 5000;
 
     private FoodData food;
     protected Action<int, bool> onComplete;
@@ -36,8 +33,11 @@ public class EstimateCaloriesUI : MonoBehaviour
 
         guess = Mathf.RoundToInt(calorieSlider.value);
         sliderValueText.text = $"{guess}";
-    }
 
+        // Mise à jour fluide de la gauge
+        float normalized = Mathf.InverseLerp(calorieSlider.minValue, calorieSlider.maxValue, calorieSlider.value);
+        gaugeFill.DOFillAmount(normalized, 0.2f); // anim fluide sur 0.2s
+    }
 
     public void Init(QuestionSubType sousType, FoodData foodData, PortionSelection? portion, Action<int, bool> callback)
     {
@@ -45,46 +45,31 @@ public class EstimateCaloriesUI : MonoBehaviour
         currentSubType = sousType;
         onComplete = callback;
 
-        switch (sousType)
-        {
-            case QuestionSubType.Calorie:
-                calorieSlider.minValue = minCalories;
-                calorieSlider.maxValue = maxCalories;
-                answer = food.Calories;
-                break;
+        float rawValue = portion.Value.Value;
 
-            case QuestionSubType.Proteine:
-                calorieSlider.minValue = minProteines;
-                calorieSlider.maxValue = maxProteines;
-                answer = food.Proteins;
-                break;
+        // Génère les bornes dynamiques
+        float min = Mathf.Max(1, rawValue * 0.5f);
+        float max = rawValue * 1.5f;
 
-            case QuestionSubType.Glucide:
-                calorieSlider.minValue = minGlucides;
-                calorieSlider.maxValue = maxGlucides;
-                answer = food.Carbohydrates;
-                break;
+        calorieSlider.minValue = min;
+        calorieSlider.maxValue = max;
 
-            default:
-                Debug.LogWarning("Sous-type non géré dans EstimateCaloriesUI");
-                break;
-        }
+        // Positionner le slider à 50% (milieu de la plage)
+        calorieSlider.value = (min + max) / 2f;
+
+
+        // Clamp par sécurité
+        answer = Mathf.Clamp(rawValue, min, max);
 
         UnitText.text = PortionTextFormatter.UnitForQuestion(sousType);
 
-        // Clamp pour sécurité
-        answer = Mathf.Clamp(answer, calorieSlider.minValue, calorieSlider.maxValue);
-
-        // Centre le slider
-        calorieSlider.value = (calorieSlider.minValue + calorieSlider.maxValue) / 2f;
-
-        // UI
+        // Affichage nom + image
         foodImage.sprite = SpriteLoader.LoadFoodSprite(food.Name);
-
         foodNameText.text = PortionTextFormatter.ToDisplayWithFood(food, portion.Value);
 
-
-        RefreshSliderValue();
+        // Init gauge directement à la bonne valeur
+        float normalized = Mathf.InverseLerp(min, max, calorieSlider.value);
+        gaugeFill.fillAmount = normalized;
     }
 
     public void Btn_Validate()
