@@ -7,13 +7,15 @@ using NaughtyAttributes;
 public class FoodConveyorSpawnerUI : MonoBehaviour
 {
     [Header("Références")]
-
     [SerializeField] private ConveyorManager conveyorManager;
     [SerializeField] private FoodConveyorItemUI foodPrefab;
 
-
     [Header("Paramètres")]
-    [SerializeField] private float spawnInterval = 1.5f;
+    [Header("Temps de spawn par difficulté")]
+    [SerializeField] private float spawnIntervalEasy = 2.0f;
+    [SerializeField] private float spawnIntervalMedium = 1.5f;
+    [SerializeField] private float spawnIntervalHard = 1.0f;
+
     [SerializeField] private float fastSpawnDelay = 0.2f; // délai réduit si plus d’alive
 
     [Header("Debug")]
@@ -27,6 +29,8 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
     [ReadOnly, SerializeField] private bool allSpawned = false;
 
     private Coroutine spawnRoutine;
+
+    private float spawnInterval = 1.5f;
 
     // Caches pour relancer la boucle
     private List<FoodData> cachedFoods;
@@ -51,6 +55,8 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
         cachedFoods = foods;
         cachedPortions = portions;
         cachedAnswers = answers;
+
+        SetSpawnDifficulty(DifficultyManager.Instance.CurrentDifficulty);
 
         maxItemsToSpawn = foods.Count;
         conveyorManager.GenerateSlots(maxItemsToSpawn);
@@ -135,7 +141,24 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
         }
     }
 
+    public void SetSpawnDifficulty(DifficultyLevel difficulty)
+    {
+        switch (difficulty)
+        {
+            case DifficultyLevel.Easy:
+                spawnInterval = spawnIntervalEasy;
+                break;
+            case DifficultyLevel.Medium:
+                spawnInterval = spawnIntervalMedium;
+                break;
+            case DifficultyLevel.Hard:
+                spawnInterval = spawnIntervalHard;
+                break;
+        }
+    }
+
     public List<FoodConveyorItemUI> GetSpawnedItems() => new List<FoodConveyorItemUI>(spawnedItems);
 
     public bool HaveAllSpawned() => allSpawned;
 }
+

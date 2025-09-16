@@ -62,7 +62,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
             velocity *= throwDecay;
             lifeTimer += Time.deltaTime;
 
-            if (!RectTransformUtility.RectangleContainsScreenPoint(rect, rect.position, null) || lifeTimer > maxLifetime)
+            if (IsOffScreen() || lifeTimer > maxLifetime)
             {
                 NotifyDestroyed();
                 Destroy(gameObject);
@@ -110,6 +110,7 @@ public class FoodConveyorItemUI : FoodDraggableUI
             ScoreManager.Instance.EnregistrerRecyclingAnswer(isCorrect);
 
             NotifyDestroyed();
+
         }
         else
         {
@@ -216,5 +217,12 @@ public class FoodConveyorItemUI : FoodDraggableUI
     private void NotifyDestroyed()
     {
         OnItemDestroyed?.Invoke(this, isIntruder);
+    }
+
+    private bool IsOffScreen()
+    {
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(null, rect.position);
+        return screenPos.x < -200f || screenPos.x > Screen.width + 200f ||
+               screenPos.y < -200f || screenPos.y > Screen.height + 200f;
     }
 }

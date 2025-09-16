@@ -112,32 +112,35 @@ public class RecyclingDropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHan
         highlightImage.DOColor(target, 0.12f);
     }
 
-public void OnDrop(PointerEventData eventData)
-{
-    FoodConveyorItemUI dragged = eventData.pointerDrag
-        ? eventData.pointerDrag.GetComponent<FoodConveyorItemUI>()
-        : null;
-    if (dragged == null) return;
+    public void OnDrop(PointerEventData eventData)
+    {
+        FoodConveyorItemUI dragged = eventData.pointerDrag
+            ? eventData.pointerDrag.GetComponent<FoodConveyorItemUI>()
+            : null;
+        if (dragged == null) return;
 
-    // ✅ L’item sait s’il est intrus
-    bool isValid = !dragged.IsIntruder();
+        // ✅ L’item sait s’il est intrus
+        bool isValid = !dragged.IsIntruder();
 
-    acceptedItems.Add(dragged);
+        acceptedItems.Add(dragged);
 
-    RectTransform draggedRT = dragged.GetComponent<RectTransform>();
-    draggedRT.SetParent(zoneRect, worldPositionStays: true);
-    draggedRT.anchoredPosition = Vector2.zero;
+        RectTransform draggedRT = dragged.GetComponent<RectTransform>();
+        draggedRT.SetParent(zoneRect, worldPositionStays: true);
+        draggedRT.anchoredPosition = Vector2.zero;
 
-    if (isValid)
-        dragged.PlayCollectedAnimation();
-    else
-        dragged.PlayRejectedAnimation();
+        if (isValid)
+            dragged.PlayCollectedAnimation();
+        else
+            dragged.PlayRejectedAnimation();
 
-    FeedbackSpawner.Instance.SpawnFeedbackAtRect(zoneRect, isValid);
-    ScoreManager.Instance.EnregistrerRecyclingAnswer(isValid);
+        FeedbackSpawner.Instance.SpawnFeedbackAtRect(zoneRect, isValid);
+        ScoreManager.Instance.EnregistrerRecyclingAnswer(isValid);
 
-    UpdateHighlight();
-}
+        isPointerOver = false;
+        isDragging = false;
+
+        UpdateHighlight();
+    }
 
 
 

@@ -341,7 +341,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conveyorManager: {fileID: 4080549907390373790}
   foodPrefab: {fileID: -1303816011467972332, guid: ea14f32322f424cc183fdbb3fee79682, type: 3}
-  spawnInterval: 3
+  spawnIntervalEasy: 4
+  spawnIntervalMedium: 3
+  spawnIntervalHard: 2
   fastSpawnDelay: 0.05
   debugText: {fileID: 601575756552162243}
   aliveCount: 0
