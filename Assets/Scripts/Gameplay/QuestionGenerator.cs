@@ -85,7 +85,7 @@ public abstract class QuestionGenerator : MonoBehaviour
         sel.Value = PortionCalculator.ComputeValue(food, sel.Grams, subType);
 
         // 🔎 Log clair et unique
-        Debug.Log($"[ResolvePortionSafe] Food={food.Name}, Type={sel.Type}, Portion={(sel.Unitaire ?? (object)sel.PetiteUnite ?? sel.Liquide) ?? "N/A"}, Grams={sel.Grams:F1}, Value={sel.Value:F1} ({subType})");
+        //Debug.Log($"[ResolvePortionSafe] Food={food.Name}, Type={sel.Type}, Portion={(sel.Unitaire ?? (object)sel.PetiteUnite ?? sel.Liquide) ?? "N/A"}, Grams={sel.Grams:F1}, Value={sel.Value:F1} ({subType})");
 
 
         return sel;
