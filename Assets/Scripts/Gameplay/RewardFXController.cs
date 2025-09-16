@@ -89,11 +89,13 @@ public class RewardFXController : MonoBehaviour
 
     public void PlayForAnswer(bool isCorrect, bool isPerfect = false, int overrideCount = -1)
     {
-        int count = overrideCount >= 0
+        if (!isCorrect) return; // pas d'animation si mauvaise réponse
+
+        int count = (isCorrect && overrideCount >= 0)
             ? overrideCount
             : (isPerfect ? coinsOnPerfect : (isCorrect ? coinsOnGoodAnswer : coinsOnBadAnswer));
 
-        if (count <= 0 || target == null || spawnOrigin == null || coinPrefab == null) return;
+        if (count <= 0 || target == null) return;
         SpawnAndAnimate(count);
     }
 

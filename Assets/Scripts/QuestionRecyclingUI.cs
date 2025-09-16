@@ -11,6 +11,7 @@ public class QuestionRecyclingUI : MonoBehaviour
     [SerializeField] private FoodConveyorSpawnerUI spawner;
 
     private QuestionData question;
+    private bool allSpawned = false;
     private Action<int, bool> onAnswered;
 
     [ReadOnly, SerializeField] private List<FoodConveyorItemUI> aliveItems = new List<FoodConveyorItemUI>();
@@ -18,11 +19,13 @@ public class QuestionRecyclingUI : MonoBehaviour
     private void OnEnable()
     {
         FoodConveyorItemUI.OnAnyDestroyed += HandleItemDestroyed;
+        FoodConveyorItemUI.OnAnySpawned += HandleItemSpawned;
     }
 
     private void OnDisable()
     {
         FoodConveyorItemUI.OnAnyDestroyed -= HandleItemDestroyed;
+        FoodConveyorItemUI.OnAnySpawned -= HandleItemSpawned;
     }
 
     public void Init(QuestionData q, Action<int, bool> callback)
@@ -31,15 +34,13 @@ public class QuestionRecyclingUI : MonoBehaviour
         onAnswered = callback;
 
         aliveItems.Clear();
-
-        // Affiche le texte correspondant
         UpdateQuestionText(q.SousType);
-
-        // Lance le spawn
         spawner.Init(q.Aliments, q.PortionSelections, q.Solutions);
+    }
 
-        // Récupère les items spawnés au fur et à mesure
-        aliveItems.AddRange(spawner.GetSpawnedItems());
+    private void HandleItemSpawned(FoodConveyorItemUI item)
+    {
+        aliveItems.Add(item);
     }
 
     private void HandleItemDestroyed(FoodConveyorItemUI item, bool wasIntruder)
@@ -47,9 +48,9 @@ public class QuestionRecyclingUI : MonoBehaviour
         if (aliveItems.Contains(item))
             aliveItems.Remove(item);
 
+        Debug.Log($"[QuestionRecyclingUI] Check condition → HaveAllSpawned: {allSpawned}, AliveItems.Count: {aliveItems.Count}");
 
-        // ✅ Ne check la fin QUE si tout a spawn
-        if (spawner.HaveAllSpawned() && aliveItems.Count == 0)
+        if (allSpawned && aliveItems.Count == 0)
         {
             Debug.Log("[QuestionRecyclingUI] Tous les items détruits → question terminée !");
             onAnswered?.Invoke(1, true);
@@ -68,5 +69,10 @@ public class QuestionRecyclingUI : MonoBehaviour
         };
 
         questionText.text = txt;
+    }
+
+    public void SetAllSpawned()
+    {
+        allSpawned = true;
     }
 }

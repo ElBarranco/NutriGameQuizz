@@ -5206,7 +5206,7 @@ MonoBehaviour:
   dropRateEstimate: 0.2
   dropRateFunMeasure: 0.2
   dropRateMealComposition: 0.2
-  dropRateSportDual: 1
+  dropRateSportDual: 0.2
   dropRateSort: 0.5
   dropRateIntru: 0.5
   dropRateRecycling: 0.5
@@ -5214,13 +5214,13 @@ MonoBehaviour:
   dropRateProteine: 0.3
   dropRateSucre: 0.2
   useCaloriesDual: 0
-  useEstimateCalories: 1
+  useEstimateCalories: 0
   useFunMeasure: 0
   useMealComposition: 0
   useSportDual: 0
   useSort: 0
   useIntrus: 0
-  useRecycling: 0
+  useRecycling: 1
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
