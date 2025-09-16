@@ -91,14 +91,14 @@ public class RewardFXController : MonoBehaviour
     {
         if (!isCorrect) return; // pas d'animation si mauvaise réponse
 
-        int count = (isCorrect && overrideCount >= 0)
+        int count = (overrideCount >= 0)
             ? overrideCount
-            : (isPerfect ? coinsOnPerfect : (isCorrect ? coinsOnGoodAnswer : coinsOnBadAnswer));
+            : (isPerfect ? coinsOnPerfect : coinsOnGoodAnswer);
 
         if (count <= 0 || target == null) return;
+
         SpawnAndAnimate(count);
     }
-
     // --- Cœur de l’anim ---
     private void SpawnAndAnimate(int count)
     {
