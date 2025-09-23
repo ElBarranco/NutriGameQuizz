@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 460c497fac0c14538a96ed73238a2306
+guid: 1603f2b18753241c29bf1d683e654424
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2321016978629411421
-    second: Gauge_0
+      213: 1189242760100517766
+    second: Gauge1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -53,7 +53,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gauge_0
+      name: Gauge1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 131
-        height: 110
+        width: 186
+        height: 158
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 58, y: 0, z: 59, w: 0}
+      border: {x: 84, y: 0, z: 83, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3adb42fea571acfd0800000000000000
-      internalID: -2321016978629411421
+      spriteID: 6871f7b4df9018010800000000000000
+      internalID: 1189242760100517766
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5b033ec305a304d30beb85c552b71cdb
+    spriteID: 22bc29fa9c53640c5a9c58eb56aba564
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gauge_0: -2321016978629411421
+      Gauge1_0: 1189242760100517766
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

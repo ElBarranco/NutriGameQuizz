@@ -1454,6 +1454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   csvFileFood: {fileID: 4900000, guid: 3880d33df5fed4f68ace527ba39921ad, type: 3}
+  foodDatabase: {fileID: 502056890}
   filterMissingSprites: 1
   EnableDebugIcon: 1
   foodDataList: []
@@ -1484,6 +1485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df931b0212084b05bd0633f64c94580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allFoods: []
+  withSugar: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5275,7 +5278,7 @@ MonoBehaviour:
   defaultPieceWeightG: 120
   dropRateCaloriesDual: 0.7
   dropRateEstimate: 0.2
-  dropRateEstimateSugar: 0.2
+  dropRateSugar: 0.2
   dropRateFunMeasure: 0.2
   dropRateMealComposition: 0.2
   dropRateSportDual: 0.2
@@ -5287,7 +5290,7 @@ MonoBehaviour:
   dropRateProteine: 0.3
   dropRateSucre: 0.2
   useCaloriesDual: 0
-  useEstimateCalories: 0
+  useEstimateCalories: 1
   useEstimateSugar: 0
   useFunMeasure: 0
   useMealComposition: 0

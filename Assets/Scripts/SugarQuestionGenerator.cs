@@ -8,17 +8,7 @@ public class SugarQuestionGenerator : QuestionGenerator
     public QuestionData Generate(List<FoodData> foodList, DifficultyLevel currentDifficulty)
     {
         // 1. Filtrage des aliments pertinents
-        List<FoodData> validFoods = foodList.FindAll(f =>
-            f.Carbohydrates >= 4 &&      // glucides minimum
-            f.Calories <= maxCalories && // limite calories
-            f.Sugar > 0                  // doit contenir du sucre ajouté
-        );
-
-        if (validFoods.Count == 0)
-        {
-            Debug.LogWarning("[SugarQuestionGenerator] Aucun aliment valide trouvé. On prend tout le pool.");
-            validFoods = foodList; // fallback
-        }
+        List<FoodData> validFoods = FoodDatabase.Instance.GetFoodsWithSugar();
 
         // 2. Tirage d'un aliment
         FoodData f = validFoods[Random.Range(0, validFoods.Count)];

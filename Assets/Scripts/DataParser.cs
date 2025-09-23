@@ -7,6 +7,7 @@ public class FoodDataParser : CsvParserBase
 {
     [Header("Source")]
     [SerializeField] private TextAsset csvFileFood;
+    [SerializeField] private FoodDatabase foodDatabase;
 
     [Header("Options")]
     [SerializeField] private bool filterMissingSprites = false;
@@ -19,6 +20,7 @@ public class FoodDataParser : CsvParserBase
     private void Awake()
     {
         foodDataList = ParseCSV_food();
+        foodDatabase.SetFoodData(foodDataList);
     }
 
     public List<FoodData> GetFoodData() => foodDataList;

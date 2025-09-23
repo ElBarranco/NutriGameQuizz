@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 460c497fac0c14538a96ed73238a2306
+guid: 283ea989375014f0482ba841dc83ed87
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2321016978629411421
-    second: Gauge_0
+      213: -4750761433519615375
+    second: Cursor_0
+  - first:
+      213: -3340349168363038409
+    second: Cursor_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -53,7 +56,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -126,23 +129,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gauge_0
+      name: Cursor_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 131
-        height: 110
+        x: 293
+        y: 135
+        width: 13
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 58, y: 0, z: 59, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3adb42fea571acfd0800000000000000
-      internalID: -2321016978629411421
+      spriteID: 73913f91122b4a1d0800000000000000
+      internalID: -3340349168363038409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cursor_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 603
+        height: 612
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba9768f7b81f84771ad85bc4645204a3
+      internalID: 2008384183
       vertices: []
       indices: 
       edges: []
@@ -151,7 +176,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5b033ec305a304d30beb85c552b71cdb
+    spriteID: 6036a99d9e47143d5b813e5c8589d806
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +186,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gauge_0: -2321016978629411421
+      Cursor_0: -4750761433519615375
+      Cursor_1: -3340349168363038409
+      cursor_0: 2008384183
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
