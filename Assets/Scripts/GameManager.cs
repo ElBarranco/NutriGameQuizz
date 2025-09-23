@@ -110,9 +110,44 @@ public class GameManager : MonoBehaviour
             case QuestionType.Sport:
             case QuestionType.FunMeasure:
             case QuestionType.Intru:
+            case QuestionType.Sugar:
             case QuestionType.Tri:
                 isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
                 break;
+
+            case QuestionType.Subtraction:
+                {
+                    // Vérif simple : ID encodé identique
+                    isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
+
+                    // Vérif alternative : somme calories dans la tolérance
+                    if (!isCorrect)
+                    {
+                        // Décoder userAnswer (ex: 13 -> joueur a choisi aliments 1 et 3)
+                        List<int> chosenIds = new List<int>();
+                        string ansStr = userAnswer.ToString();
+                        foreach (char c in ansStr)
+                        {
+                            if (char.IsDigit(c))
+                                chosenIds.Add(int.Parse(c.ToString()) - 1); // -1 car IDs sont 1-based
+                        }
+
+                        // Somme des valeurs calories pour ces aliments
+                        float sumCalories = 0f;
+                        foreach (int idx in chosenIds)
+                        {
+                            if (idx >= 0 && idx < currentQuestion.PortionSelections.Count)
+                                sumCalories += currentQuestion.PortionSelections[idx].Value;
+                        }
+
+                        float targetSub = currentQuestion.ValeursComparees[0];
+                        float toleranceSub = currentQuestion.MealTargetTolerance;
+
+                        if (Mathf.Abs(sumCalories - targetSub) <= toleranceSub)
+                            isCorrect = true;
+                    }
+                    break;
+                }
 
             case QuestionType.EstimateCalories:
                 isCorrect = EstimateAnswerEvaluator.Evaluate(currentQuestion, userAnswer, out isPerfect);

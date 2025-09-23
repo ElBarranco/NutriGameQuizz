@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using NaughtyAttributes;
 
 public class LevelGenerator : QuestionGenerator
 {
@@ -10,12 +11,14 @@ public class LevelGenerator : QuestionGenerator
     [Header("Drop Rates - Type de question")]
     [SerializeField] private float dropRateCaloriesDual = 0.7f;
     [SerializeField] private float dropRateEstimate = 0.2f;
+    [SerializeField] private float dropRateSugar = 0.2f;
     [SerializeField] private float dropRateFunMeasure = 0.1f;
     [SerializeField] private float dropRateMealComposition = 0.2f;
     [SerializeField] private float dropRateSportDual = 1f;
     [SerializeField] private float dropRateSort = 0.5f;
     [SerializeField] private float dropRateIntru = 0.5f;
     [SerializeField] private float dropRateRecycling = 0.5f;
+    [SerializeField] private float dropRateSubtraction = 0.5f; 
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
@@ -25,12 +28,14 @@ public class LevelGenerator : QuestionGenerator
     [Header("Types de questions")]
     [SerializeField] private bool useCaloriesDual = true;
     [SerializeField] private bool useEstimateCalories = true;
+    [SerializeField] private bool useEstimateSugar = true; // ✅ nouveau
     [SerializeField] private bool useFunMeasure = true;
     [SerializeField] private bool useMealComposition = true;
     [SerializeField] private bool useSportDual = true;
     [SerializeField] private bool useSort = true;
     [SerializeField] private bool useIntrus = true;
     [SerializeField] private bool useRecycling = true;
+    [SerializeField] private bool useSubtraction = true; 
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
@@ -38,6 +43,7 @@ public class LevelGenerator : QuestionGenerator
     [Header("Meal Composition")]
     [SerializeField] private int mealFoodsCount = 6;
 
+    [Header("Références Générateurs")]
     [SerializeField] private SpecialMeasureManager specialMeasureManager;
     [SerializeField] private MealCompositionQuestionGenerator mealCompositionQuestionGenerator;
     [SerializeField] private SportCaloriesDualQuestionGenerator sportCaloriesDualQuestionGenerator;
@@ -45,6 +51,8 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private IntruderFoodQuestionGenerator intruderFoodQuestionGenerator;
     [SerializeField] private RecyclingFoodQuestionGenerator recyclingFoodQuestionGenerator;
     [SerializeField] private EstimateQuestionGenerator estimateQuestionGenerator;
+    [SerializeField] private SugarQuestionGenerator sugarQuestionGenerator; // ✅ nouveau
+    [SerializeField] private SubtractionQuestionGenerator subtractionQuestionGenerator; 
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -83,7 +91,16 @@ public class LevelGenerator : QuestionGenerator
                             foodList,
                             currentDifficulty
                         )
-                        );
+                    );
+                    break;
+
+                case QuestionType.Sugar: 
+                    level.Questions.Add(
+                        sugarQuestionGenerator.Generate(
+                            foodList,
+                            currentDifficulty
+                        )
+                    );
                     break;
 
                 case QuestionType.Sport:
@@ -112,9 +129,15 @@ public class LevelGenerator : QuestionGenerator
                     );
                     break;
 
-                case QuestionType.Recycling: // ✅ Nouveau case
+                case QuestionType.Recycling:
                     level.Questions.Add(
                         recyclingFoodQuestionGenerator.Generate(foodList, currentDifficulty)
+                    );
+                    break;
+
+                case QuestionType.Subtraction:
+                    level.Questions.Add(
+                        subtractionQuestionGenerator.Generate(foodList, currentDifficulty)
                     );
                     break;
 
@@ -202,12 +225,14 @@ public class LevelGenerator : QuestionGenerator
         float total = 0f;
         if (useCaloriesDual) total += dropRateCaloriesDual;
         if (useEstimateCalories) total += dropRateEstimate;
+        if (useEstimateSugar) total += dropRateSugar; // ✅
         if (useFunMeasure) total += dropRateFunMeasure;
         if (useMealComposition) total += dropRateMealComposition;
         if (useSportDual) total += dropRateSportDual;
         if (useSort) total += dropRateSort;
         if (useIntrus) total += dropRateIntru;
-        if (useRecycling) total += dropRateRecycling; // ✅ Nouveau
+        if (useRecycling) total += dropRateRecycling;
+        if (useSubtraction) total += dropRateSubtraction;
 
         if (total <= 0f)
             return QuestionType.CaloriesDual;
@@ -217,12 +242,14 @@ public class LevelGenerator : QuestionGenerator
 
         if (useCaloriesDual && rand < (acc += dropRateCaloriesDual)) return QuestionType.CaloriesDual;
         if (useEstimateCalories && rand < (acc += dropRateEstimate)) return QuestionType.EstimateCalories;
+        if (useEstimateSugar && rand < (acc += dropRateSugar)) return QuestionType.Sugar;
         if (useFunMeasure && rand < (acc += dropRateFunMeasure)) return QuestionType.FunMeasure;
         if (useMealComposition && rand < (acc += dropRateMealComposition)) return QuestionType.MealComposition;
         if (useSportDual && rand < (acc += dropRateSportDual)) return QuestionType.Sport;
         if (useSort && rand < (acc += dropRateSort)) return QuestionType.Tri;
         if (useIntrus && rand < (acc += dropRateIntru)) return QuestionType.Intru;
-        if (useRecycling && rand < (acc += dropRateRecycling)) return QuestionType.Recycling; // ✅ Nouveau
+        if (useRecycling && rand < (acc += dropRateRecycling)) return QuestionType.Recycling;
+        if (useSubtraction && rand < (acc += dropRateSubtraction)) return QuestionType.Subtraction;
 
         return QuestionType.CaloriesDual;
     }
@@ -284,5 +311,33 @@ public class LevelGenerator : QuestionGenerator
             QuestionSubType.Fibres => 2f,
             _ => minCaloriesDelta
         };
+    }
+
+    [Button("Toggle All")]
+    private void ToggleAll()
+    {
+        bool allEnabled = useCaloriesDual
+                          && useEstimateCalories
+                          && useEstimateSugar 
+                          && useFunMeasure
+                          && useMealComposition
+                          && useSportDual
+                          && useSort
+                          && useIntrus
+                          && useRecycling
+                          && useSubtraction;
+
+        bool newValue = !allEnabled;
+
+        useCaloriesDual = newValue;
+        useEstimateCalories = newValue;
+        useEstimateSugar = newValue; 
+        useFunMeasure = newValue;
+        useMealComposition = newValue;
+        useSportDual = newValue;
+        useSort = newValue;
+        useIntrus = newValue;
+        useRecycling = newValue;
+        useSubtraction = newValue; 
     }
 }

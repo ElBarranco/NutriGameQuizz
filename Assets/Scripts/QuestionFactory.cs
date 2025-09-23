@@ -8,10 +8,12 @@ public class QuestionFactory : MonoBehaviour
     [SerializeField] private GameObject estimateCaloriesGo;
     [SerializeField] private GameObject SpecialMeasureGo;
     [SerializeField] private GameObject mealCompositionGo;
-    [SerializeField] private GameObject SportDualGo; // prefab UI sport
-    [SerializeField] private GameObject sortGo;      // prefab UI tri
-    [SerializeField] private GameObject intrusGo;    // ✅ prefab UI intrus
-    [SerializeField] private GameObject recyclingGo; // ✅ prefab UI recycling
+    [SerializeField] private GameObject SportDualGo;
+    [SerializeField] private GameObject sortGo;
+    [SerializeField] private GameObject intrusGo;
+    [SerializeField] private GameObject recyclingGo;
+    [SerializeField] private GameObject subtractionGo;
+    [SerializeField] private GameObject sucreGo;
     [SerializeField] private Transform questionParent;
 
     // Référence éventuelle, mais on n’utilise pas ce type en paramètre pour éviter les conversions
@@ -68,15 +70,28 @@ public class QuestionFactory : MonoBehaviour
                     break;
                 }
 
+            case QuestionType.Sugar:
+                {
+                    GameObject go = Instantiate(sucreGo, questionParent);
+                    go.GetComponent<EstimateSugarUI>()
+                      .Init(
+                          data.SousType,
+                          data.Aliments[0],
+                          data.PortionSelections[0],
+                          onAnswered
+                      );
+                    break;
+                }
+
             case QuestionType.Tri:
                 {
                     GameObject go = Instantiate(sortGo, questionParent);
                     go.GetComponent<QuestionSortUI>()
-                      .Init(data, onAnswered); 
+                      .Init(data, onAnswered);
                     break;
                 }
 
-            case QuestionType.Intru: 
+            case QuestionType.Intru:
                 {
                     GameObject go = Instantiate(intrusGo, questionParent);
                     go.GetComponent<QuestionIntrusUI>()
@@ -84,10 +99,18 @@ public class QuestionFactory : MonoBehaviour
                     break;
                 }
 
-            case QuestionType.Recycling: // ✅ nouveau case
+            case QuestionType.Recycling:
                 {
                     GameObject go = Instantiate(recyclingGo, questionParent);
-                    go.GetComponent<QuestionRecyclingUI>() 
+                    go.GetComponent<QuestionRecyclingUI>()
+                      .Init(data, onAnswered);
+                    break;
+                }
+
+            case QuestionType.Subtraction:
+                {
+                    GameObject go = Instantiate(subtractionGo, questionParent);
+                    go.GetComponent<QuestionSubtractionUI>()
                       .Init(data, onAnswered);
                     break;
                 }

@@ -735,6 +735,7 @@ MonoBehaviour:
   finalUI: {fileID: 1578470461}
   correctButtonGO: {fileID: 2126738382}
   wrongButtonGO: {fileID: 636093253}
+  moreInfoSubtractionPrefab: {fileID: 3472369455136401110, guid: fc55e6952748c4e85980635e7f749f34, type: 3}
   moreInfoDualPrefab: {fileID: 3472369455136401110, guid: 5b50c0f6cc8c547caa9c9086e89ec0d0, type: 3}
   moreInfoEstimatePrefab: {fileID: 3472369455136401110, guid: 8bf83f205bc204bb08e5259f36a0aac4, type: 3}
   moreInfoFunMeasurePrefab: {fileID: 3472369455136401110, guid: a843b11caaae64e649474189760a3267, type: 3}
@@ -742,6 +743,7 @@ MonoBehaviour:
   moreInfoSportPrefab: {fileID: 3472369455136401110, guid: 6f52a7a6be6cc4a939e8df5569bbb28c, type: 3}
   moreInfoTriPrefab: {fileID: 3472369455136401110, guid: 45cf340c2183c48199961f0bbdb4927d, type: 3}
   moreInfoIntrusPrefab: {fileID: 3472369455136401110, guid: 9587d94455fa74cce88a171903eca898, type: 3}
+  moreInfoSugarPrefab: {fileID: 3472369455136401110, guid: 3e7599e6cdadd46a99b23e16226f3bfd, type: 3}
   moreInfoPanelParent: {fileID: 1826148115}
   nutrientIcon: {fileID: 1052516937}
   caloriesIcon: {fileID: 8334651344603559088, guid: 677d3d42c6e2c433384f5091a20825de, type: 3}
@@ -1416,6 +1418,7 @@ GameObject:
   - component: {fileID: 502056887}
   - component: {fileID: 502056888}
   - component: {fileID: 502056889}
+  - component: {fileID: 502056890}
   m_Layer: 0
   m_Name: --- Food Parser
   m_TagString: Untagged
@@ -1450,7 +1453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a1b45c18b63467b8f08e6ed5c75c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csvFileFood: {fileID: 4900000, guid: 42fb6253374794a2a83ebe369100dab8, type: 3}
+  csvFileFood: {fileID: 4900000, guid: 3880d33df5fed4f68ace527ba39921ad, type: 3}
   filterMissingSprites: 1
   EnableDebugIcon: 1
   foodDataList: []
@@ -1469,6 +1472,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csvFileSports: {fileID: 4900000, guid: 03eb1303e89da4495a2cd9eb508394f6, type: 3}
   sportDataList: []
+--- !u!114 &502056890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502056886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4df931b0212084b05bd0633f64c94580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,6 +2629,8 @@ MonoBehaviour:
   sortGo: {fileID: 3472369455136401110, guid: e373663afd68e4d57b4047448ca0277d, type: 3}
   intrusGo: {fileID: 3472369455136401110, guid: eb87c2796dfff4717bdfb9b6febaa070, type: 3}
   recyclingGo: {fileID: 3472369455136401110, guid: d1cc2558b4f3a4838b389bd944e5e32d, type: 3}
+  subtractionGo: {fileID: 3472369455136401110, guid: a91242455761541089fe73e918366a2d, type: 3}
+  sucreGo: {fileID: 3472369455136401110, guid: bfc85a21f63a4405c99f57e6549c5641, type: 3}
   questionParent: {fileID: 1826148115}
 --- !u!1 &804851719
 GameObject:
@@ -3947,6 +3964,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341600162}
   m_CullTransparentMesh: 1
+--- !u!1 &1351237964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1351237965}
+  - component: {fileID: 1351237966}
+  m_Layer: 0
+  m_Name: Substraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1351237965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351237964}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1351237966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351237964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8832edf424754f0d9db9bdc6cb8d5b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
+  defaultPieceWeightG: 120
+  easyFoodRange: {x: 3, y: 3}
+  mediumFoodRange: {x: 3, y: 4}
+  hardFoodRange: {x: 4, y: 5}
+  easyIntrusRange: {x: 1, y: 1}
+  mediumIntrusRange: {x: 1, y: 1}
+  hardIntrusRange: {x: 1, y: 2}
 --- !u!1 &1435699206
 GameObject:
   m_ObjectHideFlags: 0
@@ -5183,9 +5252,11 @@ Transform:
   - {fileID: 1516825078}
   - {fileID: 2094326456}
   - {fileID: 481389360}
+  - {fileID: 2020748278}
   - {fileID: 1991710772}
   - {fileID: 463188145}
   - {fileID: 2037564502}
+  - {fileID: 1351237965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1748609304
@@ -5204,23 +5275,27 @@ MonoBehaviour:
   defaultPieceWeightG: 120
   dropRateCaloriesDual: 0.7
   dropRateEstimate: 0.2
+  dropRateEstimateSugar: 0.2
   dropRateFunMeasure: 0.2
   dropRateMealComposition: 0.2
   dropRateSportDual: 0.2
   dropRateSort: 0.5
   dropRateIntru: 0.5
   dropRateRecycling: 0.5
+  dropRateSubtraction: 0.5
   dropRateCalories: 0.5
   dropRateProteine: 0.3
   dropRateSucre: 0.2
   useCaloriesDual: 0
   useEstimateCalories: 0
+  useEstimateSugar: 0
   useFunMeasure: 0
   useMealComposition: 0
   useSportDual: 0
   useSort: 0
   useIntrus: 0
-  useRecycling: 1
+  useRecycling: 0
+  useSubtraction: 0
   minCaloriesDelta: 20
   mealFoodsCount: 6
   specialMeasureManager: {fileID: 2134919856}
@@ -5230,6 +5305,8 @@ MonoBehaviour:
   intruderFoodQuestionGenerator: {fileID: 463188146}
   recyclingFoodQuestionGenerator: {fileID: 2037564501}
   estimateQuestionGenerator: {fileID: 2094326457}
+  sugarQuestionGenerator: {fileID: 2020748279}
+  subtractionQuestionGenerator: {fileID: 1351237966}
 --- !u!1 &1756326488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5903,6 +5980,53 @@ MonoBehaviour:
   maxCount: 4
   minDeltaBetweenAdjacent: 80
   maxAttempts: 80
+--- !u!1 &2020748277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2020748278}
+  - component: {fileID: 2020748279}
+  m_Layer: 0
+  m_Name: Sucre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2020748278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020748277}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748609303}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020748279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020748277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dddea306ccd143249d68c354bbb406a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
+  defaultPieceWeightG: 120
+  maxCalories: 800
 --- !u!1 &2024957583
 GameObject:
   m_ObjectHideFlags: 0

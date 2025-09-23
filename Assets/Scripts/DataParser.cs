@@ -45,7 +45,7 @@ public class FoodDataParser : CsvParserBase
             var values = SafeSplitCsvLine(rawLine);
 
             // 12 colonnes : name, type, rarity, portion, weight, volume, calories, proteins, carbs, lipids, fibers, indexGlycemique
-            if (values.Count < 12)
+            if (values.Count < 13)
             {
                 Warn($"Invalid line format (attendu ≥12 colonnes) : {rawLine}");
                 continue;
@@ -79,7 +79,9 @@ public class FoodDataParser : CsvParserBase
                 && TryParseFloatFlexible(values[8], out float carbohydrates)
                 && TryParseFloatFlexible(values[9], out float lipids)
                 && TryParseFloatFlexible(values[10], out float fibers)
-                && TryParseAndRoundToInt(values[11], out int indexGlycemique))
+                && TryParseAndRoundToInt(values[11], out int indexGlycemique)
+                && TryParseAndRoundToInt(values[12], out int sugar)
+                )
             {
                 FoodCategory mainCategory = ComputeMainCategory(proteins, carbohydrates, lipids);
 
@@ -87,7 +89,7 @@ public class FoodDataParser : CsvParserBase
                     name, type, rarity, portionType,
                     weight, volume, calories,
                     proteins, carbohydrates, lipids, fibers,
-                    indexGlycemique,
+                    indexGlycemique, sugar,
                     mainCategory
                 );
 

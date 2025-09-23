@@ -1,0 +1,259 @@
+Nom,Type,Rarete,Portion,Weight,Volume,Calorie au 100g,Protéine,Glucide,Lipide,Fibre,IG,Sucre ajouté
+Acerola,Fruit,Très rare,Petit,5,100,32.0,0.4,7.7,0.3,1.1,20,0
+Ail,Legume,Commun,Petit,3,5,149.0,6.4,33.1,0.5,2.1,30,0
+Airelle,Fruit,Rare,Petit,15,1,46.0,0.4,11.3,0.1,3.8,45,0
+Algues,Legume,Rare,Petit,10,100,43.0,5.8,9.6,0.6,0.3,0,0
+Amande,Oleagineux,Commun,Petit,1,1,579.0,21.2,21.7,49.9,12.5,15,0
+Ananas,Fruit,Commun,Tranche,20,1200,50.0,0.5,13.1,0.1,1.4,45,0
+Anchois,Poisson,Rare,Unitaire,128,100,210.0,29.0,0.0,10.0,0.0,0,0
+Artichaut,Legume,Commun,Unitaire,150,500,47.0,3.3,10.5,0.2,5.4,20,0
+Asperge,Legume,Commun,Unitaire,150,5,20.0,2.2,3.9,0.1,2.1,15,0
+Aubergine,Legume,Commun,Unitaire,30,250,25.0,1.0,5.9,0.2,3.0,20,0
+Avocat,Lipide,Commun,Unitaire,120,150,160.0,2.0,8.5,14.7,6.7,10,0
+Babybel,Fromage,Commun,Unitaire,22,15,314.0,22.5,0.0,25.0,0.0,0,0
+Baguette,Pain,Commun,,250,1190,270,9,57,1,3,95,1
+Banane,Fruit,Commun,Unitaire,82,120,89.0,1.1,22.8,0.3,2.6,60,0
+Bette,Legume,Rare,,50,100,19.0,1.8,3.7,0.2,1.6,0,0
+Betterave,Legume,Commun,Unitaire,20,70,43.0,1.6,9.6,0.2,2.8,30,0
+Beurre,Lipide,Commun,Tranche,85,100,717.0,0.9,0.1,81.1,0.0,0,0
+Bière,Alcool,Rare,Unitaire,70,100,43.0,0.5,3.6,0.0,0.0,0,0
+Biscuits Lu,Snack,Commun,Unitaire,30,15,475.0,6.0,68.0,20.0,2.5,0,22
+Blé,Feculent,Commun,Petit,40,200,327.0,12.6,71.2,1.5,12.2,0,0
+Boeuf haché,Viande,Commun,Unitaire,28,100,250.0,26.0,0.0,17.0,0.0,0,0
+Bok choy,Legume,Rare,,3,200,13.0,1.5,2.2,0.2,1.0,0,0
+Bol de Céréal,Céréales,Commun,Unitaire,270,120.0,110.0,3.9,19.0,2.2,0.6,70,28
+Bonbons Haribo,Snack,Commun,Unitaire,40,100,343.0,6.9,77.4,0.2,0.0,0,60
+Boudin blanc,Charcuterie,Commun,Unitaire,180,180,196,10,7,15,0,0,0
+Branche de céleri,Legume,Commun,Unitaire,2,100,14.0,0.7,3.0,0.2,1.6,15,0
+Bretzel,Snack,Commun,Petit,5,100,490,9,63,23,3,70,3
+Brie,Fromage,Commun,Morceau,100,97,334,20,0,28,0,0,0
+Brioche,Pain,Commun,Tranche,50,208,370,9,54,13,2,70,12
+Brocoli,Legume,Commun,Unitaire,61,400,34.0,2.8,6.6,0.4,2.6,15,0
+Bubble Tea,Boisson,Commun,Unitaire,450,100,70.0,0.3,15.0,1.0,0.2,0,8
+Cacahuète,Oleagineux,Commun,Petit,40,1,567.0,25.8,16.1,49.2,8.5,15,0
+Cacao,Lipide,Commun,Petit,70,100,228.0,19.6,57.9,13.7,37.0,20,0
+Cafè Latte Starbucks,Boisson,Commun,Liquide,473,473.0,54.0,3.0,6.6,2.0,0.0,45,10
+Camembert,Fromage,Commun,Morceau,250,243,300,20,0,24,0,0,0
+Câpres,Condiment,Rare,,200,5,23.0,2.4,4.9,0.9,3.3,0,0
+Carotte,Legume,Commun,Unitaire,20,50,41.0,0.9,9.6,0.2,2.8,30,0
+Cassis,Fruit,Rare,Petit,67,0.5,63.0,1.4,15.4,0.0,4.3,0,0
+Céleri,Legume,Commun,,89,100,16.0,0.7,3.0,0.2,1.6,15,0
+Champignon,Legume,Commun,Unitaire,100,5,22.0,3.1,3.3,0.3,1.0,15,0
+Chantilly,Laitage,Commun,Liquide,30,50,257.0,2.0,12.5,23.0,0.0,0,13
+Châtaigne,Feculent,Rare,Petit,100,100,213.0,2.4,45.5,2.2,8.3,60,0
+Cheddar,Laitage,Commun,Tranche,80,100,403.0,24.9,1.3,33.1,0.0,0,0
+Chèvre bûche,Fromage,Commun,Tranche,100,96.0,334.0,21.0,0.5,27.0,0.0,0,0
+Chili,Sauce,Commun,Liquide,100,100,40.0,2.0,9.5,0.4,1.5,0,0
+Chips,Snack,Commun,Petit,30,30,536.0,6.4,50.0,34.0,4.2,70,2
+Chocolat chaud,Boisson,Commun,Liquide,100,100.0,77.0,3.2,10.0,3.0,1.0,60,12
+Chocolat Noir,Snack,Commun,Morceau,20,20.0,550.0,7.0,25.0,40.0,2.0,0,1
+Chou,Crustace,Commun,,92,350,25.0,1.3,5.8,0.1,2.5,15,0
+Chou de Bruxelles,Legume,Commun,,150,5,43.0,3.4,8.9,0.3,3.8,15,0
+Chou frisé,Legume,Commun,,2,200,49.0,4.3,8.8,0.9,3.6,15,0
+Chou kale,Legume,Rare,,4,100,49.0,4.3,8.8,0.9,3.6,15,0
+Chou rouge,Legume,Commun,,205,350,31.0,1.4,7.4,0.2,2.1,15,0
+Chou vert,Legume,Commun,,124,350,25.0,1.3,5.8,0.1,2.5,15,0
+Chou-fleur,Legume,Commun,,100,350,25.0,2.0,5.0,0.3,2.0,15,0
+Ciboulette,Legume,Commun,,100,100,30.0,3.3,4.4,0.7,2.5,0,0
+Citron,Fruit,Commun,Unitaire,100,60,29.0,1.1,9.3,0.3,2.8,20,0
+Clafoutis,Patisserie,Commun,Unitaire,120,115.0,172.0,5.0,27.0,5.0,1.0,55,20
+Clémentine,Fruit,Commun,Unitaire,3,80,41.0,0.8,10.6,0.2,1.7,30,0
+Coca cola,Boisson,Commun,Unitaire,330,100,42.0,0.0,10.6,0.0,0.0,63,10.6
+Coing,Fruit,Rare,Unitaire,10,200,57.0,0.4,15.3,0.1,1.9,35,0
+Compote de pommes,Fruit,Commun,Liquide,100,100,68.0,0.3,16.0,0.2,1.3,35,12
+Comté,Fromage,Commun,Morceau,30,27,410,27,0,33,0,0,0
+Concombre,Legume,Commun,Unitaire,24,200,12.0,0.6,2.2,0.1,0.5,15,0
+Cordon bleu,PlatPrepare,Commun,Unitaire,100,250,226.0,16.0,11.0,13.0,0.0,0,0
+Cornichons,Legume,Commun,Petit,30,5,12.0,0.3,2.3,0.2,1.2,15,0
+Côtes de porc,Viande,Commun,Pièce,180,170.0,270.0,23.0,0.0,20.0,0.0,0,0
+Courge,Legume,Commun,Unitaire,30,1500,20.0,0.6,4.3,0.1,1.1,75,0
+Courgette,Legume,Commun,Unitaire,30,150,17.0,1.2,3.1,0.3,1.0,15,0
+Crabe,Crustace,Rare,,2,150,83.0,17.9,0.0,0.2,0.0,0,0
+Cranberry,Fruit,Rare,Petit,234,0.5,46.0,0.4,12.2,0.1,5.4,45,0
+Crème dessert,Laitage,Commun,Unitaire,125,116,120,3,17,4,0,60,18
+Crème fraîche,Laitage,Commun,Liquide,30,100,300.0,2.0,3.0,31.0,0.0,0,0
+Crêpes,Patisserie,Commun,Unitaire,60,120,230,6,31,9,1,55,15
+Cresson,Legume,Rare,Petit,5,100,11.0,2.3,1.3,0.1,0.5,15,0
+Crevette,Crustace,Commun,Petit,50,10,119.0,22.8,1.5,1.7,0.0,0,0
+Croissant,Patisserie,Commun,Unitaire,100,60,406.0,8.0,45.0,21.0,2.6,70,4
+Croque Madame,PlatPrepare,Commun,Unitaire,140,250,250,12,23,11,2,60,3
+Croque-monsieur,PlatPrepare,Commun,Unitaire,180,280,255,11,30,10,2,60,3
+Dattes,Fruit,Commun,Petit,15,5,277.0,1.8,75.0,0.2,6.7,70,0
+Échalote,Legume,Commun,Petit,28,5,72.0,2.5,16.8,0.1,3.2,15,0
+Éclair au chocolat,Patisserie,Commun,Unitaire,70,140,290,6,39,13,1,50,30
+Emmental,Fromage,Commun,Morceau,30,27,380,28,0,29,0,0,0
+Endive,Legume,Commun,Unitaire,40,200,17.0,0.9,3.4,0.2,1.6,15,0
+Epinard,Legume,Commun,,24,100,23.0,2.9,1.1,0.4,2.2,15,0
+Escalope de veau,Viande,Commun,,120,114,160,20,0,8,0,0,0
+Estragon,Legume,Rare,,282,5,295.0,22.8,50.2,7.2,7.4,0,0
+Fanta,Boisson,Commun,Unitaire,33,100,47.0,0.0,11.4,0.0,0.0,68,10
+Fenouil,Legume,Commun,,50,200,31.0,1.2,32.0,0.2,3.1,15,0
+Ferrero Rocher,Confiserie,Commun,Petit,15,100,603,8,40,46,0,0,39
+Feta,Fromage,Commun,Tranche,30,100,264.0,14.2,4.1,21.3,0.0,0,0
+Figue,Fruit,Commun,Unitaire,172,50,74.0,0.8,19.2,0.3,2.9,35,0
+Filet mignon,Viande,Commun,,150,143,145,21,0,6,0,0,0
+Flan,Patisserie,Commun,Part,120,115.0,146.0,5.0,21.0,5.0,0.0,55,15
+Flétan,Poisson,Rare,,30,100,91.0,19.9,0.0,1.3,0.0,0,0
+Fraise,Fruit,Commun,Petit,32,12,33.0,0.7,7.7,0.3,2.0,25,0
+Fraise Tagada,Confiserie,Commun,Petit,5,100,380,4,88,0,0,0,70
+Framboise,Fruit,Commun,Petit,14,4,52.0,1.2,11.9,0.7,6.5,25,0
+Frites,Feculent,Commun,Petit,150,300,310,4,41,15,4,70,0
+Fromage blanc,Laitage,Commun,Liquide,100,95,80,8,4,4,0,30,4
+Fromage bleu,Laitage,Rare,Unitaire,130,100,353.0,21.4,2.3,28.7,0.0,0,0
+Fruit de la passion,Fruit,Commun,Unitaire,70,20,"97,0","2,2","23,4","0,4","10,4",30,0
+Galette de riz,Snack,Commun,Unitaire,9,9,387.0,8.0,81.0,3.0,2.2,85,0
+Glace vanille,Snack,Commun,Unitaire,40,120,207,3.5,24,10,0,60,21
+Gombo,Legume,Rare,,69,100,33.0,1.9,7.5,0.2,3.2,0,0
+Graines de Chias,Crustace,Rare,Petit,3,100,486.0,16.5,42.1,30.7,34.4,0,0
+Graines de lin,Oleagineux,Rare,Petit,5,100,534.0,18.3,28.9,42.2,27.3,0,0
+Graines de Sésame,Oleagineux,Commun,Petit,15,50,573.0,17.7,23.5,49.7,11.8,0,0
+Grenade,Fruit,Commun,Unitaire,250,500,83.0,1.7,18.7,1.2,4.0,35,0
+Groseilles,Fruit,Rare,Petit,36,0.5,56.0,1.3,13.8,0.2,4.3,25,0
+Hachis parmentier,PlatPrepare,Commun,,100,100,140,7,13,7,2,0,2
+Haricots noirs,Legume,Commun,Petit,192,50,339.0,21.3,62.4,0.9,15.5,30,0
+Haricots rouges,Legume,Commun,Petit,200,50,333.0,24.4,60.0,0.8,25.0,33,0
+Haricots verts,Legume,Commun,Petit,5,5,31.0,1.8,7.1,0.1,3.4,15,0
+Houmous,Tartinade,Commun,,67,100,237.0,7.9,20.1,15.6,6.0,25,0
+Huile d'olive,Lipide,Commun,Liquide,10,100,884.0,0.0,0.0,100.0,0.0,0,0
+Jalapeno,Legume,Rare,,19,5,29.0,0.9,6.5,0.4,2.8,0,0
+Jambon blanc,Viande,Commun,Unitaire,40,50,145.0,20.5,1.0,6.3,0.0,0,0
+Jambon de poulet,Viande,Commun,Unitaire,40,50,124.0,21.0,1.0,3.5,0.0,0,0
+Jus d'orange,Boisson,Commun,Liquide,200,200.0,45.0,0.7,10.0,0.2,0.2,50,10
+Kebab,PlatPrepare,Commun,Unitaire,350,250,"700,0","30,0","35,0","38,0","4,0",0,3
+Ketchup,Sauce,Commun,,150,15,112.0,1.2,25.0,0.2,0.3,55,22
+Kinder Bueno,Snack,Commun,Unitaire,43,20,572.0,8.6,49.0,37.3,1.4,0,30
+Kiri,Fromage,Commun,Unitaire,100,20,319.0,6.4,5.3,30.5,0.0,0,0
+Kiwi,Fruit,Commun,Unitaire,88,75,61.0,1.1,14.7,0.5,3.0,50,0
+Knacki,Viande,Commun,Petit,35,35.0,270.0,12.0,2.0,24.0,0,0,0
+Lait,Laitage,Commun,Liquide,200,100,64.0,3.3,4.8,3.6,0.0,30,0
+Laitue,Legume,Commun,,20,100,15.0,1.4,2.9,0.2,1.3,15,0
+Lasagne bolognaise,PlatPrepare,Commun,,100,100,135,7,14,6,2,0,3
+Lentilles,Legume,Commun,Petit,2,2,112.0,8.1,16.6,0.6,5.0,30,0
+Lime,Fruit,Commun,,150,44,30.0,0.7,10.5,0.2,2.8,20,0
+Litchi,Fruit,Rare,Unitaire,15,10,66.0,0.8,16.5,0.4,1.3,50,0
+Luzerne,Legume,Très rare,,16,100,23.0,4.0,2.1,0.7,1.9,15,0
+Madeleine,Patisserie,Commun,Unitaire,25,42,450,6,53,23,1,60,28
+Magnum,Snack,Commun,Unitaire,86,100,231.0,2.5,23.0,14.0,0.5,0,24
+Maïs,Feculent,Commun,Petit,45,50,365.0,9.4,74.3,4.7,7.3,55,0
+Mandarine,Fruit,Commun,Unitaire,7,100,53.0,0.8,13.3,0.3,1.8,30,0
+Mangue,Fruit,Commun,Unitaire,200,200,60.0,0.8,15.0,0.4,1.6,60,0
+Marron,Feculent,Rare,,50,20,213.0,2.4,45.5,2.2,8.3,60,0
+Mars,Snack,Commun,Unitaire,47,50,475.0,4.4,72.2,19.0,1.3,62,60
+Melon,Fruit,Commun,Unitaire,800,1500,64.0,1.0,16.1,0.2,2.2,60,0
+Melon,Fruit,Commun,Unitaire,3,2000,34.0,0.8,8.2,0.2,0.9,60,0
+Miel,Tartinade,Commun,Liquide,2,2,304.0,0.3,82.4,0.0,0.2,60,82
+Mille-feuilles,Patisserie,Commun,Unitaire,90,150,343,5,32,22,1,50,28
+Mojito,Alcool,Commun,Unitaire,100,100,110.0,0.1,9.0,0.2,0.1,0,7
+Morue,Poisson,Rare,,30,100,105.0,23.0,0.0,0.9,0.0,0,0
+Mousse au chocolat,Patisserie,Commun,Unitaire,80,75.0,313.0,6.0,26.0,21.0,2.0,45,23
+Moutarde,Sauce,Commun,Liquide,123,15,66.0,4.4,5.8,4.0,3.3,0,0
+Munster,Fromage,Commun,Part,100,96.0,368.0,21.0,1.0,30.0,0.0,0,0
+Mûres,Fruit,Commun,Petit,170,2,43.0,1.4,9.6,0.5,5.3,25,0
+Myrtilles,Fruit,Rare,Petit,304,0.5,57.0,0.7,14.5,0.3,2.4,25,0
+Navet,Legume,Commun,Unitaire,100,100.0,28.0,1.0,6.0,0.1,2.0,30,0
+Noisettes,Oleagineux,Commun,Petit,286,1,628.0,14.1,16.7,60.8,9.7,15,0
+Noix,Oleagineux,Commun,Petit,100,1,654.0,15.2,13.7,65.2,6.7,15,0
+Noix de Cajou,Oleagineux,Commun,Petit,20,1,553.0,18.2,30.2,43.9,3.3,0,0
+Noix de coco,Oleagineux,Commun,Unitaire,178,300,354.0,3.3,15.2,33.5,9.0,45,0
+Noix de macadamia,Oleagineux,Rare,Petit,2,1,718.0,7.9,13.8,75.8,8.6,15,0
+Noix de pécan,Oleagineux,Rare,Petit,119,1,691.0,9.2,13.9,72.0,9.6,15,0
+Nouille instantanée,PlatPrepare,Commun,Unitaire,100,100,471.0,8.2,59.0,21.0,2.4,55,2
+Nuggets,PlatPrepare,Commun,Petit,20,18.0,296.0,15.0,18.0,18.0,1.0,60,2
+Oasis,Boisson,Commun,Unitaire,330,330,33.0,0.0,7.9,0.0,0.0,0,9.5
+Oeuf,Viande,Commun,Unitaire,60,60,143.0,12.0,1.1,11.0,0.0,0,0
+Oignon,Legume,Commun,Unitaire,205,110,40.0,1.1,9.3,0.1,1.7,15,0
+Olive,Oleagineux,Commun,Petit,5,5,115.0,0.8,6.3,10.7,3.2,15,0
+Omelette,PlatPrepare,Commun,Unitaire,120,133,154,11,1,12,0,0,0
+Orange,Fruit,Commun,Unitaire,66,200,47.0,0.9,11.8,0.1,2.4,35,0
+Oreo,Snack,Commun,Unitaire,15,15,483.0,4.9,72.0,19.5,2.7,0,35
+pain au chocolat,Patisserie,Commun,Unitaire,100,60,406.0,7.7,44.5,22.6,2.6,70,15
+pain aux raisins,Patisserie,Commun,Unitaire,100,60,361.0,7.2,45.1,16.4,2.1,70,20
+Pain blanc,Pain,Commun,Tranche,35,130,265,9,51,3,3,75,2
+Pain complet,Pain,Commun,Unitaire,4,50,247.0,13.0,41.0,4.4,6.8,50,0
+Pain de mie,Pain,Commun,Tranche,25,96,290,9,53,5,3,85,5
+Pain perdu,Patisserie,Commun,Tranche,100,95.0,228.0,8.0,30.0,8.0,1.0,60,20
+Pamplemousse,Fruit,Commun,Unitaire,20,230,42.0,0.8,10.7,0.1,1.6,25,0
+Panais,Legume,Rare,Unitaire,49,50,75.0,1.2,17.9,0.3,4.9,85,0
+Papaye,Fruit,Rare,Unitaire,15,500,43.0,0.5,10.8,0.3,1.7,60,0
+Pastèque,Fruit,Commun,Tranche,100,5000,30.0,0.6,7.6,0.2,0.4,75,0
+Patate douce,Feculent,Commun,Unitaire,185,100,90.0,2.0,21.0,0.1,3.3,70,0
+Pâté de campagne,Charcuterie,Commun,,30,29,320,16,0,28,0,0,0
+Pêche,Fruit,Commun,Unitaire,20,150,39.0,0.9,9.5,0.3,1.5,35,0
+Petit pois,Legume,Commun,Petit,4,5.0,81.0,5.0,14.0,0.4,5.0,50,0
+Piment,Legume,Commun,Unitaire,15,15,40.0,2.0,9.5,0.4,1.5,15,0
+Pina colada,Alcool,Commun,Unitaire,270,270,174.0,0.5,17.0,10.0,0.2,0,11
+Pistache,Oleagineux,Commun,Petit,150,1,562.0,20.2,27.5,45.4,10.6,15,0
+Poire,Fruit,Commun,Unitaire,120,150,57.0,0.4,15.2,0.1,3.1,35,0
+Poireau,Legume,Commun,Unitaire,186,50,61.0,1.5,14.2,0.3,1.8,15,0
+Pois chiche,Legume,Commun,Petit,8,50,364.0,19.3,61.0,6.0,17.4,28,0
+Poisson blanc,Poisson,Commun,,150,100,86.0,18.3,0.0,1.0,0.0,0,0
+Poivron,Legume,Commun,Unitaire,100,120,31.0,1.0,6.0,0.3,2.1,15,0
+Pomelo,Fruit,Commun,Unitaire,100,230,42.0,0.8,10.7,0.1,1.6,25,0
+Pomme,Fruit,Commun,Unitaire,150,150,52.0,0.3,13.8,0.2,2.4,35,0
+Pomme de terre,Feculent,Commun,Unitaire,120,130,77.0,2.0,17.0,0.1,2.2,85,0
+Potiron,Legume,Commun,Unitaire,900,1000,30.0,1.0,7.0,0.1,0.5,75,0
+Poulet,Viande,Commun,,100,150,239.0,27.3,0.0,13.6,0.0,0,0
+Profiteroles,Patisserie,Commun,Unitaire,40,38.0,280.0,6.0,29.0,16.0,1.0,55,22
+Prune,Fruit,Commun,Unitaire,40,50,46.0,0.7,11.4,0.3,1.4,35,0
+Purée de pommes de terre,Feculent,Commun,Petit,5,5,110,2,16,5,2,85,2
+Quiche,PlatPrepare,Commun,Unitaire,125,139,290,11,24,18,1,35,4
+Quinoa,Feculent,Rare,Petit,1,g,368.0,14.1,64.2,6.1,7.0,35,0
+Raclette,Fromage,Commun,Morceau,30,29,350,25,0,27,0,0,0
+Radis,Legume,Commun,Petit,30,5,16.0,0.7,3.4,0.1,1.6,15,0
+Raifort,Legume,Rare,Unitaire,20,5,48.0,1.2,11.3,0.7,3.3,0,0
+Raisin,Fruit,Commun,Petit,170,5,69.0,0.7,18.1,0.2,0.9,45,0
+Reblochon,Fromage,Commun,Morceau,450,437,330,21,0,26,0,0,0
+Rhubarbe,Legume,Rare,,245,50,21.0,0.9,4.5,0.2,1.8,15,0
+Rhum,Alcool,Commun,Liquide,100,100,231.0,0.0,0.0,0.0,0.0,0,0
+Rillettes,Charcuterie,Commun,,20,21,430,14,0,41,0,0,0
+Riz,Feculent,Commun,Petit,5,200,"115,0","2,5","25,6","0,3","0,4",70,0
+Roquefort,Fromage,Commun,Part,100,96.0,369.0,21.0,2.0,31.0,0.0,0,0
+Roquette,Legume,Commun,,28,30,25.0,2.6,3.7,0.7,1.6,15,0
+Saint-Nectaire,Fromage,Commun,Part,100,96.0,360.0,22.0,0.5,29.0,0.0,0,0
+Sardine,Poisson,Commun,,25,100,208.0,24.6,0.0,11.5,0.0,0,0
+Sarrasin,Feculent,Rare,Petit,110,50,343.0,13.0,72.0,3.0,10.0,50,0
+Saucisse de Toulouse,Charcuterie,Commun,Unitaire,80,76,300,16,1,27,0,0,0
+Saucisson sec,Charcuterie,Commun,Unitaire,50,30,455.0,28.0,1.5,38.0,0.0,0,0
+Sauge,Legume,Rare,,16,5,315.0,10.6,60.7,12.8,40.3,0,0
+Saumon,Poisson,Commun,,130,150,206.0,22.1,0.0,12.4,0.0,0,0
+Saumon fumé,Poisson,Commun,Tranche,30,28.0,117.0,18.0,0.0,4.0,0.0,0,0
+Seiche,Crustace,Rare,,28,100,79.0,15.6,3.1,1.4,0.0,0,0
+Semoule,Feculent,Commun,Petit,2,2,360.0,12.7,73.0,1.2,3.9,60,0
+Snickers,Snack,Commun,Unitaire,50,50,245.0,4.3,30.0,12.0,2.4,0,55
+Soja,Legume,Commun,,28,50,446.0,36.5,30.2,19.9,9.3,15,0
+Sole,Poisson,Rare,,89,100,83.0,16.5,0.0,1.4,0.0,0,0
+Sorgho,Feculent,Très rare,,113,50,329.0,11.3,72.1,3.4,6.7,70,0
+Soupe en brique,PlatPrepare,Commun,Unitaire,100,250,38.0,1.1,6.3,0.7,0.6,0,3
+Spiruline,Legume,Très rare,Liquide,2,5,290.0,57.5,23.9,7.7,3.6,0,0
+Steak haché,Viande,Commun,Pièce,125,120.0,250.0,19.0,0.0,20.0,0.0,0,0
+Tacos,PlatPrepare,Commun,Unitaire,300,100,226.0,9.0,23.0,11.0,2.6,0,3
+Tamarin,Fruit,Très rare,Unitaire,119,5,239.0,2.8,62.5,0.6,5.1,55,0
+Tapioca,Feculent,Rare,,200,50,358.0,0.2,88.7,0.0,0.9,85,0
+Tarte au citron,Patisserie,Commun,Unitaire,100,200,285.0,3.3,35.8,14.0,1.0,0,32
+Tarte aux pommes,Patisserie,Commun,Unitaire,100,111,260,3,38,11,2,40,25
+Tartelette au chocolat,Patisserie,Commun,Unitaire,130,100,405.0,5.2,42.0,24.0,2.1,0,35
+Tartine beurre de cacahuète,Snack,Commun,Unitaire,100,50,320.0,9.0,22.0,23.0,2.5,0,10
+Tartine de nutella,Snack,Commun,Unitaire,50,50,405.0,4.6,44.0,23.0,2.3,0,56
+Thon,Poisson,Commun,,195,100,132.0,28.0,0.0,1.0,0.0,0,0
+Tofu,Legume,Commun,,200,100,126.0,12.1,1.9,7.9,0.3,15,0
+Tomate,Legume,Commun,Unitaire,120,120,18.0,0.9,3.9,0.2,1.2,15,0
+Tomate cerise,Legume,Commun,Petit,10,10,27.0,1.3,4.0,0.4,1.0,15,0
+Tomme de Savoie,Fromage,Commun,Part,100,96.0,357.0,26.0,0.1,28.0,0.0,0,0
+Topinambour,Feculent,Rare,,5,50,73.0,2.0,17.4,0.1,1.6,50,0
+Tranche de bacon,Viande,Commun,Unitaire,20,10,541.0,37.0,1.4,42.0,0.0,0,0
+Truite,Poisson,Commun,Unitaire,150,150,148.0,20.5,0.0,7.0,0.0,0,0
+Turquie,Viande,Commun,,10,100,189.0,29.0,0.1,7.4,0.0,0,0
+Un bol de chocapic,Céréales,Commun,Unitaire,100,250,389.0,7.2,77.2,4.5,7.3,84,28
+Vache qui rit,Fromage,Commun,Unitaire,18,15,290.0,11.0,5.0,25.0,0.0,0,0
+Verre de vin rouge,Alcool,Commun,Unitaire,120,12,85.0,0.1,2.6,0.0,0.0,0,0
+Wakame,Legume,Très rare,,150,50,45.0,3.0,9.1,0.6,0.5,0,0
+Wasabi,Sauce,Très rare,Liquide,6,5,109.0,4.8,23.5,0.6,7.8,0,0
+Whisky,Alcool,Commun,Liquide,100,100,250.0,0.0,0.0,0.0,0.0,0,0
+Wrap,PlatPrepare,Commun,Unitaire,200,100,267.0,7.9,41.4,6.3,2.9,0,3
+Yacon,Feculent,Très rare,Unitaire,34,50,54.0,0.0,12.8,0.1,1.9,35,0
+Yam,Feculent,Très rare,,5,100,118.0,1.5,27.9,0.2,4.1,55,0
+Yaourt à boire ,Laitage,Commun,Unitaire,100,100,68.0,3.3,9.8,1.2,0.0,35,12
+Yaourt aux fruits,Laitage,Commun,Unitaire,125,121,90,4,14,2,0,45,12
+Yaourt grec,Laitage,Commun,Unitaire,193,100,59.0,10.0,3.6,0.4,0.0,35,3
+Yaourt nature,Laitage,Commun,Unitaire,2,100,61.0,3.5,4.7,3.3,0.0,35,0
+Zélande,Crustace,Très rare,,330,100,111.0,20.5,5.1,2.0,0.0,0,0

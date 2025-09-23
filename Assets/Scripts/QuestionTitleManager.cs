@@ -38,6 +38,9 @@ public class QuestionTitleManager : MonoBehaviour
                     default: title = "Devine les calories !"; break;
                 }
                 break;
+            case QuestionType.Sugar:
+                title = "Estime le nombre de carré de sucres !";
+                break;
 
             case QuestionType.CaloriesDual:
                 switch (subType)
@@ -102,6 +105,25 @@ public class QuestionTitleManager : MonoBehaviour
                         break;
                     default:
                         title = "Trie les bons aliments sur le tapis roulant !";
+                        break;
+                }
+                break;
+
+            case QuestionType.Subtraction:
+                switch (subType)
+                {
+                    case QuestionSubType.Proteine:
+                        title = "Élimine un aliment pour retirer des protéines !";
+                        break;
+                    case QuestionSubType.Glucide:
+                        title = "Élimine un aliment pour retirer des glucides !";
+                        break;
+                    case QuestionSubType.Lipide:
+                        title = "Élimine un aliment pour retirer des lipides !";
+                        break;
+                    case QuestionSubType.Calorie:
+                    default:
+                        title = $"Retire {Mathf.RoundToInt(targetCalories)} calories !";
                         break;
                 }
                 break;
