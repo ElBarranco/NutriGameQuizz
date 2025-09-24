@@ -5,18 +5,18 @@ using NaughtyAttributes;
 using UnityEngine.UI;
 using TMPro;
 
-public class QuestionIntrusUI : MonoBehaviour
+public class QuestionIntrusUI : BaseQuestionUI
 {
     [Header("Références")]
     [SerializeField] private List<GameObject> foodSlots; 
     [SerializeField] private FoodSelectableUI foodButtonPrefab;
-    [SerializeField] private Button validateButtonUI;
+    
     [SerializeField] private TextMeshProUGUI debugText;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private List<int> currentSelection = new List<int>();
 
-    private QuestionData question;
+    
     private Action<int, bool> onAnswered;
     private List<FoodSelectableUI> spawnedItems = new List<FoodSelectableUI>();
 
@@ -50,6 +50,7 @@ public class QuestionIntrusUI : MonoBehaviour
             }
         }
 
+        QuestionValidateButtonUI.Instance.DisableButton();
         UpdateDebugText();
     }
 
@@ -65,25 +66,14 @@ public class QuestionIntrusUI : MonoBehaviour
     private void OnFoodClicked(int index, bool isSelectedAsIntrus)
     {
         currentSelection[index] = isSelectedAsIntrus ? 2 : 1;
+        QuestionValidateButtonUI.Instance.EnableButton();
+        guess = EncodeSelection(currentSelection);
         UpdateDebugText();
     }
 
     private void UpdateDebugText()
-    {
-        int encoded = EncodeSelection(currentSelection);
-        debugText.text = $"{encoded}";
-    }
-
-    public void Btn_Validate()
-    {
-        InteractionManager.Instance.TriggerMediumVibration();
-        validateButtonUI.interactable = false;
-
-        int encodedAnswer = EncodeSelection(currentSelection);
-
-        onAnswered?.Invoke(encodedAnswer, false);
-
-        Destroy(gameObject);
+    {   
+        debugText.text = $"{guess}";
     }
 
     private int EncodeSelection(List<int> order)

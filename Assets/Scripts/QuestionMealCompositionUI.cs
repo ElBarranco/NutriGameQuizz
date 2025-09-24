@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestionMealCompositionUI : MonoBehaviour
+public class QuestionMealCompositionUI : BaseQuestionUI
 {
     [Header("Références")]
     [SerializeField] private RectTransform bottomPanel;   // conteneur d’instanciation des aliments
     [SerializeField] private DropZoneUI dropZone;         // zone de drop
     [SerializeField] private FoodDraggableUI foodPrefab;  // prefab draggable
-    [SerializeField] private Button validateButton;       // bouton "Valider"
     [SerializeField] private InitialDockUI bottomDock;
 
     private QuestionData question;
@@ -45,17 +44,12 @@ public class QuestionMealCompositionUI : MonoBehaviour
             item.PlaySpawnAnimation(i * 0.08f);
         }
     }
-    private void Btn_Validate()
+
+    public void UpdateGuess(int currentCalorie)
     {
-        InteractionManager.Instance.TriggerMediumVibration();
-
-        // Calcul du total des calories
-        int totalCalories = dropZone.GetCurrentCalories();
-
-        // Envoie au GameManager : index = totalCalories, bool = false (pour l’instant)
-        onAnswered?.Invoke(totalCalories, false);
-        Destroy(gameObject);
+        guess = currentCalorie;
     }
+
 
 
 }

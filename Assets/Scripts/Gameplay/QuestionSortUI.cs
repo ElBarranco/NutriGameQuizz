@@ -4,7 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
 
-public class QuestionSortUI : MonoBehaviour
+public class QuestionSortUI : BaseQuestionUI
 {
     [Header("Références")]
     [SerializeField] private RectTransform bottomPanel;
@@ -16,18 +16,13 @@ public class QuestionSortUI : MonoBehaviour
     [Header("Debug")]
     [SerializeField, ReadOnly] private List<int> currentOrder = new List<int>();
 
-    private QuestionData question;
+    
     private Action<int, bool> onAnswered;
 
     public void Init(QuestionData q, Action<int, bool> callback)
     {
         question = q;
         onAnswered = callback;
-
-
-        // écoute la zone pour activer/désactiver le bouton
-        dropZone.OnFilledChanged += validateButtonUI.SetActiveState;
-
 
 
         dropZone.Init(q.PortionSelections);
@@ -50,16 +45,10 @@ public class QuestionSortUI : MonoBehaviour
         }
     }
 
-    public void Btn_Validate()
+    public void UpdateCurrentOrder(List<int> newOrder)
     {
-        InteractionManager.Instance.TriggerMediumVibration();
-
-        currentOrder = dropZone.GetCurrentOrderIndices();
-        int ordreEncode = EncodeOrder(currentOrder);
-
-        onAnswered?.Invoke(ordreEncode, false);
-
-        Destroy(gameObject);
+        currentOrder = newOrder;
+        guess = EncodeOrder(currentOrder);       
     }
 
     private int EncodeOrder(List<int> order)

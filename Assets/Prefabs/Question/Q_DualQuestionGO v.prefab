@@ -291,6 +291,8 @@ MonoBehaviour:
   bgA: {fileID: 7624805065623500666}
   bgB: {fileID: 1606539250072758700}
   dial: {fileID: 7085877286623015380}
+  COLOR_SELECTED: {r: 0.65319765, g: 1, b: 0.2688679, a: 1}
+  COLOR_DESELECTED: {r: 1, g: 1, b: 1, a: 0.6}
 --- !u!225 &7814242052037384154
 CanvasGroup:
   m_ObjectHideFlags: 0

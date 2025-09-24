@@ -28,7 +28,7 @@ public class LevelGenerator : QuestionGenerator
     [Header("Types de questions")]
     [SerializeField] private bool useCaloriesDual = true;
     [SerializeField] private bool useEstimateCalories = true;
-    [SerializeField] private bool useEstimateSugar = true; // ✅ nouveau
+    [SerializeField] private bool useSugar = true; // ✅ nouveau
     [SerializeField] private bool useFunMeasure = true;
     [SerializeField] private bool useMealComposition = true;
     [SerializeField] private bool useSportDual = true;
@@ -40,8 +40,6 @@ public class LevelGenerator : QuestionGenerator
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
 
-    [Header("Meal Composition")]
-    [SerializeField] private int mealFoodsCount = 6;
 
     [Header("Références Générateurs")]
     [SerializeField] private SpecialMeasureManager specialMeasureManager;
@@ -225,7 +223,7 @@ public class LevelGenerator : QuestionGenerator
         float total = 0f;
         if (useCaloriesDual) total += dropRateCaloriesDual;
         if (useEstimateCalories) total += dropRateEstimate;
-        if (useEstimateSugar) total += dropRateSugar; // ✅
+        if (useSugar) total += dropRateSugar; // ✅
         if (useFunMeasure) total += dropRateFunMeasure;
         if (useMealComposition) total += dropRateMealComposition;
         if (useSportDual) total += dropRateSportDual;
@@ -242,7 +240,7 @@ public class LevelGenerator : QuestionGenerator
 
         if (useCaloriesDual && rand < (acc += dropRateCaloriesDual)) return QuestionType.CaloriesDual;
         if (useEstimateCalories && rand < (acc += dropRateEstimate)) return QuestionType.EstimateCalories;
-        if (useEstimateSugar && rand < (acc += dropRateSugar)) return QuestionType.Sugar;
+        if (useSugar && rand < (acc += dropRateSugar)) return QuestionType.Sugar;
         if (useFunMeasure && rand < (acc += dropRateFunMeasure)) return QuestionType.FunMeasure;
         if (useMealComposition && rand < (acc += dropRateMealComposition)) return QuestionType.MealComposition;
         if (useSportDual && rand < (acc += dropRateSportDual)) return QuestionType.Sport;
@@ -318,7 +316,7 @@ public class LevelGenerator : QuestionGenerator
     {
         bool allEnabled = useCaloriesDual
                           && useEstimateCalories
-                          && useEstimateSugar 
+                          && useSugar 
                           && useFunMeasure
                           && useMealComposition
                           && useSportDual
@@ -331,7 +329,7 @@ public class LevelGenerator : QuestionGenerator
 
         useCaloriesDual = newValue;
         useEstimateCalories = newValue;
-        useEstimateSugar = newValue; 
+        useSugar = newValue; 
         useFunMeasure = newValue;
         useMealComposition = newValue;
         useSportDual = newValue;

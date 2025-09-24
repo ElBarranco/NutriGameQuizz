@@ -5,19 +5,17 @@ using NaughtyAttributes;
 using UnityEngine.UI;
 using TMPro;
 
-public class QuestionSubtractionUI : MonoBehaviour
+public class QuestionSubtractionUI : BaseQuestionUI
 {
     [Header("Références")]
     [SerializeField] private List<GameObject> foodSlots;
     [SerializeField] private FoodSelectableSubtractionUI foodButtonPrefab;
-    [SerializeField] private Button validateButtonUI;
     [SerializeField] private TextMeshProUGUI debugText;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private int currentSelection = -1;
-    [SerializeField, ReadOnly] private int encodedAnswer = -1;
 
-    private QuestionData question;
+
     private Action<int, bool> onAnswered;
     private List<FoodSelectableSubtractionUI> spawnedItems = new List<FoodSelectableSubtractionUI>();
 
@@ -28,7 +26,7 @@ public class QuestionSubtractionUI : MonoBehaviour
 
         // Reset
         currentSelection = -1;
-        encodedAnswer = -1;
+        guess = -1;
         CleanupSpawned();
 
         // ✅ Activer uniquement les slots nécessaires
@@ -51,7 +49,6 @@ public class QuestionSubtractionUI : MonoBehaviour
             }
         }
 
-        validateButtonUI.interactable = false;
         UpdateDebugText();
     }
 
@@ -81,27 +78,16 @@ public class QuestionSubtractionUI : MonoBehaviour
         }
 
         // ✅ On met à jour encodedAnswer directement
-        encodedAnswer = (currentSelection == -1) ? -1 : currentSelection + 1;
+        guess = (currentSelection == -1) ? -1 : currentSelection + 1;
 
-        validateButtonUI.interactable = (currentSelection != -1);
         UpdateDebugText();
     }
 
     private void UpdateDebugText()
     {
-        debugText.text = (encodedAnswer <= 0)
+        debugText.text = (guess <= 0)
             ? "0"
-            : encodedAnswer.ToString();
+            : guess.ToString();
     }
 
-    public void Btn_Validate()
-    {
-        InteractionManager.Instance.TriggerMediumVibration();
-        validateButtonUI.interactable = false;
-
-        // ✅ On renvoie directement la variable encodée
-        onAnswered?.Invoke(encodedAnswer, false);
-
-        Destroy(gameObject);
-    }
 }

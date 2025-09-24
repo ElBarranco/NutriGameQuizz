@@ -5,7 +5,7 @@ using System;
 using NaughtyAttributes;
 using DG.Tweening; // Pour DOFillAmount
 
-public class EstimateCaloriesUI : MonoBehaviour
+public class EstimateCaloriesUI : BaseQuestionUI
 {
     [SerializeField] private TMP_Text foodNameText;
     [SerializeField] private Image foodImage;
@@ -13,19 +13,17 @@ public class EstimateCaloriesUI : MonoBehaviour
     [SerializeField] private TMP_Text sliderValueText;
     [SerializeField] private TMP_Text UnitText;
     [SerializeField] private Button validateButton;
-    [SerializeField] private Image gaugeFill; // ← Gauge reliée au slider
+    [SerializeField] private Image gaugeFill; 
 
-    [ReadOnly][SerializeField] private float answer = 0;
 
-    [Header("Bornes par sous-type (si besoin de fallback)")]
-    [SerializeField] private int minValueSlider = 0;
-    [SerializeField] private int maxValueSlider = 5000;
+
+
 
     private FoodData food;
     protected Action<int, bool> onComplete;
 
     private QuestionSubType currentSubType;
-    private int guess = 0;
+
 
     public void RefreshSliderValue()
     {
@@ -47,8 +45,10 @@ public class EstimateCaloriesUI : MonoBehaviour
 
         float rawValue = portion.Value.Value;
 
-        // Génère les bornes dynamiques
         float min = Mathf.Max(1, rawValue * 0.5f);
+        if (sousType == QuestionSubType.Calorie)
+            min = 0;
+
         float max = rawValue * 1.5f;
 
         calorieSlider.minValue = min;
@@ -58,10 +58,7 @@ public class EstimateCaloriesUI : MonoBehaviour
         calorieSlider.value = (min + max) / 2f;
 
 
-        // Clamp par sécurité
-        answer = Mathf.Clamp(rawValue, min, max);
-
-        UnitText.text = PortionTextFormatter.UnitForQuestion(sousType);
+       UnitText.text = PortionTextFormatter.UnitForQuestion(sousType);
 
         // Affichage nom + image
         foodImage.sprite = SpriteLoader.LoadFoodSprite(food.Name);

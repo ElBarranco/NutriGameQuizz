@@ -8,6 +8,9 @@ using TMPro;
 
 public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
+
+    [SerializeField] private QuestionSortUI questionSortUI;
+
     [Header("Zone / Visuel")]
     [SerializeField] private RectTransform zoneRect;
     [SerializeField] private Image highlightImage;
@@ -161,6 +164,8 @@ public class TriDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
         // Signaux/clean (garde ton comportement actuel)
         dragged.SetCurrentDropZone(null);
         dragged.NotifyDropped();
+
+        questionSortUI.UpdateCurrentOrder(GetCurrentOrderIndices());
 
         RebuildCurrentOrderFromMap();
     }

@@ -96,8 +96,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ✅ Signature unique utilisée partout
-    private void OnQuestionAnswered(int userAnswer, bool isPerfect = false)
+    
+    public void OnQuestionAnswered(int userAnswer, bool isPerfect = false)
     {
         bool isCorrect = false;
         currentAnswer = userAnswer;
@@ -263,5 +263,26 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < streakMilestones.Length; i++)
             if (streak == streakMilestones[i]) return true;
         return false;
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("[GameManager] QuitGame appelé → Reset complet.");
+
+        IsGameRunning = false;
+        EnableMoreInfo = false;
+        _lastAnswerWasCorrect = false;
+
+        currentQuestionIndex = 0;
+        currentAnswer = -1;
+        currentQuestion = null;
+        generatedLevel = null;
+
+        CurrentQuestionDataAnswer.Clear();
+
+
+        scoreManager.Reinitialiser();
+        questionFactory.ClearCurrentQuestion();
+        questionList.Clear();
     }
 }

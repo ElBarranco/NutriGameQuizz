@@ -10,7 +10,7 @@ public class StreakGaugeUI : MonoBehaviour
     [SerializeField] private Image _fillImage; // Mettre Type = Filled (Horizontal ou Radial)
 
     [Header("Réglages")]
-    [SerializeField, Min(1)] private int _maxStreakForFull = 4; 
+    [SerializeField, Min(1)] private int _maxStreakForFull = 4;
     [Tooltip("Déclencher la récompense à chaque multiple du palier (ex: 4, 8, 12...), pas seulement la 1ère fois.")]
     [SerializeField] private bool _rewardEachMultiple = false;
 
@@ -27,26 +27,34 @@ public class StreakGaugeUI : MonoBehaviour
     private void Awake()
     {
 
-            _fillImage.fillAmount = 0f;
+        ResetGauge();
 
+    }
+
+    public void ResetGauge()
+    {
+        _currentStreak = 0;
+        _bestStreak = 0;
+        _fill01 = 0f;
+        _lastRewardedMultiple = 0;
+
+        _fillImage.fillAmount = 0f;
     }
 
     private void OnEnable()
     {
-        if (_scoreManager != null)
-        {
-            _scoreManager.OnStreakChange += HandleStreakChanged;
-            // Init affichage avec l'état courant si nécessaire
-            HandleStreakChanged(_scoreManager.StreakActuel, _scoreManager.MeilleurStreak);
-        }
+
+        _scoreManager.OnStreakChange += HandleStreakChanged;
+        // Init affichage avec l'état courant si nécessaire
+        HandleStreakChanged(_scoreManager.StreakActuel, _scoreManager.MeilleurStreak);
+
     }
 
     private void OnDisable()
     {
-        if (_scoreManager != null)
-        {
-            _scoreManager.OnStreakChange -= HandleStreakChanged;
-        }
+
+        _scoreManager.OnStreakChange -= HandleStreakChanged;
+
     }
 
     private void HandleStreakChanged(int streakActuel, int meilleurStreak)

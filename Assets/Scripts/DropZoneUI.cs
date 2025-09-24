@@ -6,9 +6,11 @@ using NaughtyAttributes;
 using DG.Tweening;
 using TMPro;
 
-public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class DropZoneUI : BaseQuestionUI, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private RectTransform zoneRect;
+    [SerializeField] private QuestionMealCompositionUI questionMealCompositionUI;
+
     private Canvas zoneCanvas;
 
     [Header("Slots")]
@@ -27,13 +29,11 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     // mapping item -> index slot
     private readonly Dictionary<FoodDraggableUI, int> itemToSlot = new Dictionary<FoodDraggableUI, int>();
 
-    [Header("Debug (readonly)")]
+    [Header("Debug")]
     [SerializeField] private TextMeshProUGUI debugCaloriesText;      // affichage debug des calories
     [ReadOnly, SerializeField] private int lastAssignedSlot = -1;
     [ReadOnly, SerializeField] private int currentCalories;
 
-    // ➕ Debug ordre pour la question de tri (indices initiaux par slot, -1 si vide)
-    [Header("Debug Tri (readonly)")]
     [ReadOnly, SerializeField] private List<int> currentOrder = new List<int>();
     [SerializeField] private TextMeshProUGUI debugOrderText; // assigné dans l’inspecteur
 
@@ -181,6 +181,7 @@ public class DropZoneUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
         currentCalories = Mathf.RoundToInt(total);
         if (debugCaloriesText != null)
             debugCaloriesText.text = $"{currentCalories}";
+        questionMealCompositionUI.UpdateGuess(currentCalories);
     }
 
     public int GetCurrentCalories() => currentCalories;

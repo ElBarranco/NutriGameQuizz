@@ -12,7 +12,8 @@ public class HUDController : MonoBehaviour
     [SerializeField] private QuestionTitleManager questionTitleManager;
     [SerializeField] private TextMeshProUGUI questionCounterText;
     [SerializeField] private RectTransform nextButtonContainer;
-    [SerializeField] private TextMeshProUGUI questionTitleText;
+    [SerializeField] private PowerUpUIManager powerUpUIManager;
+    [SerializeField] private QuestionValidateButtonUI validateButtonUI;
 
     [SerializeField] private Vector2 shownPosition;
     [SerializeField] private Vector2 hiddenPosition;
@@ -66,6 +67,7 @@ public class HUDController : MonoBehaviour
         UpdateQuestionNumber(0);
         progressBar.SetTotalQuestions(totalQuestions);
         //SetNextButtonVisible(false);
+        powerUpUIManager.OuvrirPanel();
     }
     public void UpdateQuestionNumber(int currentIndex)
     {
@@ -77,6 +79,7 @@ public class HUDController : MonoBehaviour
         correctButtonGO.SetActive(false);
         wrongButtonGO.SetActive(false);
 
+
         if (visible)
         {
             if (isCorrect)
@@ -85,10 +88,14 @@ public class HUDController : MonoBehaviour
                 wrongButtonGO.SetActive(true);
 
             nextButtonContainer.DOAnchorPos(shownPosition, 0.4f).SetEase(Ease.OutBack);
+            powerUpUIManager.FermerPanel();
+            validateButtonUI.FermerPanel();
         }
         else
         {
             nextButtonContainer.DOAnchorPos(hiddenPosition, 0.3f).SetEase(Ease.InBack);
+            powerUpUIManager.OuvrirPanel();
+
         }
     }
 
@@ -238,6 +245,20 @@ public class HUDController : MonoBehaviour
         GameManager.Instance.TriggerNextStep();
     }
 
+    public void Btn_Close()
+    {
+        InteractionManager.Instance.TriggerMediumVibration();
+
+        GameManager.Instance.QuitGame();
+        uiManager.ShowMenu();
+        hudInGameUI.SetActive(false);
+        if (currentMoreInfoPanel != null)
+        {
+            Destroy(currentMoreInfoPanel);
+        }
+
+    }
+
     private void Update()
     {
         if (GameManager.Instance.EnableMoreInfo && Keyboard.current.enterKey.wasPressedThisFrame)
@@ -276,4 +297,8 @@ public class HUDController : MonoBehaviour
         finalUI.gameObject.SetActive(false);
         uiManager.ShowMenu();
     }
+
+
+
+
 }

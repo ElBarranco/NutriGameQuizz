@@ -1,16 +1,107 @@
 using UnityEngine;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 public class QuestionValidateButtonUI : MonoBehaviour
 {
-    [SerializeField] private GameObject activeVisual;   // visuel actif
-    [SerializeField] private GameObject inactiveVisual; // visuel désactivé
-    [SerializeField] private Button button;             // bouton Unity
+    [BoxGroup("Références UI")]
+    [SerializeField] private GameObject panel;
 
-    public void SetActiveState(bool state)
+    public static QuestionValidateButtonUI Instance { get; private set; }
+
+    [SerializeField] private Button button;
+    [ReadOnly][SerializeField] private BaseQuestionUI currentQuestion;
+    [ReadOnly][SerializeField] private bool shouldShow;
+
+    private void Awake()
     {
-        //activeVisual.SetActive(state);
-        //inactiveVisual.SetActive(!state);
-        button.interactable = state;
+        // Singleton classique
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
+    public void BindQuestion(BaseQuestionUI questionUI, QuestionType type)
+    {
+        currentQuestion = questionUI;
+        button.interactable = true;
+        UpdatePanelState(type);
+    }
+
+    public void Btn_OnClick()
+    {
+        if (currentQuestion == null) return;
+
+        InteractionManager.Instance.TriggerMediumVibration();
+        button.interactable = false;
+
+        int answer = currentQuestion.GetAnswer();
+        GameManager.Instance.OnQuestionAnswered(answer);
+
+        currentQuestion.Close();
+    }
+
+
+    public void UpdatePanelState(QuestionType type)
+    {
+        shouldShow = ShouldShowValidateButton(type);
+
+        if (shouldShow)
+            OuvrirPanel();
+        else
+            FermerPanel();
+
+         Debug.Log($"[Panel] todo :{shouldShow}");
+    }
+
+    public void DisableButton()
+    {
+        button.interactable = false;
+    }
+    public void EnableButton()
+    {
+        button.interactable = true;
+    }
+
+    public void OuvrirPanel()
+    {
+        panel.SetActive(true);
+    }
+
+    public void FermerPanel()
+    {
+        panel.SetActive(false);
+    }
+
+    public bool ShouldShowValidateButton(QuestionType type)
+    {
+        switch (type)
+        {
+            case QuestionType.CaloriesDual:
+            case QuestionType.FunMeasure:
+            case QuestionType.Sport:
+            case QuestionType.Recycling:
+                return false;
+
+            case QuestionType.EstimateCalories:
+            case QuestionType.MealComposition:
+            case QuestionType.Sugar:
+            case QuestionType.Intru:
+            case QuestionType.Tri:
+            case QuestionType.Subtraction:
+                return true;
+
+            default:
+                return true;
+        }
     }
 }
