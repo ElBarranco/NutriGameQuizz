@@ -4,5 +4,4 @@ public enum PortionPetiteUnite
     Verre,
     Bol,
     Saladier,
-    Cagette
 }

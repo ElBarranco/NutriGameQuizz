@@ -15,7 +15,7 @@ public class QuestionData
 
     public List<int> Solutions;
     public List<SpecialMeasureData> SpecialMeasures; // pour les questions de type FunMeasure
-    public float MealTargetTolerance = 50f;
+    public int DeltaTolerance = 50;
     public List<SportData> SportChoices;
 
 }

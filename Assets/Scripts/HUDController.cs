@@ -286,7 +286,7 @@ public class HUDController : MonoBehaviour
     {
         hudInGameUI.SetActive(false);
         finalUI.gameObject.SetActive(true);
-        finalUI.InitFinalUI(ScoreManager.Instance.GetScore());
+        finalUI.InitFinalUI(ScoreManager.Instance.GetScore(), GameManager.Instance.GetTotalQuestionsCount(), ScoreManager.Instance.GetCorrectAnswers());
         Debug.Log("🎉 Fin du jeu ! Affichage de l'écran de fin.");
     }
 

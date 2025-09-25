@@ -5,5 +5,6 @@ public enum QuestionSubType
     Glucide,
     Lipide,
     Fibres,
+    Sugar,
     Libre // pour des cas personnalisés
 }

@@ -5,7 +5,7 @@ public class DifficultyManager : MonoBehaviour
 {
     public static DifficultyManager Instance { get; private set; }
 
-    [SerializeField] private DifficultyLevel currentDifficulty = DifficultyLevel.Easy;
+    [SerializeField] public DifficultyLevel currentDifficulty = DifficultyLevel.Easy;
     public DifficultyLevel CurrentDifficulty => currentDifficulty;
 
     private void Awake()

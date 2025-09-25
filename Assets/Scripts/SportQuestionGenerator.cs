@@ -87,7 +87,7 @@ public class SportCaloriesDualQuestionGenerator : QuestionGenerator
             IndexBonneRéponse = indexCorrect,
             Solutions = new List<int> { minutesA, minutesB },
             SpecialMeasures = new List<SpecialMeasureData>(),
-            MealTargetTolerance = 0f,
+            DeltaTolerance = 0,
             SportChoices = new List<SportData> { sA, sB }
         };
     }

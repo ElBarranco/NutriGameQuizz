@@ -16,7 +16,7 @@ public class MealCompositionQuestionGenerator : QuestionGenerator
 
     [Header("Robustesse")]
     [SerializeField] private int maxUniqueAttempts = 30;     
-    [SerializeField] private float targetSnap = 25f;         
+    [SerializeField] private int targetSnap = 25;            // ✅ maintenant en int
     [SerializeField] private float uniquenessTolerance = 5f; 
 
     public QuestionData Generate(List<FoodData> foodList, Func<FoodData, PortionSelection> portionResolver)
@@ -70,7 +70,7 @@ public class MealCompositionQuestionGenerator : QuestionGenerator
                 candidates.Where((c, idx) => chosen.Contains(idx)).ToList();
 
             float targetValue = chosenSet.Sum(c => c.value);
-            snappedTarget = base.Snap(targetValue, targetSnap);
+            snappedTarget = base.Snap(targetValue, targetSnap); // ✅ int utilisé ici
 
             List<float> itemValues = candidates.Select(c => c.value).ToList();
 
@@ -99,7 +99,7 @@ public class MealCompositionQuestionGenerator : QuestionGenerator
             ValeursComparees = new List<float> { snappedTarget },
             IndexBonneRéponse = 0,
             Solutions = pickedIndices,
-            MealTargetTolerance = targetSnap
+            DeltaTolerance = targetSnap // ✅ int stocké ici
         };
     }
 

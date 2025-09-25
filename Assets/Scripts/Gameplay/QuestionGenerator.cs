@@ -20,7 +20,7 @@ public abstract class QuestionGenerator : MonoBehaviour
                 sel.Unitaire = (PortionUnitaire)Random.Range((int)PortionUnitaire.Un, (int)PortionUnitaire.Cinq + 1);
                 break;
             case FoodPortionType.PetiteUnite:
-                sel.PetiteUnite = (PortionPetiteUnite)Random.Range(0, (int)PortionPetiteUnite.Cagette + 1);
+                sel.PetiteUnite = (PortionPetiteUnite)Random.Range(0, (int)PortionPetiteUnite.Saladier + 1);
                 break;
             case FoodPortionType.Liquide:
                 sel.Liquide = (PortionLiquide)Random.Range(0, (int)PortionLiquide.Bol + 1);
@@ -42,20 +42,26 @@ public abstract class QuestionGenerator : MonoBehaviour
         switch (food.PortionType)
         {
             case FoodPortionType.Unitaire:
-                // Si rien déjà fixé, on tire une valeur au hasard (demi..cinq)
+                // Si rien déjà fixé, on définit en fonction de la difficulté
                 if (!sel.Unitaire.HasValue)
                 {
-                    int min = (int)PortionUnitaire.Un;
-                    int max = (int)PortionUnitaire.Cinq + 1; // +1 car exclusif
-                    sel.Unitaire = (PortionUnitaire)Random.Range(min, max);
+                    if (DifficultyManager.Instance.CurrentDifficulty == DifficultyLevel.Easy)
+                    {
+                        sel.Unitaire = PortionUnitaire.Un;
+                    }
+                    else
+                    {
+                        int min = (int)PortionUnitaire.Un;
+                        int max = (int)PortionUnitaire.Cinq + 1; // +1 car exclusif
+                        sel.Unitaire = (PortionUnitaire)Random.Range(min, max);
+                    }
                 }
                 break;
-
             case FoodPortionType.PetiteUnite:
                 if (!sel.PetiteUnite.HasValue)
                 {
                     int min = 0;
-                    int max = (int)PortionPetiteUnite.Cagette + 1;
+                    int max = (int)PortionPetiteUnite.Saladier + 1;
                     sel.PetiteUnite = (PortionPetiteUnite)Random.Range(min, max);
                 }
                 break;

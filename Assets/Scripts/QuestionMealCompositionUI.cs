@@ -29,7 +29,7 @@ public class QuestionMealCompositionUI : BaseQuestionUI
             FoodDraggableUI item = Instantiate(foodPrefab, bottomPanel, false);
             item.gameObject.name = $"DD_{f.Name}_{i}";
             item.Init(f, sel, i);
-            item.transform.localScale = Vector3.one * 0.9f;
+            item.transform.localScale = Vector3.one * 0.8f;
 
             // 1) Pose l’item dans le dock, slot i (sans tween)
             if (bottomDock != null && i < bottomDock.SlotCount)

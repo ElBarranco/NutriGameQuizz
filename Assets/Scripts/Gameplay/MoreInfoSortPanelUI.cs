@@ -1,12 +1,14 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class MoreInfoSortPanelUI : MoreInfoPanelBase
 {
     [Header("UI")]
     [SerializeField] private Transform itemsParent;   // conteneur vertical/horizontal
     [SerializeField] private FoodItemUI itemPrefab;   // prefab d’item
+    [SerializeField] private HorizontalLayoutGroup layoutGroup;
 
 
     [Header("Steps / Indicateurs")]
@@ -45,6 +47,12 @@ public class MoreInfoSortPanelUI : MoreInfoPanelBase
             FoodItemUI ui = Instantiate(itemPrefab, itemsParent);
             ui.name = $"MoreInfo_{i}_{f.Name}";
             ui.Init(f, sel, isCorrectHere, q.SousType);
+
+            if (solutionIdx.Count == 4)
+            {
+                layoutGroup.spacing = -25;
+                ui.transform.localScale = Vector3.one * 0.6f;
+            }
         }
 
         // Anim d’intro générique

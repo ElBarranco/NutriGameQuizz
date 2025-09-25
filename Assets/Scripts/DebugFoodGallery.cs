@@ -218,13 +218,6 @@ public class DebugFoodGallery : MonoBehaviour
             PetiteUnite = PortionPetiteUnite.Saladier
         };
         yield return saladier;
-
-        PortionSelection cagette = new PortionSelection
-        {
-            Type = FoodPortionType.PetiteUnite,
-            PetiteUnite = PortionPetiteUnite.Cagette
-        };
-        yield return cagette;
     }
 
     private IEnumerable<PortionSelection> GenerateParPoidsFallback(IList<int> gramsList)

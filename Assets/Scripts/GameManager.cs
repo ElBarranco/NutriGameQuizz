@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [ReadOnly][SerializeField] private LevelData generatedLevel;
     [ReadOnly] private QuestionData currentQuestion;
     [ReadOnly][SerializeField] private int currentAnswer = 0;
+    [SerializeField] private int totalQuestions = 10;
 
     [Header("Données")]
     private List<FoodData> foodList;
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
     [ReadOnly] private int currentQuestionIndex = 0;
     public List<float> CurrentQuestionDataAnswer = new List<float>();
     public bool EnableMoreInfo { get; private set; } = false;
+
+
 
     private void Awake()
     {
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
 
         generator.SetFoodDataList(foodList);
-        generatedLevel = generator.GenerateLevel(10, level);
+        generatedLevel = generator.GenerateLevel(totalQuestions, level);
 
         questionList = generatedLevel.Questions;
         currentQuestionIndex = 0;
@@ -96,7 +99,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+
     public void OnQuestionAnswered(int userAnswer, bool isPerfect = false)
     {
         bool isCorrect = false;
@@ -141,7 +144,7 @@ public class GameManager : MonoBehaviour
                         }
 
                         float targetSub = currentQuestion.ValeursComparees[0];
-                        float toleranceSub = currentQuestion.MealTargetTolerance;
+                        float toleranceSub = currentQuestion.DeltaTolerance;
 
                         if (Mathf.Abs(sumCalories - targetSub) <= toleranceSub)
                             isCorrect = true;
@@ -155,7 +158,7 @@ public class GameManager : MonoBehaviour
 
             case QuestionType.MealComposition:
                 float target = currentQuestion.ValeursComparees[0];
-                float tolerance = currentQuestion.MealTargetTolerance;
+                float tolerance = currentQuestion.DeltaTolerance;
 
                 isCorrect = Mathf.Abs(currentAnswer - target) <= tolerance;
                 break;
@@ -285,4 +288,8 @@ public class GameManager : MonoBehaviour
         questionFactory.ClearCurrentQuestion();
         questionList.Clear();
     }
+
+    public int GetTotalQuestionsCount() {
+        return totalQuestions;
+    } 
 }

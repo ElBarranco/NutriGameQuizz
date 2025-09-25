@@ -9,7 +9,6 @@ public static class PortionCalculator
         PortionPetiteUnite.Verre => 200f,
         PortionPetiteUnite.Bol => 350f,
         PortionPetiteUnite.Saladier => 500f,
-        PortionPetiteUnite.Cagette => 5000f,
         _ => 100f
     };
 
@@ -76,6 +75,7 @@ public static class PortionCalculator
         QuestionSubType.Glucide => f.Carbohydrates,
         QuestionSubType.Lipide => f.Lipids,
         QuestionSubType.Fibres => f.Fibers,
+        QuestionSubType.Sugar => f.Sugar,
         _ => f.Calories
     };
 

@@ -126,4 +126,9 @@ public class ScoreManager : MonoBehaviour
     {
         return score;
     }
+
+    public int GetCorrectAnswers()
+    {
+        return bonnesReponses;
+    }
 }

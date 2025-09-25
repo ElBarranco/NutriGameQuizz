@@ -36,7 +36,6 @@ public static class PortionTextFormatter
                         case PortionPetiteUnite.Verre: return "Un verre";
                         case PortionPetiteUnite.Bol: return "Un bol";
                         case PortionPetiteUnite.Saladier: return "Un saladier";
-                        case PortionPetiteUnite.Cagette: return "Une cagette";
                     }
                 }
                 return $"{Mathf.RoundToInt(sel.Grams)} g";
