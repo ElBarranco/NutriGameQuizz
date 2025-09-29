@@ -4,7 +4,7 @@ using TMPro;
 using System;
 using DG.Tweening;
 
-public class FoodSelectableSubtractionUI : MonoBehaviour
+public class FoodSelectableSubtractionUI : FoodItemBase
 {
     [SerializeField] private Button button;
     [SerializeField] private Image background;
@@ -19,7 +19,7 @@ public class FoodSelectableSubtractionUI : MonoBehaviour
     private bool isSelected = false;
     private Action<int, bool> onClick;
 
-    public void Init(FoodData food, PortionSelection sel, int idx, Action<int, bool> callback)
+    public void Init(FoodData food, PortionSelection sel, QuestionSubType questionSubType, int idx, Action<int, bool> callback)
     {
         index = idx;
         onClick = callback;
@@ -31,6 +31,8 @@ public class FoodSelectableSubtractionUI : MonoBehaviour
         background.color = normalColor;
 
         button.interactable = true;
+
+        base.UpdateHintInfo(food, questionSubType);
     }
 
     public void Btn_OnClick()

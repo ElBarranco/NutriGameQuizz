@@ -6,8 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField, Header("Références")]
-    private FoodDataParser foodParser;
+    [Header("Références")]
+    [SerializeField] private WrongQuestionTracker wrongTracker;
+    [SerializeField] private FoodDataParser foodParser;
     [SerializeField] private StreakCelebrationUI streakCelebrationUI;
     [SerializeField] private int[] streakMilestones = new[] { 3, 5, 10, 15, 20 };
     private bool _lastAnswerWasCorrect = false;
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
     [ReadOnly] private int currentQuestionIndex = 0;
     public List<float> CurrentQuestionDataAnswer = new List<float>();
     public bool EnableMoreInfo { get; private set; } = false;
-
+    private HintController hintController;
 
 
     private void Awake()
@@ -64,9 +65,12 @@ public class GameManager : MonoBehaviour
 
         questionList = generatedLevel.Questions;
         currentQuestionIndex = 0;
+        hintController = PowerUpManager.Instance.GetHintController();
 
         CurrentQuestionDataAnswer.Clear();
         scoreManager.Reinitialiser();
+        wrongTracker.Clear();
+
         hud.InitGame(generatedLevel.Questions.Count);
         LaunchNextQuestion();
     }
@@ -79,6 +83,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+
+
+
         EnableMoreInfo = false;
 
         currentQuestion = questionList[currentQuestionIndex];
@@ -86,8 +93,9 @@ public class GameManager : MonoBehaviour
         CurrentQuestionDataAnswer.AddRange(currentQuestion.ValeursComparees);
 
         // ✅ Passe la méthode comme callback tri-paramètres
-        questionFactory.CreateQuestion(currentQuestion, OnQuestionAnswered);
+        questionFactory.CreateQuestion(currentQuestion);
         hud.UpdateHUDForNewQuestion(currentQuestionIndex, currentQuestion);
+        hintController.ClearDetectors();
 
         if (currentQuestion.ValeursComparees.Count == 1)
         {
@@ -100,12 +108,14 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void OnQuestionAnswered(int userAnswer, bool isPerfect = false)
+    public void OnQuestionAnswered(int userAnswer)
     {
         bool isCorrect = false;
+        bool isPerfect = false;
         currentAnswer = userAnswer;
         float errorAbs = 0f;
         float errorPct = 0f;
+        float target = 0f;
 
         switch (currentQuestion.Type)
         {
@@ -113,10 +123,24 @@ public class GameManager : MonoBehaviour
             case QuestionType.Sport:
             case QuestionType.FunMeasure:
             case QuestionType.Intru:
-            case QuestionType.Sugar:
             case QuestionType.Tri:
                 isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
                 break;
+
+            case QuestionType.Sugar:
+                {
+                    target = currentQuestion.ValeursComparees[0];         // valeur float exacte
+
+                    errorAbs = Mathf.Abs(currentAnswer - target);
+                    errorPct = (errorAbs / target) * 100f;
+
+                    // parfait si égalité stricte avec IndexBonneRéponse (int arrondi)
+                    isPerfect = (currentAnswer == currentQuestion.IndexBonneRéponse);
+
+                    // correct si dans la tolérance
+                    isCorrect = isPerfect || errorAbs <= currentQuestion.DeltaTolerance;
+                    break;
+                }
 
             case QuestionType.Subtraction:
                 {
@@ -157,10 +181,9 @@ public class GameManager : MonoBehaviour
                 break;
 
             case QuestionType.MealComposition:
-                float target = currentQuestion.ValeursComparees[0];
-                float tolerance = currentQuestion.DeltaTolerance;
+                target = currentQuestion.ValeursComparees[0];
 
-                isCorrect = Mathf.Abs(currentAnswer - target) <= tolerance;
+                isCorrect = Mathf.Abs(currentAnswer - target) <= currentQuestion.DeltaTolerance;
                 break;
         }
 
@@ -177,6 +200,9 @@ public class GameManager : MonoBehaviour
 
         hud.SetNextButtonVisible(true, isCorrect);
         hud.ShowMoreInfo(currentQuestion, currentAnswer);
+
+        if (!isCorrect)
+            wrongTracker.AddWrongQuestion(currentQuestion);
 
 
         if (CurrentQuestionDataAnswer.Count > 1)
@@ -233,26 +259,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void ValidateAnswer(int index, float difference)
-    {
-        currentAnswer = index;
-        bool perfect = difference <= 1f; // Ajuste la tolérance si nécessaire
 
-        if (CurrentQuestionDataAnswer == null || CurrentQuestionDataAnswer.Count <= index || CurrentQuestionDataAnswer.Count < 2)
-        {
-            Debug.LogWarning("Validation impossible : données insuffisantes.");
-            // ✅ Fournir les 3 paramètres (userAnswer = -1 pour invalide)
-            OnQuestionAnswered(-1, false);
-            return;
-        }
-
-        float chosen = CurrentQuestionDataAnswer[index];
-        float other = CurrentQuestionDataAnswer[1 - index];
-        bool isCorrect = chosen >= other;
-
-        // ✅ Fournir les 3 paramètres correctement typés
-        OnQuestionAnswered(index, perfect);
-    }
 
     public int GetCurrentAnswer()
     {
@@ -289,7 +296,8 @@ public class GameManager : MonoBehaviour
         questionList.Clear();
     }
 
-    public int GetTotalQuestionsCount() {
+    public int GetTotalQuestionsCount()
+    {
         return totalQuestions;
-    } 
+    }
 }

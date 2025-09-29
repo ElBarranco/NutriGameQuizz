@@ -36,6 +36,7 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
     private List<FoodData> cachedFoods;
     private List<PortionSelection> cachedPortions;
     private List<int> cachedAnswers;
+    private QuestionSubType currentQuestionSubType;
 
     private void OnEnable()
     {
@@ -47,9 +48,10 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
         FoodConveyorItemUI.OnAnyDestroyed -= HandleItemDestroyed;
     }
 
-    public void Init(List<FoodData> foods, List<PortionSelection> portions, List<int> answers)
+    public void Init(List<FoodData> foods, List<PortionSelection> portions, List<int> answers, QuestionSubType questionSubType)
     {
         spawnedItems.Clear();
+        currentQuestionSubType = questionSubType;
 
         cachedFoods = foods;
         cachedPortions = portions;
@@ -105,7 +107,7 @@ public class FoodConveyorSpawnerUI : MonoBehaviour
 
         conveyorManager.ActivateSlot(slot);
         FoodConveyorItemUI item = Instantiate(foodPrefab, slot.transform, false);
-        item.Init(f, sel, spawnedCount);
+        item.Init(f, sel, currentQuestionSubType, spawnedCount);
         item.PlaySpawnAnimation();
 
         bool isIntruder = answer == 0;

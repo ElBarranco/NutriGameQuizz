@@ -68,14 +68,13 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
     // Séquence liée au cardTransform (reset position/rotation)
     private Sequence cardSequence;
 
-    protected Action<int, bool> onAnswered;
 
-    public void Init(FoodData a, FoodData b, PortionSelection portionA, PortionSelection portionB, Action<int, bool> callback)
+    public void Init(FoodData a, FoodData b, PortionSelection portionA, PortionSelection portionB)
     {
         screenWidth = Screen.width;
         foodA = a;
         foodB = b;
-        onAnswered = callback;
+
 
         nameA.text = PortionTextFormatter.ToDisplayWithFood(foodA, portionA);
         nameB.text = PortionTextFormatter.ToDisplayWithFood(foodB, portionB);
@@ -170,7 +169,7 @@ public class QuestionCaloriesDualUI : MonoBehaviour, IBeginDragHandler, IDragHan
 
         sequence.OnComplete(() =>
         {
-            onAnswered?.Invoke(index, false);
+            GameManager.Instance.OnQuestionAnswered(index);
             Destroy(gameObject);
         });
     }

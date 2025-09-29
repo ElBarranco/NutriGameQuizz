@@ -16,14 +16,12 @@ public class QuestionSubtractionUI : BaseQuestionUI
     [SerializeField, ReadOnly] private int currentSelection = -1;
 
 
-    private Action<int, bool> onAnswered;
+    
     private List<FoodSelectableSubtractionUI> spawnedItems = new List<FoodSelectableSubtractionUI>();
 
-    public void Init(QuestionData q, Action<int, bool> callback)
+    public void Init(QuestionData q)
     {
         question = q;
-        onAnswered = callback;
-
         // Reset
         currentSelection = -1;
         guess = -1;
@@ -43,7 +41,7 @@ public class QuestionSubtractionUI : BaseQuestionUI
                 // Instancier un bouton dans ce slot
                 FoodSelectableSubtractionUI item = Instantiate(foodButtonPrefab, foodSlots[i].transform, false);
                 item.gameObject.name = $"SUBTRACTION_{f.Name}_{i}";
-                item.Init(f, sel, i, OnFoodClicked); 
+                item.Init(f, sel, q.SousType, i,  OnFoodClicked); 
 
                 spawnedItems.Add(item);
             }

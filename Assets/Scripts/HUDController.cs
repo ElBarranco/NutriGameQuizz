@@ -105,7 +105,7 @@ public class HUDController : MonoBehaviour
         UpdateQuestionNumber(questionIndex);
 
         // 2. Titre de la question
-        questionTitleManager.SetQuestionTitle(data.Type, data.SousType, data.Aliments, data.PortionSelections, data.ValeursComparees[0]);
+        questionTitleManager.SetQuestionTitle(data.Type, data.SousType, data.Aliments, data.PortionSelections, data.HasBeenAnsweredWrong ,data.ValeursComparees[0]);
 
         // 3. Icône selon le sous-type
         SetNutrientIcon(data.SousType);

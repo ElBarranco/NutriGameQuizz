@@ -4,14 +4,14 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class FoodDraggableUI : FoodItemBase, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public static event System.Action<FoodDraggableUI> OnAnyBeginDrag;
     public static event System.Action<FoodDraggableUI> OnAnyEndDrag;
 
     [SerializeField] protected Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI gramsText;
+    
     [SerializeField] private Button removeButton;
     [SerializeField] private int currentIndex = 0;
 
@@ -73,12 +73,14 @@ public class FoodDraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             .SetDelay(delay);
     }
 
-    public virtual void Init(FoodData f, PortionSelection sel, int index)
+    public virtual void Init(FoodData f, PortionSelection sel, QuestionSubType questionSubType, int index)
     {
         food = f;
         currentIndex = index;
         nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel);
         icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
+
+        base.UpdateHintInfo(food, questionSubType);
     }
 
     // Fallback seulement si pas de dock d’origine

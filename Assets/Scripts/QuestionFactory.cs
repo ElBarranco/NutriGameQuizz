@@ -18,12 +18,11 @@ public class QuestionFactory : MonoBehaviour
     [SerializeField] private GameObject sucreGo;
     [SerializeField] private Transform questionParent;
 
-    // Référence éventuelle, mais on n’utilise pas ce type en paramètre pour éviter les conversions
-    public delegate void AnswerCallback(int userAnswer, bool isPerfect);
+
 
     private GameObject _currentQuestionGO; // 🔥 garde une référence
 
-    public void CreateQuestion(QuestionData data, Action<int, bool> onAnswered)
+    public void CreateQuestion(QuestionData data)
     {
         // Avant de créer une nouvelle, on supprime l'ancienne
         ClearCurrentQuestion();
@@ -34,57 +33,56 @@ public class QuestionFactory : MonoBehaviour
                 _currentQuestionGO = Instantiate(tinderLikeGo, questionParent);
                 _currentQuestionGO.GetComponent<QuestionCaloriesDualUI>()
                       .Init(data.Aliments[0], data.Aliments[1],
-                            data.PortionSelections[0], data.PortionSelections[1],
-                            onAnswered);
+                            data.PortionSelections[0], data.PortionSelections[1]);
                 break;
 
             case QuestionType.FunMeasure:
                 _currentQuestionGO = Instantiate(SpecialMeasureGo, questionParent);
                 _currentQuestionGO.GetComponent<QuestionFunMeasureUI>()
-                      .Init(data.SpecialMeasures, data.Aliments[0], data.Aliments[1], onAnswered);
+                      .Init(data.SpecialMeasures, data.Aliments[0], data.Aliments[1]);
                 break;
 
             case QuestionType.EstimateCalories:
                 _currentQuestionGO = Instantiate(estimateCaloriesGo, questionParent);
                 _currentQuestionGO.GetComponent<EstimateCaloriesUI>()
-                      .Init(data.SousType, data.Aliments[0], data.PortionSelections[0], onAnswered);
+                      .Init(data.SousType, data.Aliments[0], data.PortionSelections[0]);
                 break;
 
             case QuestionType.MealComposition:
                 _currentQuestionGO = Instantiate(mealCompositionGo, questionParent);
-                _currentQuestionGO.GetComponent<QuestionMealCompositionUI>().Init(data, onAnswered);
+                _currentQuestionGO.GetComponent<QuestionMealCompositionUI>().Init(data);
                 break;
 
             case QuestionType.Sport:
                 _currentQuestionGO = Instantiate(SportDualGo, questionParent);
                 _currentQuestionGO.GetComponent<QuestionSportDualUI>()
-                      .Init(data.SportChoices[0], data.SportChoices[1], onAnswered);
+                      .Init(data.SportChoices[0], data.SportChoices[1]);
                 break;
 
             case QuestionType.Sugar:
                 _currentQuestionGO = Instantiate(sucreGo, questionParent);
                 _currentQuestionGO.GetComponent<EstimateSugarUI>()
-                      .Init(data.SousType, data.Aliments[0], data.PortionSelections[0], onAnswered);
+                      .Init(data.SousType, data.Aliments[0], data.PortionSelections[0]);
                 break;
 
             case QuestionType.Tri:
                 _currentQuestionGO = Instantiate(sortGo, questionParent);
-                _currentQuestionGO.GetComponent<QuestionSortUI>().Init(data, onAnswered);
+                _currentQuestionGO.GetComponent<QuestionSortUI>().Init(data);
                 break;
 
             case QuestionType.Intru:
                 _currentQuestionGO = Instantiate(intrusGo, questionParent);
-                _currentQuestionGO.GetComponent<QuestionIntrusUI>().Init(data, onAnswered);
+                _currentQuestionGO.GetComponent<QuestionIntrusUI>().Init(data);
                 break;
 
             case QuestionType.Recycling:
                 _currentQuestionGO = Instantiate(recyclingGo, questionParent);
-                _currentQuestionGO.GetComponent<QuestionRecyclingUI>().Init(data, onAnswered);
+                _currentQuestionGO.GetComponent<QuestionRecyclingUI>().Init(data);
                 break;
 
             case QuestionType.Subtraction:
                 _currentQuestionGO = Instantiate(subtractionGo, questionParent);
-                _currentQuestionGO.GetComponent<QuestionSubtractionUI>().Init(data, onAnswered);
+                _currentQuestionGO.GetComponent<QuestionSubtractionUI>().Init(data);
                 break;
 
             default:

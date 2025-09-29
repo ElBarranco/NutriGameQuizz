@@ -4,7 +4,7 @@ using TMPro;
 using System;
 using DG.Tweening;
 
-public class FoodSelectableUI : MonoBehaviour
+public class FoodSelectableUI : FoodItemBase
 {
     [SerializeField] private Button button;
     [SerializeField] private Image background;
@@ -17,7 +17,7 @@ public class FoodSelectableUI : MonoBehaviour
     private bool isIntrus = false;
     private Action<int, bool> onClick;
 
-    public void Init(FoodData food, int idx, Action<int, bool> callback)
+    public void Init(FoodData food, QuestionSubType questionSubType, int idx, Action<int, bool> callback)
     {
         index = idx;
         onClick = callback;
@@ -25,6 +25,7 @@ public class FoodSelectableUI : MonoBehaviour
         nameLabel.text = food.Name;
         background.color = normalColor;
 
+        base.UpdateHintInfo(food, questionSubType);
     }
 
     private void ToggleState()

@@ -95,7 +95,7 @@ MonoBehaviour:
           iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 2
           iconNameOrGuid: Settings Icon
           isIconRecursive: 0
           isColorRecursive: 0

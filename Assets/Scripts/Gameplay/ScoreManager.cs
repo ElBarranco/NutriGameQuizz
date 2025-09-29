@@ -68,7 +68,8 @@ public class ScoreManager : MonoBehaviour
         score += pointsParBonneReponseRecycling;
         rewardFX.PlayForAnswer(isCorrect, false, 1);
     }
-    public void EnregistrerReponse(bool isCorrect, bool isPerfect = false)
+
+    public void EnregistrerReponse(bool isCorrect, bool isPerfect)
     {
         if (isCorrect)
         {
@@ -78,7 +79,7 @@ public class ScoreManager : MonoBehaviour
         {
             EnregistrerMauvaiseReponse();
         }
-        rewardFX.PlayForAnswer(isCorrect, isPerfect);
+        rewardFX.PlayForAnswer(isCorrect, isPerfect, streakActuel);
     }
     public void EnregistrerBonneReponse()
     {

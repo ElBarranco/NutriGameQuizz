@@ -14,7 +14,7 @@ public class QuestionFunMeasureUI : QuestionCaloriesDualUI
     
 
 
-    public void Init(List<SpecialMeasureData> specialMeasures, FoodData a, FoodData b, Action<int, bool> callback)
+    public void Init(List<SpecialMeasureData> specialMeasures, FoodData a, FoodData b)
     {
         if (specialMeasures == null || specialMeasures.Count < 2)
         {
@@ -35,11 +35,8 @@ public class QuestionFunMeasureUI : QuestionCaloriesDualUI
         measureImageA.sprite = LoadMeasureSprite(measureNameA);
         measureImageB.sprite = LoadMeasureSprite(measureNameB);
 
-        
         foodA = a;
         foodB = b;
-        onAnswered = callback;
-
 
         imageA.sprite = SpriteLoader.LoadFoodSprite(foodA.Name);
         imageB.sprite = SpriteLoader.LoadFoodSprite(foodB.Name);

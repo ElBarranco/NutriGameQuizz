@@ -1,16 +1,146 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class PowerupManager : MonoBehaviour
+public class PowerUpManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static PowerUpManager Instance;
+
+    [SerializeField] private HintController hintController;
+    [SerializeField] private List<PowerUpButton> boutons = new();
+
+    private Dictionary<PowerUpType, int> inventory = new Dictionary<PowerUpType, int>();
+    public event System.Action OnPowerUpInventoryChanged;
+
+    private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        foreach (PowerUpType type in System.Enum.GetValues(typeof(PowerUpType)))
+            AddPowerUp(type, 3);
+
+        foreach (var b in boutons)
+            b.Init();
+
+        UpdateAllButtonStates(); // initial state update
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("🔧 Hack : +5 power-ups pour chaque type.");
+            foreach (PowerUpType type in System.Enum.GetValues(typeof(PowerUpType)))
+            {
+                AddPowerUp(type, 5);
+            }
+        }
+#endif
+    }
+
+    public void AddPowerUp(PowerUpType type, int amount = 1)
+    {
+        if (!inventory.ContainsKey(type))
+            inventory[type] = 0;
+
+        inventory[type] += amount;
+
+        OnPowerUpInventoryChanged?.Invoke();
+        UpdateButtonState(type);
+    }
+
+    public bool UsePowerUp(PowerUpType type)
+    {
+        if (inventory.ContainsKey(type) && inventory[type] > 0)
+        {
+            inventory[type]--;
+            TriggerPowerUpEffect(type);
+            OnPowerUpInventoryChanged?.Invoke();
+            UpdateButtonState(type);
+            return true;
+        }
+        return false;
+    }
+
+    private void TriggerPowerUpEffect(PowerUpType type)
+    {
+        switch (type)
+        {
+            case PowerUpType.Hint:
+                hintController.ActivateHint();
+                break;
+
+            case PowerUpType.Skip:
+                Debug.Log("💥 Skip activé : passer à la question suivante");
+                break;
+        }
+    }
+
+    public int GetCount(PowerUpType type)
+    {
+        return inventory.ContainsKey(type) ? inventory[type] : 0;
+    }
+
+    public void UpdateHintAvailability(bool hasDetector)
+    {
+        foreach (var b in boutons)
+        {
+            if (b.Type == PowerUpType.Hint)
+            {
+                int count = GetCount(PowerUpType.Hint);
+
+                if (!hasDetector)
+                    b.SetState(PowerUpButtonState.Unavailable);
+                else if (count <= 0)
+                    b.SetState(PowerUpButtonState.Empty);
+                else
+                    b.SetState(PowerUpButtonState.Available);
+            }
+        }
+    }
+
+    private void UpdateAllButtonStates()
+    {
+        foreach (var b in boutons)
+        {
+            UpdateButtonState(b.Type);
+        }
+    }
+
+    private void UpdateButtonState(PowerUpType type)
+    {
+        foreach (var b in boutons)
+        {
+            if (b.Type != type)
+                continue;
+
+            int count = GetCount(type);
+
+            if (type == PowerUpType.Hint)
+            {
+                // defer to HintController logic
+                UpdateHintAvailability(hintController.HasAvailableDetectors());
+                return;
+            }
+
+            if (count <= 0)
+                b.SetState(PowerUpButtonState.Empty);
+            else
+                b.SetState(PowerUpButtonState.Available);
+        }
+    }
+
+    public HintController GetHintController()
+    {
+        return hintController;
     }
 }

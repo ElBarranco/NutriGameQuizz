@@ -19,6 +19,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private float dropRateIntru = 0.5f;
     [SerializeField] private float dropRateRecycling = 0.5f;
     [SerializeField] private float dropRateSubtraction = 0.5f; 
+    [SerializeField] private float dropTableNutrition = 0.5f; 
 
     [Header("Drop Rates - Sous-type de question")]
     [SerializeField] private float dropRateCalories = 0.5f;
@@ -36,6 +37,7 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private bool useIntrus = true;
     [SerializeField] private bool useRecycling = true;
     [SerializeField] private bool useSubtraction = true; 
+    [SerializeField] private bool useTableNutrition = true; 
 
     [Header("Contraintes de génération")]
     [SerializeField] private int minCaloriesDelta = 20;
@@ -49,8 +51,9 @@ public class LevelGenerator : QuestionGenerator
     [SerializeField] private IntruderFoodQuestionGenerator intruderFoodQuestionGenerator;
     [SerializeField] private RecyclingFoodQuestionGenerator recyclingFoodQuestionGenerator;
     [SerializeField] private EstimateQuestionGenerator estimateQuestionGenerator;
-    [SerializeField] private SugarQuestionGenerator sugarQuestionGenerator; // ✅ nouveau
-    [SerializeField] private SubtractionQuestionGenerator subtractionQuestionGenerator; 
+    [SerializeField] private SugarQuestionGenerator sugarQuestionGenerator; 
+    [SerializeField] private SubtractionQuestionGenerator subtractionQuestionGenerator;
+    [SerializeField] private NutritionTableQuestionGenerator nutritionTableQuestionGenerator;
 
     public void SetFoodDataList(List<FoodData> filteredFoodList)
     {
@@ -136,6 +139,11 @@ public class LevelGenerator : QuestionGenerator
                 case QuestionType.Subtraction:
                     level.Questions.Add(
                         subtractionQuestionGenerator.Generate(foodList, currentDifficulty)
+                    );
+                    break;
+                case QuestionType.NutritionTable:
+                    level.Questions.Add(
+                        nutritionTableQuestionGenerator.Generate(foodList, currentDifficulty)
                     );
                     break;
 

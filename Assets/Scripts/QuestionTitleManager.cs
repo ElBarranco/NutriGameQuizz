@@ -6,6 +6,7 @@ public class QuestionTitleManager : MonoBehaviour
 {
     [Header("Références UI")]
     [SerializeField] private TextMeshProUGUI questionTitleText;
+    [SerializeField] private GameObject oldErreurPanel;
 
     [Header("Prefab pour Sport")]
     [SerializeField] private FoodItemUI foodItemPrefab;
@@ -17,6 +18,7 @@ public class QuestionTitleManager : MonoBehaviour
         QuestionSubType subType,
         List<FoodData> foods,
         List<PortionSelection> portions,
+        bool isOldError,
         float targetCalories = -1f)
     {
         string title;
@@ -25,6 +27,8 @@ public class QuestionTitleManager : MonoBehaviour
             Destroy(_currentFoodItem);
             _currentFoodItem = null;
         }
+
+        oldErreurPanel.SetActive(isOldError);
 
         switch (type)
         {

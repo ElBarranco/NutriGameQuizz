@@ -12,7 +12,7 @@ public class QuestionRecyclingUI : MonoBehaviour
 
     private QuestionData question;
     private bool allSpawned = false;
-    private Action<int, bool> onAnswered;
+
 
     [ReadOnly, SerializeField] private List<FoodConveyorItemUI> aliveItems = new List<FoodConveyorItemUI>();
 
@@ -28,14 +28,13 @@ public class QuestionRecyclingUI : MonoBehaviour
         FoodConveyorItemUI.OnAnySpawned -= HandleItemSpawned;
     }
 
-    public void Init(QuestionData q, Action<int, bool> callback)
+    public void Init(QuestionData q)
     {
         question = q;
-        onAnswered = callback;
 
         aliveItems.Clear();
         UpdateQuestionText(q.SousType);
-        spawner.Init(q.Aliments, q.PortionSelections, q.Solutions);
+        spawner.Init(q.Aliments, q.PortionSelections, q.Solutions, q.SousType);
     }
 
     private void HandleItemSpawned(FoodConveyorItemUI item)
@@ -53,7 +52,7 @@ public class QuestionRecyclingUI : MonoBehaviour
         if (allSpawned && aliveItems.Count == 0)
         {
             Debug.Log("[QuestionRecyclingUI] Tous les items détruits → question terminée !");
-            onAnswered?.Invoke(1, true);
+            GameManager.Instance.OnQuestionAnswered(1);
             Destroy(gameObject);
         }
     }

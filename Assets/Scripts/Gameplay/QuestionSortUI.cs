@@ -17,12 +17,12 @@ public class QuestionSortUI : BaseQuestionUI
     [SerializeField, ReadOnly] private List<int> currentOrder = new List<int>();
 
     
-    private Action<int, bool> onAnswered;
 
-    public void Init(QuestionData q, Action<int, bool> callback)
+
+    public void Init(QuestionData q)
     {
         question = q;
-        onAnswered = callback;
+
 
 
         dropZone.Init(q.PortionSelections);
@@ -34,7 +34,7 @@ public class QuestionSortUI : BaseQuestionUI
 
             FoodDraggableUI item = Instantiate(foodPrefab, bottomPanel, false);
             item.gameObject.name = $"SORT_{f.Name}_{i}";
-            item.Init(f, sel, i);
+            item.Init(f, sel, q.SousType, i);
 
             if (bottomDock != null && i < bottomDock.SlotCount)
                 bottomDock.PlaceAtIndex(item, i, false);

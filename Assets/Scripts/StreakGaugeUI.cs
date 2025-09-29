@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
+using DG.Tweening;
 
 
 public class StreakGaugeUI : MonoBehaviour
 {
     [Header("Références")]
     [SerializeField] private ScoreManager _scoreManager;
-    [SerializeField] private Image _fillImage; // Mettre Type = Filled (Horizontal ou Radial)
+    [SerializeField] private Image _fillImage;
 
     [Header("Réglages")]
     [SerializeField, Min(1)] private int _maxStreakForFull = 4;
@@ -62,24 +63,27 @@ public class StreakGaugeUI : MonoBehaviour
         _currentStreak = streakActuel;
         _bestStreak = meilleurStreak;
 
-        // Mise à jour de la jauge : clamp entre 0 et 1
         if (_maxStreakForFull <= 0) _maxStreakForFull = 1; // sécurité
-        _fill01 = Mathf.Clamp01((float)_currentStreak / _maxStreakForFull);
+        float targetFill = Mathf.Clamp01((float)_currentStreak / _maxStreakForFull);
 
-        if (_fillImage != null)
-            _fillImage.fillAmount = _fill01;
+
+        // On kill l’anim en cours pour éviter les conflits
+        _fillImage.DOKill();
+
+        _fillImage.DOFillAmount(targetFill, 0.22f).SetEase(Ease.OutQuad);
+
+        _fill01 = targetFill;
+
 
         // Gestion de la récompense
         if (_currentStreak == 0)
         {
-            // reset des verrous de récompense quand on casse la série
             _lastRewardedMultiple = 0;
             return;
         }
 
         if (_rewardEachMultiple)
         {
-            // Calcule le multiple atteint (ex: 4 -> 1, 8 -> 2, 9 -> 2, 12 -> 3…)
             int multiple = _currentStreak / _maxStreakForFull;
             if (multiple > 0 && multiple > _lastRewardedMultiple)
             {
@@ -89,10 +93,9 @@ public class StreakGaugeUI : MonoBehaviour
         }
         else
         {
-            // Version simple : on récompense une fois quand on atteint le palier, puis plus rien tant que la série ne retombe pas à 0
             if (_currentStreak >= _maxStreakForFull && _lastRewardedMultiple == 0)
             {
-                _lastRewardedMultiple = 1; // lock jusqu'au prochain reset à 0
+                _lastRewardedMultiple = 1;
                 GrantReward();
             }
         }

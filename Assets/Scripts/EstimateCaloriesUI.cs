@@ -20,7 +20,7 @@ public class EstimateCaloriesUI : BaseQuestionUI
 
 
     private FoodData food;
-    protected Action<int, bool> onComplete;
+
 
     private QuestionSubType currentSubType;
 
@@ -37,11 +37,11 @@ public class EstimateCaloriesUI : BaseQuestionUI
         gaugeFill.DOFillAmount(normalized, 0.2f); // anim fluide sur 0.2s
     }
 
-    public void Init(QuestionSubType sousType, FoodData foodData, PortionSelection? portion, Action<int, bool> callback)
+    public void Init(QuestionSubType sousType, FoodData foodData, PortionSelection? portion)
     {
         food = foodData;
         currentSubType = sousType;
-        onComplete = callback;
+
 
         float rawValue = portion.Value.Value;
 
@@ -69,13 +69,4 @@ public class EstimateCaloriesUI : BaseQuestionUI
         gaugeFill.fillAmount = normalized;
     }
 
-    public void Btn_Validate()
-    {
-        InteractionManager.Instance.TriggerMediumVibration();
-        validateButton.interactable = false;
-
-        onComplete?.Invoke(guess, false);
-
-        Destroy(gameObject);
-    }
 }

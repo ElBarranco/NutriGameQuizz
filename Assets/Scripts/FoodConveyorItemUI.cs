@@ -49,9 +49,9 @@ public class FoodConveyorItemUI : FoodDraggableUI
         UpdateDebugColor();
     }
 
-    public override void Init(FoodData f, PortionSelection sel, int index)
+    public override void Init(FoodData f, PortionSelection sel, QuestionSubType questionSubType,int index)
     {
-        base.Init(f, sel, index);
+        base.Init(f, sel, questionSubType, index);
         rect.anchoredPosition = Vector2.zero;
         OnAnySpawned?.Invoke(this);
     }

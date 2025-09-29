@@ -15,13 +15,12 @@ public class EstimateSugarUI : BaseQuestionUI
     private FoodData food;
     private PortionSelection portion;
     private QuestionSubType currentSubType;
-    protected Action<int, bool> onComplete;
 
     [Header("Config")]
     [SerializeField] private int minGuess = 0;
     [SerializeField] private int maxGuess = 50; // borne haute arbitraire
 
-    public void Init(QuestionSubType sousType, FoodData foodData, PortionSelection portionSel, Action<int, bool> callback)
+    public void Init(QuestionSubType sousType, FoodData foodData, PortionSelection portionSel)
     {
         plusButton.interactable = true;
         minusButton.interactable = true;
@@ -29,7 +28,6 @@ public class EstimateSugarUI : BaseQuestionUI
         food = foodData;
         portion = portionSel;
         currentSubType = sousType;
-        onComplete = callback;
 
         // Définir un intervalle ±50% autour de la vraie valeur
         minGuess = 0;

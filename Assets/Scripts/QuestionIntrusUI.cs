@@ -17,13 +17,12 @@ public class QuestionIntrusUI : BaseQuestionUI
     [SerializeField, ReadOnly] private List<int> currentSelection = new List<int>();
 
     
-    private Action<int, bool> onAnswered;
+
     private List<FoodSelectableUI> spawnedItems = new List<FoodSelectableUI>();
 
-    public void Init(QuestionData q, Action<int, bool> callback)
+    public void Init(QuestionData q)
     {
         question = q;
-        onAnswered = callback;
 
         // Reset
         currentSelection.Clear();
@@ -42,7 +41,7 @@ public class QuestionIntrusUI : BaseQuestionUI
                 // Instancier un bouton dans ce slot
                 FoodSelectableUI item = Instantiate(foodButtonPrefab, foodSlots[i].transform, false);
                 item.gameObject.name = $"INTRUS_{f.Name}_{i}";
-                item.Init(f, i, OnFoodClicked);
+                item.Init(f, q.SousType, i,  OnFoodClicked);
 
                 spawnedItems.Add(item);
 

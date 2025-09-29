@@ -11,13 +11,11 @@ public class QuestionMealCompositionUI : BaseQuestionUI
     [SerializeField] private FoodDraggableUI foodPrefab;  // prefab draggable
     [SerializeField] private InitialDockUI bottomDock;
 
-    private QuestionData question;
-    protected Action<int, bool> onAnswered;
 
-    public void Init(QuestionData q, Action<int, bool> callback)
+    public void Init(QuestionData q)
     {
         question = q;
-        onAnswered = callback;
+
         dropZone.Init(q.PortionSelections);
 
         // Instancie tous les aliments en bas
@@ -28,7 +26,7 @@ public class QuestionMealCompositionUI : BaseQuestionUI
 
             FoodDraggableUI item = Instantiate(foodPrefab, bottomPanel, false);
             item.gameObject.name = $"DD_{f.Name}_{i}";
-            item.Init(f, sel, i);
+            item.Init(f, sel, q.SousType, i);
             item.transform.localScale = Vector3.one * 0.8f;
 
             // 1) Pose l’item dans le dock, slot i (sans tween)

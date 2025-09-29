@@ -9,5 +9,6 @@ public enum QuestionType
     Intru,
     Tri,
     Subtraction,
-    Recycling
+    Recycling,
+    NutritionTable
 }
