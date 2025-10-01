@@ -19,20 +19,25 @@ public class FoodSelectableSubtractionUI : FoodItemBase
     private bool isSelected = false;
     private Action<int, bool> onClick;
 
-    public void Init(FoodData food, PortionSelection sel, QuestionSubType questionSubType, int idx, Action<int, bool> callback)
+    public void Init(FoodData food, QuestionSubType questionSubType, int idx, Action<int, bool> callback, PortionSelection? sel = null)
     {
         index = idx;
         onClick = callback;
 
-        nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel);
-        icon.sprite = SpriteLoader.LoadFoodSprite(food.Name);
 
+        if (sel.HasValue)
+        {
+            nameText.text = PortionTextFormatter.ToDisplayWithFood(food, sel.Value);
+        }
+        else
+        {
+            nameText.text = food.Name;
+        }
+        icon.sprite = SpriteLoader.LoadFoodSprite(food.Name);
+        base.UpdateHintInfo(food, questionSubType);
         isSelected = false;
         background.color = normalColor;
-
         button.interactable = true;
-
-        base.UpdateHintInfo(food, questionSubType);
     }
 
     public void Btn_OnClick()

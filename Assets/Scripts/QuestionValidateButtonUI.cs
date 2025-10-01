@@ -90,6 +90,7 @@ public class QuestionValidateButtonUI : MonoBehaviour
             case QuestionType.FunMeasure:
             case QuestionType.Sport:
             case QuestionType.Recycling:
+            case QuestionType.NutritionTable:
                 return false;
 
             case QuestionType.EstimateCalories:

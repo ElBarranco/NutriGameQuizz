@@ -16,15 +16,13 @@ public class QuestionFactory : MonoBehaviour
     [SerializeField] private GameObject recyclingGo;
     [SerializeField] private GameObject subtractionGo;
     [SerializeField] private GameObject sucreGo;
+    [SerializeField] private GameObject nutritionTableGo; 
     [SerializeField] private Transform questionParent;
 
-
-
-    private GameObject _currentQuestionGO; // 🔥 garde une référence
+    private GameObject _currentQuestionGO;
 
     public void CreateQuestion(QuestionData data)
     {
-        // Avant de créer une nouvelle, on supprime l'ancienne
         ClearCurrentQuestion();
 
         switch (data.Type)
@@ -85,6 +83,11 @@ public class QuestionFactory : MonoBehaviour
                 _currentQuestionGO.GetComponent<QuestionSubtractionUI>().Init(data);
                 break;
 
+            case QuestionType.NutritionTable:
+                _currentQuestionGO = Instantiate(nutritionTableGo, questionParent);
+                _currentQuestionGO.GetComponent<QuestionNutritionTableUI>().Init(data);
+                break;
+
             default:
                 Debug.LogWarning("Type de question non géré : " + data.Type);
                 break;
@@ -93,9 +96,6 @@ public class QuestionFactory : MonoBehaviour
         validateButtonUI.BindQuestion(_currentQuestionGO?.GetComponent<BaseQuestionUI>(), data.Type);
     }
 
-    /// <summary>
-    /// Détruit la question en cours (si elle existe).
-    /// </summary>
     public void ClearCurrentQuestion()
     {
         if (_currentQuestionGO != null)

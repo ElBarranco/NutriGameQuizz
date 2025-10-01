@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
     public bool EnableMoreInfo { get; private set; } = false;
     private HintController hintController;
 
+    [SerializeField] private bool enableReviewAtEnd = false;
+    [ReadOnly][SerializeField] private bool _reviewShown = false;
+
 
     private void Awake()
     {
@@ -82,9 +85,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Fin du niveau.");
             return;
         }
-
-
-
 
         EnableMoreInfo = false;
 
@@ -246,17 +246,35 @@ public class GameManager : MonoBehaviour
     {
         currentQuestionIndex++;
 
+        // Fin du quiz principal
         if (currentQuestionIndex >= questionList.Count)
         {
+            if (enableReviewAtEnd && _reviewShown == false && wrongTracker.WrongQuestionCount > 0)
+            {
+                Debug.Log("Fin du niveau - Review");
+
+                // 1) On tire au hasard jusqu'à 2 questions ratées
+                List<QuestionData> reviewList = wrongTracker.GetRandomWrongQuestions(2);
+                // 2) On les ajoute à la fin de la liste principale
+                questionList.AddRange(reviewList);
+                _reviewShown = true;
+
+                // 4) On met à jour le numéro (ex: "Q11/12") et on relance la question suivante
+                hud.UpdateQuestionNumber(currentQuestionIndex);
+                LaunchNextQuestion();
+                return;
+            }
+
+            // fin standard
             IsGameRunning = false;
             Debug.Log("Fin du niveau.");
             hud.ShowEndGameUI();
             return;
         }
 
+        // suite du flow normal
         hud.UpdateQuestionNumber(currentQuestionIndex);
         LaunchNextQuestion();
-
     }
 
 

@@ -7,19 +7,16 @@ using UnityEngine.UI;
 public class RewardFXController : MonoBehaviour
 {
     [Header("Références")]
-    [SerializeField, Tooltip("Prefab UI de la pièce (Image sous Canvas).")]
-    private GameObject coinPrefab;
-    [SerializeField, Tooltip("Prefab UI de la big star (Image sous Canvas).")]
-    private GameObject starPrefab;
-    [SerializeField, Tooltip("Point d'apparition des pièces et de la star (dans le même Canvas).")]
-    private Transform spawnOrigin;
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private GameObject starPrefab;
+    [SerializeField] private Transform spawnOrigin;
     [SerializeField] private Transform target;
     [SerializeField] private RectTransform secondaryTarget;
 
+
     [Header("Quantité")]
-    [SerializeField, Min(0)] private int coinsOnGoodAnswer = 7;
-    [SerializeField, Min(0)] private int coinsOnBadAnswer = 0;
     [SerializeField, Min(0)] private int coinsOnPerfect = 10;
+    [SerializeField] private int[] streakToCoinCount = new int[5] { 3, 4, 5, 6, 7 };
 
     [Header("Éclatement initial")]
     [SerializeField, Range(0f, 200f)] private float spawnSpread = 80f;
@@ -75,13 +72,12 @@ public class RewardFXController : MonoBehaviour
         if (!isCorrect)
             return;
 
-        // only on perfect answers
         if (isPerfect)
             PlayStarEffect();
 
-        int count = (overrideCount >= 0)
+        int count = overrideCount >= 0
             ? overrideCount
-            : (isPerfect ? coinsOnPerfect : coinsOnGoodAnswer);
+            : (isPerfect ? coinsOnPerfect : GetCoinsFromStreak(currentStreak));
 
         if (count <= 0 || target == null)
             return;
@@ -97,20 +93,13 @@ public class RewardFXController : MonoBehaviour
 
         Sequence seq = DOTween.Sequence();
 
-        // 1) scale up
         seq.Append(rect.DOScale(1.5f, 0.3f).SetEase(Ease.OutBack));
-
-        // 2) rotation on spot (2 tours)
         seq.Append(rect.DORotate(new Vector3(0f, 0f, 360f), 0.5f, RotateMode.FastBeyond360)
             .SetEase(Ease.Linear)
             .SetLoops(2, LoopType.Restart));
-
-        // 3) trajet vers cible + scale down
         seq.Append(rect.DOMove(target.position, 0.7f).SetEase(Ease.InCubic));
         seq.Join(rect.DOScale(0f, 0.7f).SetEase(Ease.InBack));
         seq.Join(rect.DORotate(new Vector3(0f, 0f, 360f), 0.7f, RotateMode.FastBeyond360));
-
-        // 4) destruction
         seq.OnComplete(() => Destroy(star));
     }
 
@@ -118,7 +107,6 @@ public class RewardFXController : MonoBehaviour
     {
         Vector3 origin = spawnOrigin.position;
 
-        // Split: moitié vers target, moitié vers secondaryTarget
         int primaryCount = Mathf.CeilToInt(count / 2f);
         int secondaryCount = count - primaryCount;
 
@@ -148,17 +136,16 @@ public class RewardFXController : MonoBehaviour
             Vector2 rand = Random.insideUnitCircle * (spawnSpread * spreadMul);
             Vector3 burstPos = origin + new Vector3(rand.x, rand.y, 0f);
 
-            // Choix de la target
             Vector3 finalTarget = (i < primaryCount || secondaryTarget == null) ? target.position : secondaryTarget.position;
 
             Sequence seq = DOTween.Sequence();
 
             seq.Append(coinRect.DOScale(targetScale, 0.15f).SetEase(Ease.OutBack));
             if (img != null) seq.Join(img.DOFade(1f, 0.15f));
-
             seq.Append(coinRect.DOMove(burstPos, firstTweenDuration).SetEase(firstEase));
 
             float delay = perCoinStagger * i;
+
             if (useJumpArc)
             {
                 seq.Append(coinRect.DOJump(finalTarget, jumpPower, jumpCount, travelDuration)
@@ -182,9 +169,14 @@ public class RewardFXController : MonoBehaviour
 
             seq.Append(coinRect.DOScale(0f, 0.15f).SetEase(Ease.InBack));
             if (img != null) seq.Join(img.DOFade(0f, 0.15f));
-
             seq.OnComplete(() => ReturnToPool(coin));
         }
+    }
+
+    private int GetCoinsFromStreak(int streak)
+    {
+        int clamped = Mathf.Clamp(streak, 1, streakToCoinCount.Length);
+        return streakToCoinCount[clamped - 1];
     }
 
     private GameObject GetFromPool()

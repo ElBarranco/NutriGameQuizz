@@ -46,6 +46,10 @@ public class QuestionTitleManager : MonoBehaviour
                 title = "Estime le nombre de carré de sucres !";
                 break;
 
+            case QuestionType.NutritionTable:
+                title = "À quel aliment correspond ce tableau ?";
+                break;
+
             case QuestionType.CaloriesDual:
                 switch (subType)
                 {

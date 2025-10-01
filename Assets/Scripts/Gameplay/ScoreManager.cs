@@ -132,4 +132,8 @@ public class ScoreManager : MonoBehaviour
     {
         return bonnesReponses;
     }
+    public int GetBestStreak()
+    {
+        return meilleurStreak;
+    }
 }

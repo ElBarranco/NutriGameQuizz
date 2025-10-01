@@ -12,6 +12,7 @@ public class PowerUpButton : MonoBehaviour
 
     [BoxGroup("Configuration")]
     [SerializeField] private PowerUpType type;
+    [SerializeField] private RectTransform sourceTransform;
 
     [ReadOnly][SerializeField]private PowerUpButtonState currentState = PowerUpButtonState.Available;
 
@@ -33,7 +34,7 @@ public class PowerUpButton : MonoBehaviour
     {
         InteractionManager.Instance.TriggerMediumVibration();
 
-        bool success = PowerUpManager.Instance.UsePowerUp(type);
+        bool success = PowerUpManager.Instance.UsePowerUp(type,sourceTransform);
         if (!success)
         {
             Debug.Log($"[UI] No power-up of type {type} available.");

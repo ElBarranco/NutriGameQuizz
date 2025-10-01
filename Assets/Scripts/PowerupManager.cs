@@ -58,12 +58,12 @@ public class PowerUpManager : MonoBehaviour
         UpdateButtonState(type);
     }
 
-    public bool UsePowerUp(PowerUpType type)
+    public bool UsePowerUp(PowerUpType type, RectTransform buttonOrigin = null)
     {
         if (inventory.ContainsKey(type) && inventory[type] > 0)
         {
             inventory[type]--;
-            TriggerPowerUpEffect(type);
+            TriggerPowerUpEffect(type, buttonOrigin);
             OnPowerUpInventoryChanged?.Invoke();
             UpdateButtonState(type);
             return true;
@@ -71,12 +71,12 @@ public class PowerUpManager : MonoBehaviour
         return false;
     }
 
-    private void TriggerPowerUpEffect(PowerUpType type)
+    private void TriggerPowerUpEffect(PowerUpType type, RectTransform buttonOrigin = null)
     {
         switch (type)
         {
             case PowerUpType.Hint:
-                hintController.ActivateHint();
+                hintController.ActivateHint(buttonOrigin);
                 break;
 
             case PowerUpType.Skip:

@@ -1,26 +1,30 @@
 using UnityEngine;
 using System.Collections.Generic;
-using NaughtyAttributes;
+using DG.Tweening;
 
 public class HintController : MonoBehaviour
 {
-    [ReadOnly][SerializeField] private List<HintDetector> availableDetectors = new();
+    [SerializeField] private RectTransform hintEffectPrefab;
+    [SerializeField] private RectTransform uiCanvasRoot;
+
+    private List<HintDetector> availableDetectors = new();
 
     public void RegisterDetector(HintDetector detector)
     {
-        availableDetectors.Add(detector);
-        NotifyAvailability();
-        Debug.Log($"------- REGISTER DETECTOR -------"); 
+        if (!availableDetectors.Contains(detector))
+        {
+            availableDetectors.Add(detector);
+            NotifyAvailability();
+        }
     }
 
     public void ClearDetectors()
     {
         availableDetectors.Clear();
         NotifyAvailability();
-        Debug.Log($"-------  Clear Detector -------"); 
     }
 
-    public void ActivateHint()
+    public void ActivateHint(RectTransform buttonOrigin)
     {
         if (availableDetectors.Count == 0)
         {
@@ -30,18 +34,30 @@ public class HintController : MonoBehaviour
 
         int index = Random.Range(0, availableDetectors.Count);
         HintDetector chosen = availableDetectors[index];
-
         availableDetectors.RemoveAt(index);
-        chosen.ShowHint();
-
         NotifyAvailability();
+        RectTransform target = chosen.GetSignHintPanel();
+
+        // 💥 Crée l’effet visuel
+        RectTransform instance = Instantiate(hintEffectPrefab, uiCanvasRoot);
+        instance.position = buttonOrigin.position;
+
+        float durationTween = 0.5f;
+
+        // 💫 Animation vers la cible
+        instance.DOMove(target.position, durationTween).SetEase(Ease.OutCubic).OnComplete(() =>
+        {
+            Destroy(instance.gameObject);
+            chosen.ShowHint();
+        });
     }
 
     private void NotifyAvailability()
     {
-        bool hasHint = availableDetectors.Count > 0;
+        bool hasHint = HasAvailableDetectors();
         PowerUpManager.Instance.UpdateHintAvailability(hasHint);
     }
+
 
     public bool HasAvailableDetectors()
     {

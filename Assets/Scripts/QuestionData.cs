@@ -4,43 +4,48 @@ using UnityEngine;
 [System.Serializable]
 public class QuestionData
 {
-     public string QuestionId;
+    // Identifiant numérique unique pour la session
+    public int QuestionId;
 
-     
+    // Type et sous-type
     public QuestionType Type;
     public QuestionSubType SousType;
-    public List<FoodData> Aliments;
 
-    public List<PortionSelection> PortionSelections;
-    public List<float> ValeursComparees; // selon le sous-type
+    // Données de la question
+    public List<FoodData> Aliments               = new List<FoodData>();
+    public List<PortionSelection> PortionSelections = new List<PortionSelection>();
+    public List<float> ValeursComparees          = new List<float>();  // selon le sous-type
     public int IndexBonneRéponse;
-    public string SortSolution; // pour les questions de type Sort
+    public string SortSolution;                  // pour les questions de type Sort
 
-    public List<int> Solutions;
-    public List<SpecialMeasureData> SpecialMeasures; // pour les questions de type FunMeasure
-    public int DeltaTolerance = 50;
-    public List<SportData> SportChoices;
+    public List<int> Solutions                   = new List<int>();
+    public List<SpecialMeasureData> SpecialMeasures = new List<SpecialMeasureData>(); // pour FunMeasure
+    public int DeltaTolerance                    = 50;
+    public List<SportData> SportChoices          = new List<SportData>();
 
-    public bool HasBeenAnsweredWrong = false;
+    // Flag interne
+    public bool HasBeenAnsweredWrong             = false;
 
-
+    /// <summary>
+    /// Crée une copie profonde de cette question, conservant tous les champs.
+    /// </summary>
     public QuestionData Clone()
     {
         return new QuestionData
         {
-            Type = this.Type,
-            SousType = this.SousType,
-            Aliments = new List<FoodData>(this.Aliments),
-            PortionSelections = new List<PortionSelection>(this.PortionSelections),
-            ValeursComparees = new List<float>(this.ValeursComparees),
-            IndexBonneRéponse = this.IndexBonneRéponse,
-            SortSolution = this.SortSolution,
-            Solutions = new List<int>(this.Solutions),
-            SpecialMeasures = new List<SpecialMeasureData>(this.SpecialMeasures),
-            DeltaTolerance = this.DeltaTolerance,
-            SportChoices = new List<SportData>(this.SportChoices),
-            HasBeenAnsweredWrong = this.HasBeenAnsweredWrong  
+            QuestionId           = this.QuestionId,
+            Type                 = this.Type,
+            SousType             = this.SousType,
+            Aliments             = new List<FoodData>(this.Aliments),
+            PortionSelections    = new List<PortionSelection>(this.PortionSelections),
+            ValeursComparees     = new List<float>(this.ValeursComparees),
+            IndexBonneRéponse    = this.IndexBonneRéponse,
+            SortSolution         = this.SortSolution,
+            Solutions            = new List<int>(this.Solutions),
+            SpecialMeasures      = new List<SpecialMeasureData>(this.SpecialMeasures),
+            DeltaTolerance       = this.DeltaTolerance,
+            SportChoices         = new List<SportData>(this.SportChoices),
+            HasBeenAnsweredWrong = this.HasBeenAnsweredWrong
         };
     }
-
 }

@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SignHintPanel: {fileID: 5726218680833487660}
-  SignHintRect: {fileID: 4937212093736136317}
+  SignHintRect: {fileID: 2266898051346676062}
 --- !u!1 &1771330036216981853
 GameObject:
   m_ObjectHideFlags: 0

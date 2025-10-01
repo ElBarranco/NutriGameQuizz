@@ -41,7 +41,7 @@ public class QuestionSubtractionUI : BaseQuestionUI
                 // Instancier un bouton dans ce slot
                 FoodSelectableSubtractionUI item = Instantiate(foodButtonPrefab, foodSlots[i].transform, false);
                 item.gameObject.name = $"SUBTRACTION_{f.Name}_{i}";
-                item.Init(f, sel, q.SousType, i,  OnFoodClicked); 
+                item.Init(f, q.SousType, i, OnFoodClicked, sel); 
 
                 spawnedItems.Add(item);
             }
