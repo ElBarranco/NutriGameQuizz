@@ -10,5 +10,6 @@ public enum QuestionType
     Tri,
     Subtraction,
     Recycling,
-    NutritionTable
+    NutritionTable,
+    TapTaupe
 }
