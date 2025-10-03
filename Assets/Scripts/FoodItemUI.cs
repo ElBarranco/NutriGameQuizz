@@ -2,88 +2,107 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class FoodItemUI : MonoBehaviour
 {
     [Header("UI Refs")]
     [SerializeField] private Image icon;
-    [SerializeField] private TextMeshProUGUI nameText;      // ex. "3 Snickers", "Un bol de soupe", "200 g de fraises"
-    [SerializeField] private TextMeshProUGUI kcal100gText;  // ex. "488 kcal / 100 g"
-    [SerializeField] private TextMeshProUGUI portionText;   // ex. "244 kcal" (calories de la portion)
+    [SerializeField] private TextMeshProUGUI nameText;      
+    [SerializeField] private TextMeshProUGUI kcal100gText;  
+    [SerializeField] private TextMeshProUGUI portionText;   
 
     [Header("Feedback visuel")]
-    [SerializeField] private GameObject solutionMarker;     // GO qui s’active si bonne réponse / feedback
-    [SerializeField] private GameObject selectedGO;         // indique si le joueur a sélectionné
-    [SerializeField] private Image solutionImage;           // Image dont on change la couleur
+    [SerializeField] private GameObject solutionMarker;    
+    [SerializeField] private GameObject selectedGO;         
+    [SerializeField] private Image solutionImage;           
 
-    [SerializeField] private Color solutionColor = Color.green;   // ✅ Bon choix
-    [SerializeField] private Color defaultColor = Color.white;    // ⚪ Neutre
-    [SerializeField] private Color wrongColor = Color.red;        // ❌ Mauvais choix
-    [SerializeField] private Color missedColor = new Color(1f, 0.65f, 0f); // ⚠️ Raté (orange par défaut)
+    [SerializeField] private Color solutionColor = Color.green;   
+    [SerializeField] private Color defaultColor = Color.white;    
+    [SerializeField] private Color wrongColor = Color.red;        
+    [SerializeField] private Color missedColor = new Color(1f, 0.65f, 0f);
 
     public void Init(
         FoodData f,
-        PortionSelection sel,
-        bool isIntrus,
-        QuestionSubType subType = QuestionSubType.Calorie,
-        bool isSelected = false
+        PortionSelection? sel = null,
+        FoodItemResultState resultState = FoodItemResultState.Neutral,
+        QuestionSubType subType = QuestionSubType.Calorie
     )
     {
-        // Nom + portion lisible (ex. "200 g de fraises")
-        nameText.text = PortionTextFormatter.ToDisplayWithFood(f, sel);
-
-        selectedGO.SetActive(isSelected);
-
-        icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
-
-        // Unité selon le sous-type (kcal / g / prot / etc.)
-        string unit = TextFormatter.GetUnitForSubType(subType);
-
-        // Valeur / 100 g
-        float per100 = PortionCalculator.GetPer100(f, subType);
-        if (kcal100gText != null)
-            kcal100gText.text = $"{Mathf.RoundToInt(per100)} {unit} / 100 g";
-
-        // Valeur pour la portion
-        if (portionText != null)
+        // Texte du nom ou portion
+        if (sel.HasValue)
         {
-            if (sel.Type == FoodPortionType.Simple)
-                portionText.text = $"{Mathf.RoundToInt(f.Proteins)} {unit}";
-            else
-                portionText.text = $"{Mathf.RoundToInt(sel.Value)} {unit}";
-        }
-
-        // Feedback visuel
-        ApplySolutionVisuals(isIntrus, isSelected);
-    }
-
-    private void ApplySolutionVisuals(bool isIntrus, bool isSelected)
-    {
-        if (solutionMarker != null)
-            solutionMarker.SetActive(true);
-
-        if (solutionImage == null)
-            return;
-
-        if (isIntrus && isSelected)
-        {
-            // ✅ Bon choix
-            solutionImage.color = solutionColor;
-        }
-        else if (!isIntrus && isSelected)
-        {
-            // ❌ Mauvais choix
-            solutionImage.color = wrongColor;
-        }
-        else if (isIntrus && !isSelected)
-        {
-            // ⚠️ Raté (il fallait cliquer mais le joueur a oublié)
-            solutionImage.color = missedColor;
+            nameText.text = PortionTextFormatter.ToDisplayWithFood(f, sel.Value);
         }
         else
         {
-            // ⚪ Neutre
-            if (solutionMarker != null) solutionMarker.SetActive(false);
-            solutionImage.color = defaultColor;
+            nameText.text = f.Name;
+        }
+
+        selectedGO.SetActive(
+            resultState == FoodItemResultState.SelectedCorrect ||
+            resultState == FoodItemResultState.SelectedWrong
+        );
+
+        icon.sprite = SpriteLoader.LoadFoodSprite(f.Name);
+
+        string unit = TextFormatter.GetUnitForSubType(subType);
+
+        // /100g
+        float per100 = PortionCalculator.GetPer100(f, subType);
+        if (kcal100gText != null)
+        {
+            kcal100gText.text = $"{Mathf.RoundToInt(per100)} {unit} / 100 g";
+        }
+
+        // Portion
+        if (portionText != null && sel.HasValue)
+        {
+            PortionSelection ps = sel.Value;
+            if (ps.Type == FoodPortionType.Simple)
+            {
+                portionText.text = $"{Mathf.RoundToInt(f.Proteins)} {unit}";
+            }
+            else
+            {
+                portionText.text = $"{Mathf.RoundToInt(ps.Value)} {unit}";
+            }
+        }
+
+        ApplySolutionVisuals(resultState);
+    }
+
+    private void ApplySolutionVisuals(FoodItemResultState state)
+    {
+        if (solutionMarker != null)
+        {
+            solutionMarker.SetActive(true);
+        }
+        if (solutionImage == null)
+        {
+            return;
+        }
+
+        switch (state)
+        {
+            case FoodItemResultState.SelectedCorrect:
+                solutionImage.color = solutionColor;
+                break;
+
+            case FoodItemResultState.SelectedWrong:
+                solutionImage.color = wrongColor;
+                break;
+
+            case FoodItemResultState.MissedCorrect:
+                solutionImage.color = missedColor;
+                break;
+
+            default: // Neutral
+                if (solutionMarker != null)
+                {
+                    solutionMarker.SetActive(false);
+                }
+                solutionImage.color = defaultColor;
+                break;
         }
     }
 }

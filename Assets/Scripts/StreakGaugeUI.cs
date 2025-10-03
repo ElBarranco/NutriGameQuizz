@@ -9,6 +9,8 @@ public class StreakGaugeUI : MonoBehaviour
     [Header("Références")]
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private Image _fillImage;
+    [SerializeField] private StreakRewardVisual _rewardVisual;
+    [SerializeField] private PowerUpType _rewardedPowerUpType = PowerUpType.Hint;
 
     [Header("Réglages")]
     [SerializeField, Min(1)] private int _maxStreakForFull = 4;
@@ -44,19 +46,34 @@ public class StreakGaugeUI : MonoBehaviour
 
     private void OnEnable()
     {
+        _scoreManager.OnStreakChange += HandleStreakChangedDelayed;
 
-        _scoreManager.OnStreakChange += HandleStreakChanged;
-        // Init affichage avec l'état courant si nécessaire
+        // Init affichage direct (sans délai)
         HandleStreakChanged(_scoreManager.StreakActuel, _scoreManager.MeilleurStreak);
-
     }
 
     private void OnDisable()
     {
-
-        _scoreManager.OnStreakChange -= HandleStreakChanged;
-
+        _scoreManager.OnStreakChange -= HandleStreakChangedDelayed;
     }
+
+    private int _pendingStreak;
+    private int _pendingBest;
+
+    private void HandleStreakChangedDelayed(int streakActuel, int meilleurStreak)
+    {
+        _pendingStreak = streakActuel;
+        _pendingBest = meilleurStreak;
+
+        // Lance après 0.5s
+        Invoke(nameof(ApplyStreakChange), 0.5f);
+    }
+
+    private void ApplyStreakChange()
+    {
+        HandleStreakChanged(_pendingStreak, _pendingBest);
+    }
+
 
     private void HandleStreakChanged(int streakActuel, int meilleurStreak)
     {
@@ -104,7 +121,8 @@ public class StreakGaugeUI : MonoBehaviour
 
     private void GrantReward()
     {
-        // TODO: Implémenter ce que gagne le joueur (ex: +100 pts / +1 joker / +1 vie / confettis, etc.)
-        // L’UI se contente de détecter l’atteinte du palier via le streak.
+        PowerUpManager.Instance.AddPowerUp(_rewardedPowerUpType, 1);
+        PowerUpButton targetButton = PowerUpManager.Instance.GetButtonForType(_rewardedPowerUpType);
+        _rewardVisual.PlayEffectTowards(targetButton.GetSourceTransform());
     }
 }

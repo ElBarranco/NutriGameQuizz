@@ -22,6 +22,7 @@ public class QuestionNutritionTableUI : BaseQuestionUI
         guess = index;
 
         GameManager.Instance.OnQuestionAnswered(guess);
+        base.Close();
     }
 
     public void Init(QuestionData q)
@@ -38,7 +39,7 @@ public class QuestionNutritionTableUI : BaseQuestionUI
             if (active)
             {
                 FoodData f = q.Aliments[i];
-                var item = Instantiate(foodButtonPrefab, foodSlots[i].transform, false);
+                FoodSelectableSubtractionUI item = Instantiate(foodButtonPrefab, foodSlots[i].transform, false);
                 item.name = $"NUTRITABLE_{f.Name}_{i}";
 
                 // PortionSelection inutile ici → on passe null

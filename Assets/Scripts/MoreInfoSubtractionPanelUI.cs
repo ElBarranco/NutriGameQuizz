@@ -6,13 +6,10 @@ public class MoreInfoSubtractionPanelUI : MoreInfoPanelBase
 {
     [Header("UI")]
     [SerializeField] private Transform contentParent;
-    [SerializeField] private FoodItemUI itemPrefab;   
-
+    [SerializeField] private FoodItemUI itemPrefab;
 
     public void Show(QuestionData q, int userAnswer)
     {
-
-
         // ⚡ Solutions correctes
         HashSet<int> correctSolutions = new HashSet<int>(q.Solutions);
 
@@ -37,12 +34,21 @@ public class MoreInfoSubtractionPanelUI : MoreInfoPanelBase
 
             bool isIntrus = correctSolutions.Contains(id);
             bool isSelectedByPlayer = playerSolutions.Contains(id);
-            bool isCorrectHere = playerSolutions.Contains(id) && isIntrus;
 
-            // ✅ On instancie ton prefab FoodItemUI
+            FoodItemResultState state;
+
+            if (isIntrus && isSelectedByPlayer)
+                state = FoodItemResultState.SelectedCorrect;
+            else if (!isIntrus && isSelectedByPlayer)
+                state = FoodItemResultState.SelectedWrong;
+            else if (isIntrus && !isSelectedByPlayer)
+                state = FoodItemResultState.MissedCorrect;
+            else
+                state = FoodItemResultState.Neutral;
+
             FoodItemUI ui = Instantiate(itemPrefab, contentParent);
             ui.name = $"{f.Name}_{i}";
-            ui.Init(f, sel, isCorrectHere, q.SousType, isSelectedByPlayer); 
+            ui.Init(f, sel, state, q.SousType);
         }
 
         base.IntroAnim();

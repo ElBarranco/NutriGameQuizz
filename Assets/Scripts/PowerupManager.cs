@@ -38,7 +38,6 @@ public class PowerUpManager : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Debug.Log("🔧 Hack : +5 power-ups pour chaque type.");
             foreach (PowerUpType type in System.Enum.GetValues(typeof(PowerUpType)))
             {
                 AddPowerUp(type, 5);
@@ -53,6 +52,8 @@ public class PowerUpManager : MonoBehaviour
             inventory[type] = 0;
 
         inventory[type] += amount;
+
+        TriggerGainFeedback(type, amount);
 
         OnPowerUpInventoryChanged?.Invoke();
         UpdateButtonState(type);
@@ -82,6 +83,17 @@ public class PowerUpManager : MonoBehaviour
             case PowerUpType.Skip:
                 Debug.Log("💥 Skip activé : passer à la question suivante");
                 break;
+        }
+    }
+
+    private void TriggerGainFeedback(PowerUpType type, int amount)
+    {
+        foreach (PowerUpButton button in boutons)
+        {
+            if (button.Type == type)
+            {
+                button.PlayFeedback(amount);
+            }
         }
     }
 
@@ -142,5 +154,15 @@ public class PowerUpManager : MonoBehaviour
     public HintController GetHintController()
     {
         return hintController;
+    }
+
+    public PowerUpButton GetButtonForType(PowerUpType type)
+    {
+        foreach (var button in boutons)
+        {
+            if (button.Type == type)
+                return button;
+        }
+        return null;
     }
 }

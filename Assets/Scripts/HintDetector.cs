@@ -11,7 +11,6 @@ public class HintDetector : MonoBehaviour
 
         HintController controller = PowerUpManager.Instance.GetHintController();
         controller.RegisterDetector(this);
-        Debug.Log($"------- INIT DETECTOR -------");
     }
 
     public void ShowHint()
@@ -21,7 +20,6 @@ public class HintDetector : MonoBehaviour
         hintActivated = true;
 
         SignHintPanel.SetActive(true);
-        Debug.Log("Hint affiché");
     }
 
     public RectTransform GetSignHintPanel()

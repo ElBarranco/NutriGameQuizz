@@ -9,12 +9,13 @@ public class PowerUpButton : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI quantityText;
     [SerializeField] private Image icon;
+    [SerializeField] private PowerUpFeedback feedbackEffect;
 
     [BoxGroup("Configuration")]
     [SerializeField] private PowerUpType type;
     [SerializeField] private RectTransform sourceTransform;
 
-    [ReadOnly][SerializeField]private PowerUpButtonState currentState = PowerUpButtonState.Available;
+    [ReadOnly][SerializeField] private PowerUpButtonState currentState = PowerUpButtonState.Available;
 
     public PowerUpType Type => type;
 
@@ -34,7 +35,7 @@ public class PowerUpButton : MonoBehaviour
     {
         InteractionManager.Instance.TriggerMediumVibration();
 
-        bool success = PowerUpManager.Instance.UsePowerUp(type,sourceTransform);
+        bool success = PowerUpManager.Instance.UsePowerUp(type, sourceTransform);
         if (!success)
         {
             Debug.Log($"[UI] No power-up of type {type} available.");
@@ -79,6 +80,13 @@ public class PowerUpButton : MonoBehaviour
         }
     }
 
+
+    public void PlayFeedback(int amount)
+    {
+
+        feedbackEffect.Play(amount);
+
+    }
     private void SetIconAlpha(float alpha)
     {
 
@@ -87,4 +95,6 @@ public class PowerUpButton : MonoBehaviour
         icon.color = color;
 
     }
+
+    public RectTransform GetSourceTransform() => sourceTransform;
 }

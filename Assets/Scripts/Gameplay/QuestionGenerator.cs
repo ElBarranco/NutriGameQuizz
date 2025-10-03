@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 public abstract class QuestionGenerator : MonoBehaviour
 {
     [Header("Defaults / Utils")]
-    [SerializeField] protected DifficultyManager difficultyManager;
     [SerializeField] protected float defaultPieceWeightG = 120f; // utilisé pour Unitaire si poids pièce inconnu
 
     // ---------- Helpers communs ----------
@@ -186,4 +185,23 @@ public abstract class QuestionGenerator : MonoBehaviour
         }
         return true;
     }
+
+    protected QuestionSubType GetRandomQuestionSubTypeWithDropRates(DifficultyLevel currentDifficulty)
+    {
+        switch (currentDifficulty)
+        {
+            case DifficultyLevel.Easy:
+                return QuestionSubType.Calorie;
+
+            case DifficultyLevel.Medium:
+                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
+
+            case DifficultyLevel.Hard:
+                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
+
+            default:
+                return QuestionSubType.Calorie;
+        }
+    }
+
 }

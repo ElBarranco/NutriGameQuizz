@@ -160,6 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3165931475030627066}
+  - component: {fileID: 3973709260149776825}
   m_Layer: 5
   m_Name: Aliment 1
   m_TagString: Untagged
@@ -188,6 +189,20 @@ RectTransform:
   m_AnchoredPosition: {x: -0.09397888, y: -56.674683}
   m_SizeDelta: {x: 826.51, y: 626.65063}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &3973709260149776825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386914181382700578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af4dc280cd3e4778b13f0031dc8483e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SignHintPanel: {fileID: 0}
+  SignHintRect: {fileID: 0}
 --- !u!1 &3472369455136401110
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +217,7 @@ GameObject:
   - component: {fileID: 5699953688422090311}
   - component: {fileID: 7814242052037384154}
   m_Layer: 5
-  m_Name: Q_DualQuestionGO v
+  m_Name: Q_DualQuestion GO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,8 +414,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.68
-  m_fontSizeBase: 84.68
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -452,6 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4376123461964165024}
+  - component: {fileID: 5441233461695848281}
   m_Layer: 5
   m_Name: Aliment 2
   m_TagString: Untagged
@@ -480,6 +496,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0.09301758, y: -43.182617}
   m_SizeDelta: {x: 826.51, y: 607.5079}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &5441233461695848281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747956357912293858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af4dc280cd3e4778b13f0031dc8483e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SignHintPanel: {fileID: 0}
+  SignHintRect: {fileID: 0}
 --- !u!1 &5951233517948097057
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,8 +828,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.68
-  m_fontSizeBase: 84.68
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

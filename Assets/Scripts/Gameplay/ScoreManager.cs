@@ -27,6 +27,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField, Min(1)] private int multiplicateurMax = 3;
     [SerializeField] private RewardFXController rewardFX;
 
+
     // Événements
     public event Action<int> OnScoreChange;
     public event Action<int, int> OnStreakChange;
@@ -38,6 +39,8 @@ public class ScoreManager : MonoBehaviour
     public int Score => score;
     public int StreakActuel => streakActuel;
     public int MeilleurStreak => meilleurStreak;
+
+    private float streakDelai;
 
     public int MultiplicateurEffectif
     {
@@ -89,6 +92,8 @@ public class ScoreManager : MonoBehaviour
 
         int gain = pointsParBonneReponse * MultiplicateurEffectif;
         score += gain;
+
+        
 
         OnStreakChange?.Invoke(streakActuel, meilleurStreak);
         OnMultiplicateurChange?.Invoke(MultiplicateurEffectif);

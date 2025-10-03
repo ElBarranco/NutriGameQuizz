@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;  
 using UnityEngine;
 
 [System.Serializable]
@@ -18,7 +19,7 @@ public class QuestionData
     public int IndexBonneRéponse;
     public string SortSolution;                  // pour les questions de type Sort
 
-    public List<int> Solutions                   = new List<int>();
+ public List<int> Solutions                   = new List<int>();
     public List<SpecialMeasureData> SpecialMeasures = new List<SpecialMeasureData>(); // pour FunMeasure
     public int DeltaTolerance                    = 50;
     public List<SportData> SportChoices          = new List<SportData>();
@@ -26,26 +27,29 @@ public class QuestionData
     // Flag interne
     public bool HasBeenAnsweredWrong             = false;
 
-    /// <summary>
-    /// Crée une copie profonde de cette question, conservant tous les champs.
-    /// </summary>
-    public QuestionData Clone()
+
+
+public QuestionData Clone()
+{
+    return new QuestionData
     {
-        return new QuestionData
-        {
-            QuestionId           = this.QuestionId,
-            Type                 = this.Type,
-            SousType             = this.SousType,
-            Aliments             = new List<FoodData>(this.Aliments),
-            PortionSelections    = new List<PortionSelection>(this.PortionSelections),
-            ValeursComparees     = new List<float>(this.ValeursComparees),
-            IndexBonneRéponse    = this.IndexBonneRéponse,
-            SortSolution         = this.SortSolution,
-            Solutions            = new List<int>(this.Solutions),
-            SpecialMeasures      = new List<SpecialMeasureData>(this.SpecialMeasures),
-            DeltaTolerance       = this.DeltaTolerance,
-            SportChoices         = new List<SportData>(this.SportChoices),
-            HasBeenAnsweredWrong = this.HasBeenAnsweredWrong
-        };
-    }
+        QuestionId        = this.QuestionId,
+        Type              = this.Type,
+        SousType          = this.SousType,
+
+        Aliments          = new List<FoodData>(this.Aliments ?? Enumerable.Empty<FoodData>()),
+        PortionSelections = new List<PortionSelection>(this.PortionSelections ?? Enumerable.Empty<PortionSelection>()),
+        ValeursComparees  = new List<float>(this.ValeursComparees ?? Enumerable.Empty<float>()),
+
+        IndexBonneRéponse = this.IndexBonneRéponse,
+        SortSolution      = this.SortSolution,
+
+        Solutions         = new List<int>(this.Solutions ?? Enumerable.Empty<int>()),
+        SpecialMeasures   = new List<SpecialMeasureData>(this.SpecialMeasures ?? Enumerable.Empty<SpecialMeasureData>()),
+        SportChoices      = new List<SportData>(this.SportChoices ?? Enumerable.Empty<SportData>()),
+
+        DeltaTolerance       = this.DeltaTolerance,
+        HasBeenAnsweredWrong = this.HasBeenAnsweredWrong
+    };
+}
 }

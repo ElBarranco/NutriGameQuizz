@@ -73,7 +73,7 @@ public class DebugFoodGallery : MonoBehaviour
 
                 FoodItemUI ui = Object.Instantiate(itemPrefab, scrollViewContent);
                 ui.name = PortionTextFormatter.ToDisplayWithFood(f, computed);
-                ui.Init(f, computed, false, subType);
+                ui.Init(f, computed, FoodItemResultState.Neutral, subType);
             }
         }
 

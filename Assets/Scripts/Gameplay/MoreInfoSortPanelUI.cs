@@ -44,10 +44,14 @@ public class MoreInfoSortPanelUI : MoreInfoPanelBase
             // Vérifie si joueur a mis le bon aliment au bon endroit
             bool isCorrectHere = i < player.Length && player[i] == correct[i];
 
+            FoodItemResultState state = isCorrectHere
+                ? FoodItemResultState.SelectedCorrect
+                : FoodItemResultState.SelectedWrong;
+
             FoodItemUI ui = Instantiate(itemPrefab, itemsParent);
             ui.name = $"MoreInfo_{i}_{f.Name}";
-            ui.Init(f, sel, isCorrectHere, q.SousType);
-
+            ui.Init(f, sel, state, q.SousType);
+            
             if (solutionIdx.Count == 4)
             {
                 layoutGroup.spacing = -25;

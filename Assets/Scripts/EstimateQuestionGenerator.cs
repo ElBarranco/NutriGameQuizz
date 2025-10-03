@@ -6,7 +6,7 @@ public class EstimateQuestionGenerator : QuestionGenerator
     public QuestionData Generate(List<FoodData> foodList, DifficultyLevel currentDifficulty)
     {
         FoodData f = foodList[Random.Range(0, foodList.Count)];
-        QuestionSubType subType = GetRandomQuestionSubTypeWithDropRates(currentDifficulty);
+        QuestionSubType subType = base.GetRandomQuestionSubTypeWithDropRates(currentDifficulty);
 
 
         PortionSelection sel = ResolvePortionSafe(f, subType);
@@ -24,24 +24,6 @@ public class EstimateQuestionGenerator : QuestionGenerator
             ValeursComparees = new List<float> { value },
             IndexBonneRéponse = 0
         };
-    }
-
-    private QuestionSubType GetRandomQuestionSubTypeWithDropRates(DifficultyLevel currentDifficulty)
-    {
-        switch (currentDifficulty)
-        {
-            case DifficultyLevel.Easy:
-                return QuestionSubType.Calorie;
-
-            case DifficultyLevel.Medium:
-                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
-
-            case DifficultyLevel.Hard:
-                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
-
-            default:
-                return QuestionSubType.Calorie;
-        }
     }
 
 }

@@ -5,11 +5,11 @@ public class MoreInfoNutritionTablePanelUI : MoreInfoPanelBase
 {
     [Header("UI Réponse Joueur")]
     [SerializeField] private Transform playerItemParent;
-    [SerializeField] private Transform playerTableParent;
 
     [Header("UI Bonne Réponse")]
     [SerializeField] private Transform correctItemParent;
     [SerializeField] private Transform correctTableParent;
+    [SerializeField] private GameObject gameObjectCorrect;
 
     [Header("Prefabs")]
     [SerializeField] private FoodItemUI foodItemPrefab;
@@ -19,26 +19,27 @@ public class MoreInfoNutritionTablePanelUI : MoreInfoPanelBase
     {
         int playerIndex  = userAnswer;
         int correctIndex = q.IndexBonneRéponse;
+        bool isCorrect = (userAnswer == q.IndexBonneRéponse);
 
-        // 🧍 Réponse joueur
+        FoodItemResultState playerState = isCorrect
+            ? FoodItemResultState.SelectedCorrect
+            : FoodItemResultState.SelectedWrong;
+
+        FoodItemResultState correctState = FoodItemResultState.MissedCorrect;
+
+        // 🧍 Réponse du joueur
         FoodItemUI playerItem = Instantiate(foodItemPrefab, playerItemParent);
-        playerItem.Init(q.Aliments[playerIndex], default, false, QuestionSubType.Calorie, true);
+        playerItem.Init(q.Aliments[playerIndex], null, playerState, QuestionSubType.Calorie);
 
-        NutritionTableUI playerTable = Instantiate(nutritionTablePrefab, playerTableParent);
-        playerTable.SetValues(new List<float>
+        // ✅ Bonne réponse (si différente du joueur)
+        if (!isCorrect)
         {
-            q.Aliments[playerIndex].Calories,
-            q.Aliments[playerIndex].Proteins,
-            q.Aliments[playerIndex].Lipids,
-            q.Aliments[playerIndex].Carbohydrates
-        });
+            FoodItemUI correctItem = Instantiate(foodItemPrefab, correctItemParent);
+            correctItem.Init(q.Aliments[correctIndex], null, correctState, QuestionSubType.Calorie);
+        }
+        gameObjectCorrect.SetActive(!isCorrect);
 
-        // ✅ Bonne réponse
-        FoodItemUI correctItem = Instantiate(foodItemPrefab, correctItemParent);
-        correctItem.Init(q.Aliments[correctIndex], default, false, QuestionSubType.Calorie, true);
-
-        NutritionTableUI correctTable = Instantiate(nutritionTablePrefab, correctTableParent);
-        correctTable.SetValues(new List<float>
+        nutritionTablePrefab.SetValues(new List<float>
         {
             q.Aliments[correctIndex].Calories,
             q.Aliments[correctIndex].Proteins,

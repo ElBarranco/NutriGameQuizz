@@ -15,18 +15,12 @@ public class MoreInfoIntrusPanelUI : MoreInfoPanelBase
 
     public void Show(QuestionData q, int userAnswer)
     {
-        // Indicateurs = nb d’aliments
         ApplyStepIndicators(q.Aliments.Count);
-
-        // Affiche le texte du sous-type
         ApplySubtypeLabel(q.SousType);
 
-        // Solution encodée (ex: 1212)
         string correct = q.IndexBonneRéponse.ToString();
-        // Réponse joueur encodée
         string player = userAnswer.ToString().PadLeft(correct.Length, '0');
 
-        // Boucle sur chaque aliment
         for (int i = 0; i < q.Aliments.Count; i++)
         {
             FoodData f = q.Aliments[i];
@@ -34,15 +28,25 @@ public class MoreInfoIntrusPanelUI : MoreInfoPanelBase
                 ? q.PortionSelections[i]
                 : default;
 
-            bool isIntrus = correct[i] == '2'; // "2" → intrus
-            bool isCorrectHere = i < player.Length && player[i] == correct[i];
+            bool isIntrus = correct[i] == '2';
+            bool selectedByPlayer = player[i] == '2';
 
-            // Choisir le parent (bons ou intrus)
+            FoodItemResultState resultState;
+
+            if (isIntrus && selectedByPlayer)
+                resultState = FoodItemResultState.SelectedCorrect;
+            else if (!isIntrus && selectedByPlayer)
+                resultState = FoodItemResultState.SelectedWrong;
+            else if (isIntrus && !selectedByPlayer)
+                resultState = FoodItemResultState.MissedCorrect;
+            else
+                resultState = FoodItemResultState.Neutral;
+
             Transform parent = isIntrus ? intrusParent : goodParent;
 
             FoodItemUI ui = Instantiate(itemPrefab, parent);
             ui.name = $"MoreInfo_{i}_{f.Name}";
-            ui.Init(f, sel, isCorrectHere, q.SousType);
+            ui.Init(f, sel, resultState, q.SousType);
         }
 
         base.IntroAnim();
@@ -72,7 +76,7 @@ public class MoreInfoIntrusPanelUI : MoreInfoPanelBase
                 subtypeLabel.text = "Aliment Glucidique";
                 break;
             default:
-                subtypeLabel.text = string.Empty; // rien pour les autres cas
+                subtypeLabel.text = string.Empty;
                 break;
         }
     }

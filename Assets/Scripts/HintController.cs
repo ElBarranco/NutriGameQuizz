@@ -9,6 +9,9 @@ public class HintController : MonoBehaviour
 
     private List<HintDetector> availableDetectors = new();
 
+
+    private HintDetector currentChosen;
+
     public void RegisterDetector(HintDetector detector)
     {
         if (!availableDetectors.Contains(detector))
@@ -33,23 +36,27 @@ public class HintController : MonoBehaviour
         }
 
         int index = Random.Range(0, availableDetectors.Count);
-        HintDetector chosen = availableDetectors[index];
+        currentChosen = availableDetectors[index];
         availableDetectors.RemoveAt(index);
         NotifyAvailability();
-        RectTransform target = chosen.GetSignHintPanel();
+        RectTransform target = currentChosen.GetSignHintPanel();
 
         // 💥 Crée l’effet visuel
         RectTransform instance = Instantiate(hintEffectPrefab, uiCanvasRoot);
         instance.position = buttonOrigin.position;
 
-        float durationTween = 0.5f;
-
+        float durationTween = 0.45f;
+        Invoke(nameof(CallShotHint), durationTween - 0.1f);
         // 💫 Animation vers la cible
         instance.DOMove(target.position, durationTween).SetEase(Ease.OutCubic).OnComplete(() =>
         {
             Destroy(instance.gameObject);
-            chosen.ShowHint();
         });
+    }
+
+    private void CallShotHint()
+    {
+        currentChosen.ShowHint();
     }
 
     private void NotifyAvailability()

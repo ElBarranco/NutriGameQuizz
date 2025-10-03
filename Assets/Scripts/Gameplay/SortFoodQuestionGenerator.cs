@@ -27,7 +27,7 @@ DifficultyLevel currentDifficulty,
     )
     {
         int target = GetTargetFoodCount(count, currentDifficulty);
-        QuestionSubType subType = GetSubType(currentDifficulty);
+        QuestionSubType subType = base.GetRandomQuestionSubTypeWithDropRates(currentDifficulty);
 
 
         // 1) Pré-calcul des valeurs via le resolver
@@ -127,23 +127,6 @@ DifficultyLevel currentDifficulty,
         };
 
         return q;
-    }
-    private QuestionSubType GetSubType(DifficultyLevel currentDifficulty)
-    {
-        switch (currentDifficulty)
-        {
-            case DifficultyLevel.Easy:
-                return QuestionSubType.Calorie;
-
-            case DifficultyLevel.Medium:
-                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
-
-            case DifficultyLevel.Hard:
-                return GetRandomSubType(QuestionSubType.Calorie, QuestionSubType.Proteine, QuestionSubType.Lipide, QuestionSubType.Glucide);
-
-            default:
-                return QuestionSubType.Calorie;
-        }
     }
 
 

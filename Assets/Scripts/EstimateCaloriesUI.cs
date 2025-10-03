@@ -12,8 +12,7 @@ public class EstimateCaloriesUI : BaseQuestionUI
     [SerializeField] private Slider calorieSlider;
     [SerializeField] private TMP_Text sliderValueText;
     [SerializeField] private TMP_Text UnitText;
-    [SerializeField] private Button validateButton;
-    [SerializeField] private Image gaugeFill; 
+    [SerializeField] private Image gaugeFill;
 
 
 
@@ -45,11 +44,9 @@ public class EstimateCaloriesUI : BaseQuestionUI
 
         float rawValue = portion.Value.Value;
 
-        float min = Mathf.Max(1, rawValue * 0.5f);
-        if (sousType == QuestionSubType.Calorie)
-            min = 0;
-
-        float max = rawValue * 1.5f;
+        float min = 0;
+        float noise = UnityEngine.Random.Range(-0.25f, 0.25f);
+        float max = Mathf.Max(0f, rawValue * (1f + noise));
 
         calorieSlider.minValue = min;
         calorieSlider.maxValue = max;
@@ -58,7 +55,7 @@ public class EstimateCaloriesUI : BaseQuestionUI
         calorieSlider.value = (min + max) / 2f;
 
 
-       UnitText.text = PortionTextFormatter.UnitForQuestion(sousType);
+        UnitText.text = PortionTextFormatter.UnitForQuestion(sousType);
 
         // Affichage nom + image
         foodImage.sprite = SpriteLoader.LoadFoodSprite(food.Name);

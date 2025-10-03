@@ -80,7 +80,8 @@ public class LevelGenerator : QuestionGenerator
                 case QuestionType.MealComposition:
                     q = mealCompositionQuestionGenerator.Generate(
                             foodList,
-                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie)
+                            food => base.ResolvePortionSafe(food, QuestionSubType.Calorie),
+                            currentDifficulty
                         );
                     break;
 
@@ -158,21 +159,7 @@ public class LevelGenerator : QuestionGenerator
         };
     }
 
-    private QuestionData GenerateEstimateCaloriesQuestion()
-    {
-        var f   = foodList[Random.Range(0, foodList.Count)];
-        var sel = base.ResolvePortionSafe(f, QuestionSubType.Calorie);
 
-        return new QuestionData
-        {
-            Type              = QuestionType.EstimateCalories,
-            SousType          = QuestionSubType.Calorie,
-            Aliments          = new List<FoodData> { f },
-            PortionSelections = new List<PortionSelection> { sel },
-            ValeursComparees  = new List<float> { sel.Value },
-            IndexBonneRéponse = 0
-        };
-    }
 
     private QuestionData GenerateFunMeasureQuestion()
     {

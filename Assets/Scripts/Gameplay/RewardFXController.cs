@@ -194,6 +194,15 @@ public class RewardFXController : MonoBehaviour
         return go;
     }
 
+    public float GetAnimationDuration()
+    {
+        int maxCount = Mathf.Max(coinsOnPerfect, streakToCoinCount.Length > 0 ? streakToCoinCount[^1] : 0);
+        int count = Mathf.Max(1, maxCount);
+
+        float totalDuration = firstTweenDuration + travelDuration + (perCoinStagger * (count - 1)) + 0.15f;
+        return totalDuration;
+    }
+
     private void ReturnToPool(GameObject go)
     {
         go.transform.DOKill(true);

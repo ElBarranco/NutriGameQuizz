@@ -66,7 +66,21 @@ public class QuestionTitleManager : MonoBehaviour
                 break;
 
             case QuestionType.MealComposition:
-                title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !";
+                switch (subType)
+                {
+                    case QuestionSubType.Proteine:
+                        title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)}g de protéines !";
+                        break;
+                    case QuestionSubType.Glucide:
+                        title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)}g de glucides !";
+                        break;
+                    case QuestionSubType.Lipide:
+                        title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)}g de lipides !";
+                        break;
+                    default: // Calorie
+                        title = $"Compose un repas de {Mathf.RoundToInt(targetCalories)} calories !";
+                        break;
+                }
                 break;
 
             case QuestionType.Tri:
@@ -81,7 +95,7 @@ public class QuestionTitleManager : MonoBehaviour
 
                     FoodItemUI item = Instantiate(foodItemPrefab, foodItemParent);
                     _currentFoodItem = item.gameObject;
-                    item.Init(food, portions[0], false, QuestionSubType.Calorie);
+                    item.Init(food, portions[0], FoodItemResultState.Neutral, QuestionSubType.Calorie);
                 }
                 else
                 {

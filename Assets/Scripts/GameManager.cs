@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     [Header("Session")]
     public bool IsGameRunning { get; private set; } = false;
     [ReadOnly][SerializeField] private LevelData generatedLevel;
-    [ReadOnly] private QuestionData currentQuestion;
+    [ReadOnly][SerializeField] private QuestionData currentQuestion;
     [ReadOnly][SerializeField] private int currentAnswer = 0;
     [SerializeField] private int totalQuestions = 10;
 
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
             case QuestionType.Sport:
             case QuestionType.FunMeasure:
             case QuestionType.Intru:
+            case QuestionType.NutritionTable:
             case QuestionType.Tri:
                 isCorrect = (currentAnswer == currentQuestion.IndexBonneRéponse);
                 break;

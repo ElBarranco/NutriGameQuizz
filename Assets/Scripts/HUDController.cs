@@ -7,7 +7,7 @@ using DG.Tweening;
 public class HUDController : MonoBehaviour
 {
 
-
+    [Header("References")]
     [SerializeField] private UIManager uiManager;
     [SerializeField] private QuestionTitleManager questionTitleManager;
     [SerializeField] private TextMeshProUGUI questionCounterText;
@@ -38,6 +38,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject moreInfoIntrusPrefab;
     [SerializeField] private GameObject moreInfoSugarPrefab;
     [SerializeField] private Transform moreInfoPanelParent;
+    [SerializeField] private GameObject moreInfoNutritionTablePrefab;
 
     private GameObject currentMoreInfoPanel;
 
@@ -51,6 +52,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private Sprite fibersIcon;
 
     [SerializeField] private ProgressBar progressBar;
+    private int _totalQuestions;
 
     private void Start()
     {
@@ -64,6 +66,7 @@ public class HUDController : MonoBehaviour
     public void InitGame(int totalQuestions)
     {
         hudInGameUI.SetActive(true);
+        _totalQuestions = totalQuestions;
         UpdateQuestionNumber(0);
         progressBar.SetTotalQuestions(totalQuestions);
         //SetNextButtonVisible(false);
@@ -71,7 +74,7 @@ public class HUDController : MonoBehaviour
     }
     public void UpdateQuestionNumber(int currentIndex)
     {
-        questionCounterText.text = $"{currentIndex + 1}";
+        questionCounterText.text = $"{currentIndex + 1}/{_totalQuestions}";
     }
 
     public void SetNextButtonVisible(bool visible, bool isCorrect = true)
@@ -105,7 +108,7 @@ public class HUDController : MonoBehaviour
         UpdateQuestionNumber(questionIndex);
 
         // 2. Titre de la question
-        questionTitleManager.SetQuestionTitle(data.Type, data.SousType, data.Aliments, data.PortionSelections, data.HasBeenAnsweredWrong ,data.ValeursComparees[0]);
+        questionTitleManager.SetQuestionTitle(data.Type, data.SousType, data.Aliments, data.PortionSelections, data.HasBeenAnsweredWrong, data.ValeursComparees[0]);
 
         // 3. Icône selon le sous-type
         SetNutrientIcon(data.SousType);
@@ -155,7 +158,7 @@ public class HUDController : MonoBehaviour
             case QuestionType.MealComposition:
                 currentMoreInfoPanel = Instantiate(moreInfoMealPrefab, moreInfoPanelParent);
                 MoreInfoMealPanelUI mealPanel = currentMoreInfoPanel.GetComponent<MoreInfoMealPanelUI>();
-                mealPanel.Show(data.Aliments, data.PortionSelections, data.ValeursComparees[0], userAnswer, data.Solutions);
+                mealPanel.Show(data.Aliments, data.PortionSelections, data.ValeursComparees[0], userAnswer, data.Solutions, data.SousType);
                 break;
 
             case QuestionType.Tri:
@@ -184,6 +187,12 @@ public class HUDController : MonoBehaviour
 
             case QuestionType.Recycling:
                 GameManager.Instance.TriggerNextStep();
+                break;
+
+            case QuestionType.NutritionTable:
+                currentMoreInfoPanel = Instantiate(moreInfoNutritionTablePrefab, moreInfoPanelParent);
+                MoreInfoNutritionTablePanelUI tablePanel = currentMoreInfoPanel.GetComponent<MoreInfoNutritionTablePanelUI>();
+                tablePanel.Show(data, userAnswer);
                 break;
 
             case QuestionType.CaloriesDual:
