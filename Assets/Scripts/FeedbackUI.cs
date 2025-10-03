@@ -7,7 +7,7 @@ public class FeedbackUI : MonoBehaviour
     {
         transform.localScale = Vector3.zero;
         AppearAnim();
-        Destroy(gameObject, 1f); // ❌ auto-destruction brute après 2s
+        Destroy(gameObject, 1f); // ❌ auto-destruction brute
     }
 
     private void AppearAnim()
